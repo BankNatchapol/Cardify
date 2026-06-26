@@ -1,0 +1,42 @@
+{
+  "slug": "cardify",
+  "description": "Cardify — automatic flashcard generator using Agentic AI",
+  "variant": "full",
+  "repo": {
+    "path": ".",
+    "remote": "https://github.com/BankNatchapol/Cardify"
+  },
+  "target": {
+    "type": "repo"
+  },
+  "project": {
+    "owner": "BankNatchapol",
+    "number": 5,
+    "id": "PVT_kwHOAzVgkc4Bbtn3",
+    "url": "https://github.com/users/BankNatchapol/projects/5"
+  },
+  "board": {
+    "status_field_id": "PVTSSF_lAHOAzVgkc4Bbtn3zhWcOCA",
+    "columns": {
+      "ready":    { "id": "7074b240", "name": "Ready" },
+      "building": { "id": "a72465c5", "name": "Building" },
+      "qa":       { "id": "1925cde5", "name": "QA" },
+      "review":   { "id": "94251359", "name": "Review" },
+      "done":     { "id": "15c1bca0", "name": "Done" },
+      "blocked":  { "id": "a52b52e8", "name": "Blocked" },
+      "skipped":  { "id": "7b2e1245", "name": "Skipped" }
+    }
+  },
+  "base_branch": "main",
+  "human_approves_merge": false,
+  "paths": {
+    "project_md": "docs/super-board/PROJECT.md",
+    "specs": "docs/superpowers/specs",
+    "tasks": "docs/superpowers/tasks",
+    "designs": "docs/gstack/designs"
+  },
+  "notifications": {
+    "channel": "claude_code_session",
+    "bot_identity": "BankNatchapol"
+  }
+}
