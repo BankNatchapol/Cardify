@@ -1,0 +1,7 @@
+{
+  "01-scaffold-upload-parsing": { "issue": 1, "url": "https://github.com/BankNatchapol/Cardify/issues/1", "item_id": "PVTI_lAHOAzVgkc4Bbtn3zgw60iE" },
+  "02-settings-api-key":        { "issue": 2, "url": "https://github.com/BankNatchapol/Cardify/issues/2", "item_id": "PVTI_lAHOAzVgkc4Bbtn3zgw60jY" },
+  "03-claude-card-generation":  { "issue": 3, "url": "https://github.com/BankNatchapol/Cardify/issues/3", "item_id": "PVTI_lAHOAzVgkc4Bbtn3zgw60lg" },
+  "04-card-review-ui":          { "issue": 4, "url": "https://github.com/BankNatchapol/Cardify/issues/4", "item_id": "PVTI_lAHOAzVgkc4Bbtn3zgw60mk" },
+  "05-ankiconnect-push":        { "issue": 5, "url": "https://github.com/BankNatchapol/Cardify/issues/5", "item_id": "PVTI_lAHOAzVgkc4Bbtn3zgw60nw" }
+}
