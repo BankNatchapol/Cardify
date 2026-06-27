@@ -6,21 +6,21 @@ Date: 2026-06-26
 
 ## Credentials the loop will need
 
-- [ ] Claude API key — enter it in the app's Settings screen once scaffolded (Task 1); stored via Electron safeStorage. The Build agent does NOT need this as an env var — the app manages it internally.
-- [ ] GitHub token with `project,read:project,repo` scopes — needed for PR creation and board moves.
+- [✓] Claude API key — managed by the app internally via Electron safeStorage (Task 2). Build agent does NOT need env var.
+- [✓] GitHub token with `project,read:project,repo` scopes — verified (BankNatchapol, all scopes present).
 
 ## Tools the loop will need
 
 - [✓] `gh` CLI authenticated as BankNatchapol (verified)
 - [✓] Node.js 22.22.2 (verified — Electron requires 18+)
-- [ ] `npm` — verify with `npm --version`
-- [ ] Electron build deps on macOS — `xcode-select --install` if not already done
+- [✓] `npm` 10.9.7 (verified)
+- [✓] Electron build deps on macOS — Xcode CLT at /Library/Developer/CommandLineTools (verified)
 
 ## Environment
 
 - [ ] Anki is installed and running locally with AnkiConnect plugin installed (required for Task 5 acceptance criteria; not needed for Tasks 1–4)
 - [ ] AnkiConnect reachable: `curl http://localhost:8765` returns `{"result":"AnkiConnect","error":null}` when Anki is open
-- [ ] No `.env` file needed — Claude API key is stored in Electron safeStorage, not environment variables
+- [✓] No `.env` file needed — Claude API key is stored in Electron safeStorage, not environment variables
 
 ## Issue gate status
 
@@ -31,6 +31,7 @@ Date: 2026-06-26
 | #3 | Claude API integration — context-aware card generation | 5 | ✓ clear |
 | #4 | Card review and edit UI | 5 | ✓ clear |
 | #5 | AnkiConnect push — send deck to Anki | 5 | ✓ clear |
+| #11 | Add README.md with project overview and dev setup instructions | 4 | ✓ clear |
 
 All issues clear. No halt gates from issue quality.
 
