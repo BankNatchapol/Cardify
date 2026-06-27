@@ -2,10 +2,12 @@ const { app, BrowserWindow, ipcMain, safeStorage } = require('electron')
 const path = require('path')
 const fs = require('fs')
 const { parseFile } = require('../src/lib/parser')
+const { generateCards, ApiKeyError } = require('../src/lib/claude')
+const { testConnection, createDeck, addNotes } = require('../src/lib/ankiconnect')
 
 let mainWindow
 
-function createWindow() {
+function createWindow () {
   mainWindow = new BrowserWindow({
     width: 1024,
     height: 768,
@@ -41,21 +43,13 @@ app.on('window-all-closed', () => {
 })
 
 // ─────────────────────────────────────────────────────────────────────────────
-// IPC: parse-file
-// ─────────────────────────────────────────────────────────────────────────────
-ipcMain.handle('parse-file', async (_event, filePath) => {
-  return parseFile(filePath)
-})
-
-// ─────────────────────────────────────────────────────────────────────────────
-// API key storage (Task 2) — encrypted at rest via Electron safeStorage.
-// The raw plaintext key is read in the main process only; the renderer can
-// only query whether a key is set, save a new one, or clear it. The key is
-// never sent back to the renderer over IPC.
+// API key storage helpers — encrypted at rest via Electron safeStorage.
+// The raw plaintext key stays in the main process only and is never sent back
+// to the renderer over IPC.
 // ─────────────────────────────────────────────────────────────────────────────
 
 /** Returns the absolute path to the encrypted key file inside userData. */
-function getApiKeyFilePath() {
+function getApiKeyFilePath () {
   return path.join(app.getPath('userData'), 'claude-api-key.enc')
 }
 
@@ -63,7 +57,7 @@ function getApiKeyFilePath() {
  * Internal main-process helper: returns the decrypted API key string, or null
  * if no key is saved. NEVER exposed via IPC to the renderer.
  */
-function readApiKey() {
+function readApiKey () {
   const file = getApiKeyFilePath()
   if (!fs.existsSync(file)) return null
   if (!safeStorage.isEncryptionAvailable()) {
@@ -75,10 +69,44 @@ function readApiKey() {
   return plain && plain.length > 0 ? plain : null
 }
 
-// Expose to other main-process modules (e.g. Task 3 claude.js) without ever
-// crossing the IPC boundary.
-module.exports = { readApiKey, getApiKeyFilePath }
+// ─────────────────────────────────────────────────────────────────────────────
+// IPC: parse-file
+// ─────────────────────────────────────────────────────────────────────────────
+ipcMain.handle('parse-file', async (_event, filePath) => {
+  return parseFile(filePath)
+})
 
+// ─────────────────────────────────────────────────────────────────────────────
+// IPC: generate-cards  (Task 3)
+// Input:  { parsedText: string, contextPrompt: string, cardFormat: 'basic'|'cloze' }
+// Output: Array<{front,back,type}> | Array<{text,type}> | { error: 'invalid-api-key' }
+// ─────────────────────────────────────────────────────────────────────────────
+ipcMain.handle('generate-cards', async (_event, { parsedText, contextPrompt, cardFormat }) => {
+  let apiKey
+  try {
+    apiKey = readApiKey()
+  } catch {
+    return { error: 'invalid-api-key' }
+  }
+
+  if (!apiKey) {
+    return { error: 'invalid-api-key' }
+  }
+
+  try {
+    const cards = await generateCards(parsedText, contextPrompt, cardFormat, apiKey)
+    return cards
+  } catch (err) {
+    if (err instanceof ApiKeyError || err.code === 'invalid-api-key') {
+      return { error: 'invalid-api-key' }
+    }
+    throw err
+  }
+})
+
+// ─────────────────────────────────────────────────────────────────────────────
+// IPC: API key management (Task 2)
+// ─────────────────────────────────────────────────────────────────────────────
 ipcMain.handle('save-api-key', async (_event, key) => {
   if (typeof key !== 'string' || key.trim().length === 0) {
     throw new Error('API key must be a non-empty string')
@@ -88,7 +116,6 @@ ipcMain.handle('save-api-key', async (_event, key) => {
   }
   const encrypted = safeStorage.encryptString(key.trim())
   fs.writeFileSync(getApiKeyFilePath(), encrypted, { mode: 0o600 })
-  // Intentionally return only success — never echo the key back.
   return { ok: true }
 })
 
@@ -110,16 +137,38 @@ ipcMain.handle('clear-api-key', async () => {
 })
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Stub handlers for future tasks
+// IPC: push-to-anki  (Task 5)
+// Input:  { deckName: string, cards: Array<card> }
+// Output: { success: true, added: number, errors: string[] }
+//       | { error: 'anki-not-running' }
 // ─────────────────────────────────────────────────────────────────────────────
-ipcMain.handle('generate-cards', async (_event, _args) => {
-  throw new Error('generate-cards not yet implemented — Task 3')
+ipcMain.handle('push-to-anki', async (_event, { deckName, cards }) => {
+  // 1. Test connectivity
+  const { connected } = await testConnection()
+  if (!connected) {
+    return { error: 'anki-not-running' }
+  }
+
+  try {
+    // 2. Ensure deck exists (createDeck is idempotent)
+    await createDeck(deckName)
+
+    // 3. Add notes — duplicates are counted, not errored
+    const { added, errors } = await addNotes(deckName, cards)
+
+    return { success: true, added, errors }
+  } catch (err) {
+    if (err.code === 'anki-not-running') {
+      return { error: 'anki-not-running' }
+    }
+    throw err
+  }
 })
 
-ipcMain.handle('push-to-anki', async (_event, _args) => {
-  throw new Error('push-to-anki not yet implemented — Task 5')
-})
-
+// ─────────────────────────────────────────────────────────────────────────────
+// IPC: test-anki-connection  (Task 5)
+// Output: { connected: boolean }
+// ─────────────────────────────────────────────────────────────────────────────
 ipcMain.handle('test-anki-connection', async () => {
-  throw new Error('test-anki-connection not yet implemented — Task 5')
+  return testConnection()
 })

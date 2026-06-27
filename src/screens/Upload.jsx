@@ -2,12 +2,12 @@ import React, { useState, useRef, useCallback } from 'react'
 
 const ALLOWED_EXTENSIONS = ['.pdf', '.txt']
 
-function getExtension(filePath) {
+function getExtension (filePath) {
   const parts = filePath.split('.')
   return parts.length > 1 ? '.' + parts[parts.length - 1].toLowerCase() : ''
 }
 
-export default function Upload({ initialState = {}, onComplete, onOpenSettings, apiKeySet = false }) {
+export default function Upload ({ initialState = {}, onComplete, onOpenSettings, apiKeySet = false }) {
   const [filePath, setFilePath] = useState(initialState.filePath || null)
   const [fileName, setFileName] = useState('')
   const [parsedText, setParsedText] = useState(initialState.parsedText || null)
@@ -17,6 +17,8 @@ export default function Upload({ initialState = {}, onComplete, onOpenSettings, 
   const [parsing, setParsing] = useState(false)
   const [charCount, setCharCount] = useState(null)
   const [dragOver, setDragOver] = useState(false)
+  const [generating, setGenerating] = useState(false)
+  const [generateError, setGenerateError] = useState(null)
 
   const fileInputRef = useRef(null)
 
@@ -25,10 +27,11 @@ export default function Upload({ initialState = {}, onComplete, onOpenSettings, 
     parsedText !== null &&
     contextPrompt.trim().length >= 10 &&
     cardFormat !== null &&
-    apiKeySet
+    apiKeySet &&
+    !generating
 
-  const handleFile = useCallback(async (path, name) => {
-    const ext = getExtension(path)
+  const handleFile = useCallback(async (p, name) => {
+    const ext = getExtension(p)
     if (!ALLOWED_EXTENSIONS.includes(ext)) {
       setFileError(`File type "${ext}" is not supported. Please select a .pdf or .txt file.`)
       setFilePath(null)
@@ -39,14 +42,14 @@ export default function Upload({ initialState = {}, onComplete, onOpenSettings, 
     }
 
     setFileError(null)
-    setFilePath(path)
+    setFilePath(p)
     setFileName(name)
     setParsedText(null)
     setCharCount(null)
     setParsing(true)
 
     try {
-      const text = await window.ipc.invoke('parse-file', path)
+      const text = await window.ipc.invoke('parse-file', p)
       setParsedText(text)
       setCharCount(text.length)
     } catch (err) {
@@ -60,18 +63,14 @@ export default function Upload({ initialState = {}, onComplete, onOpenSettings, 
 
   const handleFileInputChange = (e) => {
     const file = e.target.files[0]
-    if (file) {
-      handleFile(file.path, file.name)
-    }
+    if (file) handleFile(file.path, file.name)
   }
 
   const handleDrop = (e) => {
     e.preventDefault()
     setDragOver(false)
     const file = e.dataTransfer.files[0]
-    if (file) {
-      handleFile(file.path, file.name)
-    }
+    if (file) handleFile(file.path, file.name)
   }
 
   const handleDragOver = (e) => {
@@ -79,14 +78,44 @@ export default function Upload({ initialState = {}, onComplete, onOpenSettings, 
     setDragOver(true)
   }
 
-  const handleDragLeave = () => {
-    setDragOver(false)
-  }
+  const handleDragLeave = () => setDragOver(false)
 
-  const handleGenerate = () => {
+  /**
+   * Generate button handler:
+   * 1. Show loading spinner.
+   * 2. Call generate-cards IPC.
+   * 3a. On success → call onComplete with cards to navigate to Review.
+   * 3b. On { error: 'invalid-api-key' } → show inline error banner.
+   */
+  const handleGenerate = async () => {
     if (!isGenerateEnabled) return
-    if (onComplete) {
-      onComplete({ filePath, parsedText, contextPrompt, cardFormat })
+    setGenerateError(null)
+    setGenerating(true)
+
+    try {
+      const result = await window.ipc.invoke('generate-cards', {
+        parsedText,
+        contextPrompt,
+        cardFormat
+      })
+
+      if (result && result.error === 'invalid-api-key') {
+        setGenerateError('Invalid API key — check Settings')
+        return
+      }
+
+      if (!Array.isArray(result)) {
+        setGenerateError('Unexpected response from Claude — please try again.')
+        return
+      }
+
+      if (onComplete) {
+        onComplete({ filePath, parsedText, contextPrompt, cardFormat, cards: result })
+      }
+    } catch (err) {
+      setGenerateError(`Failed to generate cards: ${err.message}`)
+    } finally {
+      setGenerating(false)
     }
   }
 
@@ -202,19 +231,32 @@ export default function Upload({ initialState = {}, onComplete, onOpenSettings, 
           </div>
         </div>
 
-        {/* Generate button */}
+        {/* Generate error banner */}
+        {generateError && (
+          <p className="error-message" role="alert" data-testid="generate-error">
+            {generateError}
+          </p>
+        )}
+
+        {/* API key warning */}
         {!apiKeySet && (
           <p className="api-key-warning" role="status">
             Add your Claude API key in Settings first
           </p>
         )}
+
+        {/* Generate button */}
         <button
-          className="generate-btn"
+          className={`generate-btn${generating ? ' loading' : ''}`}
           onClick={handleGenerate}
           disabled={!isGenerateEnabled}
           aria-disabled={!isGenerateEnabled}
+          aria-busy={generating}
         >
-          Generate Flashcards
+          {generating
+            ? <><span className="spinner" aria-hidden="true" /> Generating...</>
+            : 'Generate Flashcards'
+          }
         </button>
       </main>
     </div>
