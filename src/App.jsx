@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import Upload from './screens/Upload'
 import Settings from './screens/Settings'
+import Review from './screens/Review'
 
-export default function App() {
+export default function App () {
   const [screen, setScreen] = useState('upload')
   const [uploadState, setUploadState] = useState({
     filePath: null,
@@ -10,9 +11,7 @@ export default function App() {
     contextPrompt: '',
     cardFormat: 'basic'
   })
-  // eslint-disable-next-line no-unused-vars
   const [cards, setCards] = useState([])
-  // eslint-disable-next-line no-unused-vars
   const [fileName, setFileName] = useState('')
 
   // Whether the user has saved a Claude API key (drives Generate gating).
@@ -32,15 +31,32 @@ export default function App() {
     refreshApiKeyStatus()
   }, [refreshApiKeyStatus])
 
+  /**
+   * Called by Upload screen after a successful generate-cards IPC call.
+   * Navigates to the Review screen with the generated cards.
+   */
   const handleUploadComplete = (state) => {
-    setUploadState(state)
-    // Stay on upload after Generate — Review wiring lands in Task 4.
+    setUploadState({
+      filePath: state.filePath,
+      parsedText: state.parsedText,
+      contextPrompt: state.contextPrompt,
+      cardFormat: state.cardFormat
+    })
+    if (Array.isArray(state.cards)) {
+      setCards(state.cards)
+    }
+    // Extract filename from path
+    const name = state.filePath
+      ? state.filePath.split('/').pop().split('\\').pop()
+      : ''
+    setFileName(name)
+    setScreen('review')
   }
 
   const handleNavigate = (target) => {
     setScreen(target)
     if (target === 'upload') {
-      // Coming back from settings — re-check key status.
+      // Coming back from settings or review — re-check key status.
       refreshApiKeyStatus()
     }
   }
@@ -58,7 +74,13 @@ export default function App() {
       {screen === 'settings' && (
         <Settings onBack={() => handleNavigate('upload')} />
       )}
-      {/* Review screen added in Task 4 */}
+      {screen === 'review' && (
+        <Review
+          cards={cards}
+          fileName={fileName}
+          onBack={() => handleNavigate('upload')}
+        />
+      )}
     </div>
   )
 }
