@@ -214,3 +214,276 @@ body {
   opacity: 0.45;
   cursor: not-allowed;
 }
+
+/* ───── Review screen ───── */
+
+.review-screen {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 32px 24px 80px;
+  position: relative;
+}
+
+.review-header {
+  margin-bottom: 28px;
+}
+
+.review-header-top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.review-header-top h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+.review-card-count {
+  font-size: 0.9rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.back-btn {
+  background: none;
+  border: 1.5px solid #d1d5db;
+  border-radius: 8px;
+  padding: 7px 14px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  white-space: nowrap;
+}
+
+.back-btn:hover {
+  border-color: #4f46e5;
+  background: #f5f3ff;
+  color: #4f46e5;
+}
+
+.review-main {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── Deck name input ── */
+
+.deck-name-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.deck-name-label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #374151;
+}
+
+.deck-name-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #1a1a2e;
+  background: #ffffff;
+  transition: border-color 0.15s;
+  font-family: inherit;
+}
+
+.deck-name-input:focus {
+  outline: none;
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+}
+
+/* ── Card list ── */
+
+.card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.no-cards-message {
+  text-align: center;
+  color: #6b7280;
+  font-size: 0.95rem;
+  padding: 32px 0;
+}
+
+/* ── Card editor ── */
+
+.card-editor {
+  background: #ffffff;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px 18px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.card-editor:hover {
+  border-color: #c7d2fe;
+  box-shadow: 0 1px 4px rgba(79, 70, 229, 0.08);
+}
+
+.card-fields {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.card-field-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #9ca3af;
+}
+
+.card-textarea {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 7px;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: #1a1a2e;
+  background: #f9fafb;
+  resize: vertical;
+  min-height: 64px;
+  font-family: inherit;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.card-textarea:focus {
+  outline: none;
+  border-color: #4f46e5;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.card-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding-top: 2px;
+}
+
+.card-delete-btn {
+  padding: 6px 12px;
+  background: none;
+  border: 1.5px solid #fca5a5;
+  border-radius: 7px;
+  color: #dc2626;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+
+.card-delete-btn:hover {
+  background: #fef2f2;
+  border-color: #dc2626;
+}
+
+/* ── Push to Anki button ── */
+
+.push-btn {
+  padding: 14px 24px;
+  background: #10b981;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, opacity 0.15s;
+  align-self: flex-end;
+}
+
+.push-btn:hover:not(:disabled) {
+  background: #059669;
+}
+
+.push-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ── Undo snackbar ── */
+
+.undo-snackbar {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1a1a2e;
+  color: #ffffff;
+  border-radius: 10px;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.snackbar-text {
+  font-weight: 500;
+}
+
+.snackbar-undo-btn {
+  background: none;
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  border-radius: 6px;
+  color: #ffffff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.snackbar-undo-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+/* ── Spinner (reused from upload) ── */
+
+.spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
