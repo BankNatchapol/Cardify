@@ -7,7 +7,7 @@ function getExtension(filePath) {
   return parts.length > 1 ? '.' + parts[parts.length - 1].toLowerCase() : ''
 }
 
-export default function Upload({ initialState = {}, onComplete }) {
+export default function Upload({ initialState = {}, onComplete, onOpenSettings, apiKeySet = false }) {
   const [filePath, setFilePath] = useState(initialState.filePath || null)
   const [fileName, setFileName] = useState('')
   const [parsedText, setParsedText] = useState(initialState.parsedText || null)
@@ -24,7 +24,8 @@ export default function Upload({ initialState = {}, onComplete }) {
     filePath !== null &&
     parsedText !== null &&
     contextPrompt.trim().length >= 10 &&
-    cardFormat !== null
+    cardFormat !== null &&
+    apiKeySet
 
   const handleFile = useCallback(async (path, name) => {
     const ext = getExtension(path)
@@ -92,6 +93,15 @@ export default function Upload({ initialState = {}, onComplete }) {
   return (
     <div className="upload-screen">
       <header className="upload-header">
+        <button
+          type="button"
+          className="settings-btn"
+          onClick={onOpenSettings}
+          aria-label="Open Settings"
+          title="Settings"
+        >
+          ⚙ Settings
+        </button>
         <h1>Cardify</h1>
         <p className="subtitle">Generate flashcards from your documents</p>
       </header>
@@ -193,6 +203,11 @@ export default function Upload({ initialState = {}, onComplete }) {
         </div>
 
         {/* Generate button */}
+        {!apiKeySet && (
+          <p className="api-key-warning" role="status">
+            Add your Claude API key in Settings first
+          </p>
+        )}
         <button
           className="generate-btn"
           onClick={handleGenerate}
