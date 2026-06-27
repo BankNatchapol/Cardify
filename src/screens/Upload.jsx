@@ -111,7 +111,7 @@ export default function Upload ({ initialState = {}, onComplete }) {
       }
 
       if (onComplete) {
-        onComplete({ filePath, parsedText, contextPrompt, cardFormat, cards: result })
+        onComplete({ filePath, fileName, parsedText, contextPrompt, cardFormat, cards: result })
       }
     } catch (err) {
       setGenerateError(`Failed to generate cards: ${err.message}`)
