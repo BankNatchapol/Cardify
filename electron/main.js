@@ -1,10 +1,12 @@
-const { app, BrowserWindow, ipcMain } = require('electron')
+const { app, BrowserWindow, ipcMain, safeStorage } = require('electron')
 const path = require('path')
+const fs = require('fs')
 const { parseFile } = require('../src/lib/parser')
+const { generateCards, ApiKeyError } = require('../src/lib/claude')
 
 let mainWindow
 
-function createWindow() {
+function createWindow () {
   mainWindow = new BrowserWindow({
     width: 1024,
     height: 768,
@@ -39,32 +41,107 @@ app.on('window-all-closed', () => {
   }
 })
 
+// ─────────────────────────────────────────────────────────────────────────────
+// API key storage helpers — encrypted at rest via Electron safeStorage.
+// The raw plaintext key stays in the main process only and is never sent back
+// to the renderer over IPC.
+// ─────────────────────────────────────────────────────────────────────────────
+
+/** Returns the absolute path to the encrypted key file inside userData. */
+function getApiKeyFilePath () {
+  return path.join(app.getPath('userData'), 'claude-api-key.enc')
+}
+
+/**
+ * Internal main-process helper: returns the decrypted API key string, or null
+ * if no key is saved. NEVER exposed via IPC to the renderer.
+ */
+function readApiKey () {
+  const file = getApiKeyFilePath()
+  if (!fs.existsSync(file)) return null
+  if (!safeStorage.isEncryptionAvailable()) {
+    throw new Error('Encryption is not available on this system')
+  }
+  const encrypted = fs.readFileSync(file)
+  if (!encrypted || encrypted.length === 0) return null
+  const plain = safeStorage.decryptString(encrypted)
+  return plain && plain.length > 0 ? plain : null
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // IPC: parse-file
+// ─────────────────────────────────────────────────────────────────────────────
 ipcMain.handle('parse-file', async (_event, filePath) => {
   return parseFile(filePath)
 })
 
-// Stub handlers for future tasks
-ipcMain.handle('generate-cards', async (_event, _args) => {
-  throw new Error('generate-cards not yet implemented — Task 3')
+// ─────────────────────────────────────────────────────────────────────────────
+// IPC: generate-cards  (Task 3)
+// Input:  { parsedText: string, contextPrompt: string, cardFormat: 'basic'|'cloze' }
+// Output: Array<{front,back,type}> | Array<{text,type}> | { error: 'invalid-api-key' }
+// ─────────────────────────────────────────────────────────────────────────────
+ipcMain.handle('generate-cards', async (_event, { parsedText, contextPrompt, cardFormat }) => {
+  let apiKey
+  try {
+    apiKey = readApiKey()
+  } catch (err) {
+    return { error: 'invalid-api-key' }
+  }
+
+  if (!apiKey) {
+    return { error: 'invalid-api-key' }
+  }
+
+  try {
+    const cards = await generateCards(parsedText, contextPrompt, cardFormat, apiKey)
+    return cards
+  } catch (err) {
+    if (err instanceof ApiKeyError || err.code === 'invalid-api-key') {
+      return { error: 'invalid-api-key' }
+    }
+    throw err
+  }
 })
 
+// ─────────────────────────────────────────────────────────────────────────────
+// IPC: API key management (forward-compat stubs for Task 2)
+// ─────────────────────────────────────────────────────────────────────────────
+ipcMain.handle('save-api-key', async (_event, key) => {
+  if (typeof key !== 'string' || key.trim().length === 0) {
+    throw new Error('API key must be a non-empty string')
+  }
+  if (!safeStorage.isEncryptionAvailable()) {
+    throw new Error('Encryption is not available on this system')
+  }
+  const encrypted = safeStorage.encryptString(key.trim())
+  fs.writeFileSync(getApiKeyFilePath(), encrypted, { mode: 0o600 })
+  return { ok: true }
+})
+
+ipcMain.handle('get-api-key-set', async () => {
+  try {
+    const key = readApiKey()
+    return Boolean(key)
+  } catch {
+    return false
+  }
+})
+
+ipcMain.handle('clear-api-key', async () => {
+  const file = getApiKeyFilePath()
+  if (fs.existsSync(file)) {
+    fs.unlinkSync(file)
+  }
+  return { ok: true }
+})
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Stub handlers for future tasks
+// ─────────────────────────────────────────────────────────────────────────────
 ipcMain.handle('push-to-anki', async (_event, _args) => {
   throw new Error('push-to-anki not yet implemented — Task 5')
 })
 
 ipcMain.handle('test-anki-connection', async () => {
   throw new Error('test-anki-connection not yet implemented — Task 5')
-})
-
-ipcMain.handle('save-api-key', async (_event, _key) => {
-  throw new Error('save-api-key not yet implemented — Task 2')
-})
-
-ipcMain.handle('get-api-key-set', async () => {
-  return false
-})
-
-ipcMain.handle('clear-api-key', async () => {
-  throw new Error('clear-api-key not yet implemented — Task 2')
 })
