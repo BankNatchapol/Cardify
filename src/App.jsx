@@ -1,4 +1,27 @@
 import React, { useCallback, useEffect, useState } from 'react'
+
+function playSuccessChime () {
+  try {
+    const ctx = new AudioContext()
+    const playNote = (freq, startTime, duration) => {
+      const osc = ctx.createOscillator()
+      const gain = ctx.createGain()
+      osc.type = 'sine'
+      osc.frequency.value = freq
+      osc.connect(gain)
+      gain.connect(ctx.destination)
+      gain.gain.setValueAtTime(0.3, startTime)
+      gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration)
+      osc.start(startTime)
+      osc.stop(startTime + duration)
+    }
+    const now = ctx.currentTime
+    playNote(880, now, 0.25)
+    playNote(1108, now + 0.15, 0.3)
+  } catch {
+    // Audio unavailable — fail silently
+  }
+}
 import Upload from './screens/Upload'
 import Settings from './screens/Settings'
 import Review from './screens/Review'
@@ -195,6 +218,7 @@ export default function App () {
         cards: generation.cards
       })
       setProject(savedProject)
+      playSuccessChime()
       setGenerationState(prev => ({
         ...prev,
         generating: false,
