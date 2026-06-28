@@ -5,7 +5,7 @@
   "main": "electron/main.js",
   "scripts": {
     "postinstall": "node node_modules/electron/install.js",
-    "dev": "concurrently \"vite\" \"electron .\"",
+    "dev": "NODE_ENV=development concurrently \"vite\" \"electron .\"",
     "build": "vite build && electron-builder",
     "test": "node --experimental-vm-modules node_modules/.bin/jest"
   },
