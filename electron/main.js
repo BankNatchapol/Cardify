@@ -2,7 +2,7 @@ const { app, BrowserWindow, ipcMain, safeStorage } = require('electron')
 const path = require('path')
 const fs = require('fs')
 const { parseFile } = require('../src/lib/parser')
-const { generateCards, ApiKeyError } = require('../src/lib/claude')
+const { generateCardsFromFile, ApiKeyError } = require('../src/lib/claude')
 const { generateCardsClaudeCode, getClaudeCodeStatus } = require('../src/lib/claudeCode')
 const { testConnection, createDeck, addNotes } = require('../src/lib/ankiconnect')
 
@@ -134,10 +134,10 @@ ipcMain.handle('parse-file', async (_event, filePath) => {
 // Output: Array<{front,back,type}> | Array<{text,type}>
 //       | { error: 'claude-code-unavailable'|'invalid-api-key' }
 // ─────────────────────────────────────────────────────────────────────────────
-ipcMain.handle('generate-cards', async (_event, { parsedText, contextPrompt, cardFormat }) => {
+ipcMain.handle('generate-cards', async (_event, { filePath, contextPrompt, cardFormat }) => {
   let claudeCodeUnavailable = false
   try {
-    return await generateCardsClaudeCode(parsedText, contextPrompt, cardFormat)
+    return await generateCardsClaudeCode(filePath, contextPrompt, cardFormat)
   } catch (err) {
     if (err.code === 'claude-code-unavailable') {
       claudeCodeUnavailable = true
@@ -151,8 +151,7 @@ ipcMain.handle('generate-cards', async (_event, { parsedText, contextPrompt, car
 
   if (apiKey) {
     try {
-      const cards = await generateCards(parsedText, contextPrompt, cardFormat, apiKey)
-      return cards
+      return await generateCardsFromFile(filePath, contextPrompt, cardFormat, apiKey)
     } catch (err) {
       if (err instanceof ApiKeyError || err.code === 'invalid-api-key') {
         return { error: 'invalid-api-key' }

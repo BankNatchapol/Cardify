@@ -160,7 +160,7 @@ export default function App () {
     try {
       pushGenerationLog('Sending request to Claude Code')
       const result = await window.ipc.invoke('generate-cards', {
-        parsedText: state.parsedText,
+        filePath: state.filePath,
         contextPrompt: state.contextPrompt,
         cardFormat: state.cardFormat
       })
@@ -211,8 +211,6 @@ export default function App () {
         description: generation.description,
         filePath: state.filePath,
         fileName: name,
-        parsedText: state.parsedText,
-        charCount: state.parsedText ? state.parsedText.length : state.charCount,
         contextPrompt: state.contextPrompt,
         cardFormat: state.cardFormat,
         cards: generation.cards

@@ -358,8 +358,20 @@ async function getClaudeCodeStatus () {
   }
 }
 
-async function generateCardsClaudeCode (parsedText, contextPrompt, cardFormat) {
-  const chunks = chunkText(parsedText)
+async function generateCardsClaudeCode (filePath, contextPrompt, cardFormat) {
+  const fs = require('fs')
+  const path = require('path')
+  const ext = path.extname(filePath).toLowerCase()
+
+  let text
+  if (ext === '.pdf') {
+    const { parseFile } = require('./parser')
+    text = await parseFile(filePath)
+  } else {
+    text = fs.readFileSync(filePath, 'utf-8')
+  }
+
+  const chunks = chunkText(text)
   const cards = []
   const descriptions = []
   const schema = JSON.stringify(outputSchemaForFormat(cardFormat))

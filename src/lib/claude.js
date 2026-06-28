@@ -196,16 +196,9 @@ async function callClaude (client, cardFormat, contextPrompt, textChunk) {
 
 // ─── Public API ───────────────────────────────────────────────────────────────
 /**
- * Generate flashcards from parsed text.
- *
- * @param {string} parsedText        Full extracted document text
- * @param {string} contextPrompt     User's study-goal context string
- * @param {'basic'|'cloze'} cardFormat
- * @param {string} apiKey            Plaintext Anthropic API key
- * @returns {Promise<Array<{front:string,back:string,type:'basic'}|{text:string,type:'cloze'}>>}
+ * Generate flashcards from parsed text (used internally for .txt files).
  */
 async function generateCards (parsedText, contextPrompt, cardFormat, apiKey) {
-  // Lazy-require to allow Jest to mock the SDK
   const Anthropic = require('@anthropic-ai/sdk')
   const client = new Anthropic({ apiKey })
 
@@ -220,4 +213,68 @@ async function generateCards (parsedText, contextPrompt, cardFormat, apiKey) {
   return results
 }
 
-module.exports = { generateCards, chunkText, buildPrompt, ApiKeyError, ParseError, NetworkError }
+/**
+ * Generate flashcards directly from a file path.
+ * PDFs are sent as native base64 document blocks — no text extraction needed.
+ * .txt files are read and chunked as before.
+ */
+async function generateCardsFromFile (filePath, contextPrompt, cardFormat, apiKey) {
+  const fs = require('fs')
+  const path = require('path')
+  const ext = path.extname(filePath).toLowerCase()
+
+  if (ext === '.pdf') {
+    const Anthropic = require('@anthropic-ai/sdk')
+    const client = new Anthropic({ apiKey })
+
+    const formatInstruction = cardFormat === 'basic'
+      ? 'Basic: [{"front": "...", "back": "..."}]'
+      : 'Cloze: [{"text": "{{c1::term}} is ..."}]'
+
+    const system =
+      `You are a flashcard generation expert. Generate ${cardFormat} flashcards from the provided document.\n` +
+      `Tune the cards specifically to the user's context — emphasize what matters for their stated goal.\n` +
+      `Return ONLY a JSON array, no explanation:\n` +
+      `- ${formatInstruction}`
+
+    const base64 = fs.readFileSync(filePath).toString('base64')
+
+    let response
+    try {
+      response = await client.messages.create({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 4096,
+        system,
+        messages: [{
+          role: 'user',
+          content: [
+            { type: 'document', source: { type: 'base64', media_type: 'application/pdf', data: base64 } },
+            { type: 'text', text: `Context: ${contextPrompt}\n\nGenerate flashcards from this document.` }
+          ]
+        }]
+      })
+    } catch (err) {
+      if (err.status === 401 || (err.message && err.message.toLowerCase().includes('authentication'))) {
+        throw new ApiKeyError()
+      }
+      throw new NetworkError(err)
+    }
+
+    const rawText = response.content?.[0]?.type === 'text' ? response.content[0].text : ''
+    const cleaned = rawText.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/i, '').trim()
+    let cards
+    try { cards = JSON.parse(cleaned) } catch { throw new ParseError(rawText) }
+    if (!Array.isArray(cards)) throw new ParseError(rawText)
+
+    return cards.map(card => cardFormat === 'basic'
+      ? { front: String(card.front ?? ''), back: String(card.back ?? ''), type: 'basic' }
+      : { text: String(card.text ?? ''), type: 'cloze' }
+    )
+  }
+
+  // .txt — read and use text-based generation
+  const text = fs.readFileSync(filePath, 'utf-8')
+  return generateCards(text, contextPrompt, cardFormat, apiKey)
+}
+
+module.exports = { generateCards, generateCardsFromFile, chunkText, buildPrompt, ApiKeyError, ParseError, NetworkError }

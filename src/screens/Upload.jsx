@@ -22,15 +22,12 @@ export default function Upload ({
   apiKeySet = false
 }) {
   const [fileError, setFileError] = useState(null)
-  const [parsing, setParsing] = useState(false)
   const [dragOver, setDragOver] = useState(false)
   const [activityOpen, setActivityOpen] = useState(false)
 
   const fileInputRef = useRef(null)
   const filePath = initialState.filePath || null
   const fileName = initialState.fileName || ''
-  const parsedText = initialState.parsedText || null
-  const charCount = initialState.charCount ?? null
   const contextPrompt = initialState.contextPrompt || ''
   const cardFormat = initialState.cardFormat || 'basic'
   const generating = Boolean(generationState.generating)
@@ -42,33 +39,20 @@ export default function Upload ({
 
   const isGenerateEnabled =
     filePath !== null &&
-    parsedText !== null &&
     contextPrompt.trim().length >= 10 &&
     cardFormat !== null &&
     apiKeySet &&
     !generating
 
-  const handleFile = useCallback(async (p, name) => {
+  const handleFile = useCallback((p, name) => {
     const ext = getExtension(p)
     if (!ALLOWED_EXTENSIONS.includes(ext)) {
       setFileError(`File type "${ext}" is not supported. Please select a .pdf or .txt file.`)
-      updateUploadState({ filePath: null, fileName: '', parsedText: null, charCount: null })
+      updateUploadState({ filePath: null, fileName: '' })
       return
     }
-
     setFileError(null)
-    updateUploadState({ filePath: p, fileName: name, parsedText: null, charCount: null })
-    setParsing(true)
-
-    try {
-      const text = await window.ipc.invoke('parse-file', p)
-      updateUploadState({ parsedText: text, charCount: text.length })
-    } catch (err) {
-      setFileError(`Failed to parse file: ${err.message}`)
-      updateUploadState({ filePath: null, fileName: '', parsedText: null, charCount: null })
-    } finally {
-      setParsing(false)
-    }
+    updateUploadState({ filePath: p, fileName: name })
   }, [updateUploadState])
 
   const handleFileInputChange = (e) => {
@@ -134,14 +118,9 @@ export default function Upload ({
           aria-label="Drop a PDF or text file here or click to browse"
           onKeyDown={(e) => e.key === 'Enter' && fileInputRef.current?.click()}
         >
-          {parsing ? (
-            <p className="drop-zone-text">Parsing file...</p>
-          ) : filePath ? (
+          {filePath ? (
             <div className="file-info">
               <p className="file-name">{fileName}</p>
-              {charCount !== null && (
-                <p className="char-count">{charCount.toLocaleString()} characters extracted</p>
-              )}
               <p className="drop-zone-hint">Click or drop to replace</p>
             </div>
           ) : (
