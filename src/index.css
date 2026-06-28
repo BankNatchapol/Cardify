@@ -983,6 +983,7 @@ body {
 .review-actions {
   display: flex;
   justify-content: flex-end;
+  gap: 10px;
 }
 
 .push-btn {
@@ -1002,6 +1003,16 @@ body {
 .push-btn:disabled {
   opacity: 0.45;
   cursor: not-allowed;
+}
+
+.push-btn--secondary {
+  background: #ffffff;
+  color: #4f46e5;
+  border: 1.5px solid #4f46e5;
+}
+
+.push-btn--secondary:hover:not(:disabled) {
+  background: #eef2ff;
 }
 
 .push-banner {
