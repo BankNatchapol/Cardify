@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import CardEditor from '../components/CardEditor'
 import DeckNameInput from '../components/DeckNameInput'
 import UndoSnackbar from '../components/UndoSnackbar'
@@ -9,12 +9,14 @@ import UndoSnackbar from '../components/UndoSnackbar'
  *
  * Props:
  *   cards     — Array<{front,back,type}|{text,type}> from generate-cards IPC
+ *   description — {title,purpose,contents}, editable generated deck overview
  *   fileName  — string, used to pre-populate the deck name
  *   onBack    — called to navigate back to the Upload screen
  *   onPush    — optional external handler; if omitted, uses window.ipc directly
  */
-export default function Review ({ cards: initialCards, fileName, onBack, onPush }) {
+export default function Review ({ cards: initialCards, description: initialDescription, fileName, onBack, onPush, onProjectChange }) {
   const [cards, setCards] = useState(initialCards || [])
+  const [description, setDescription] = useState(() => normalizeDescription(initialDescription, fileName))
   const [deckName, setDeckName] = useState(() => {
     if (!fileName) return ''
     // Strip extension
@@ -27,22 +29,46 @@ export default function Review ({ cards: initialCards, fileName, onBack, onPush 
   // Push-to-Anki state
   const [pushing, setPushing] = useState(false)
   const [pushResult, setPushResult] = useState(null) // null | { success, added, errors } | { error }
+  const [cardsOpen, setCardsOpen] = useState((initialCards || []).length <= 20)
+
+  useEffect(() => {
+    const nextCards = initialCards || []
+    setCards(nextCards)
+    setCardsOpen(nextCards.length <= 20)
+  }, [initialCards])
+
+  useEffect(() => {
+    setDescription(normalizeDescription(initialDescription, fileName))
+  }, [initialDescription, fileName])
+
+  useEffect(() => {
+    setDeckName(fileName ? fileName.replace(/\.[^.]+$/, '') : '')
+  }, [fileName])
+
+  const saveDescription = useCallback((nextDescription) => {
+    const normalized = normalizeDescription(nextDescription, fileName)
+    setDescription(normalized)
+    if (onProjectChange) onProjectChange({ cards, fileName, description: normalized })
+  }, [cards, fileName, onProjectChange])
 
   // ── Card update ──────────────────────────────────────────────────────────
   const handleUpdate = useCallback((index, updatedCard) => {
     setCards(prev => {
       const next = [...prev]
       next[index] = updatedCard
+      if (onProjectChange) onProjectChange({ cards: next, fileName })
       return next
     })
-  }, [])
+  }, [fileName, onProjectChange])
 
   // ── Card delete with undo ─────────────────────────────────────────────────
   const handleDelete = useCallback((index) => {
     const deleted = cards[index]
-    setCards(prev => prev.filter((_, i) => i !== index))
+    const next = cards.filter((_, i) => i !== index)
+    setCards(next)
+    if (onProjectChange) onProjectChange({ cards: next, fileName })
     setSnackbar({ card: deleted, index })
-  }, [cards])
+  }, [cards, fileName, onProjectChange])
 
   const handleUndo = useCallback(() => {
     if (!snackbar) return
@@ -51,10 +77,11 @@ export default function Review ({ cards: initialCards, fileName, onBack, onPush 
       // Restore at the original index, clamped to current length
       const insertAt = Math.min(snackbar.index, next.length)
       next.splice(insertAt, 0, snackbar.card)
+      if (onProjectChange) onProjectChange({ cards: next, fileName })
       return next
     })
     setSnackbar(null)
-  }, [snackbar])
+  }, [fileName, onProjectChange, snackbar])
 
   const handleSnackbarDismiss = useCallback(() => {
     setSnackbar(null)
@@ -143,18 +170,78 @@ export default function Review ({ cards: initialCards, fileName, onBack, onPush 
       <main className="review-main">
         <DeckNameInput value={deckName} onChange={setDeckName} />
 
+        <section className="deck-overview" aria-label="Deck overview">
+          <div className="deck-overview-heading">
+            <div>
+              <h2>Deck overview</h2>
+              <p>Generated project description saved with these cards.</p>
+            </div>
+          </div>
+
+          <div className="overview-grid">
+            <label className="card-field">
+              <span className="field-label">Title</span>
+              <input
+                className="deck-name-field"
+                value={description.title}
+                onChange={(e) => setDescription(prev => ({ ...prev, title: e.target.value }))}
+                onBlur={() => saveDescription(description)}
+                aria-label="Deck overview title"
+              />
+            </label>
+            <label className="card-field">
+              <span className="field-label">Purpose</span>
+              <textarea
+                className="card-textarea"
+                value={description.purpose}
+                onChange={(e) => setDescription(prev => ({ ...prev, purpose: e.target.value }))}
+                onBlur={() => saveDescription(description)}
+                rows={2}
+                aria-label="Deck overview purpose"
+              />
+            </label>
+            <label className="card-field">
+              <span className="field-label">Contents</span>
+              <textarea
+                className="card-textarea"
+                value={description.contents.join('\n')}
+                onChange={(e) => setDescription(prev => ({
+                  ...prev,
+                  contents: e.target.value.split('\n')
+                }))}
+                onBlur={() => saveDescription(description)}
+                rows={3}
+                aria-label="Deck overview contents"
+              />
+            </label>
+          </div>
+        </section>
+
         {renderPushBanner()}
 
-        <div className="card-list">
-          {cards.map((card, index) => (
-            <CardEditor
-              key={index}
-              card={card}
-              onUpdate={(updated) => handleUpdate(index, updated)}
-              onDelete={() => handleDelete(index)}
-            />
-          ))}
-        </div>
+        <details
+          className="review-card-section"
+          open={cardsOpen}
+          onToggle={(e) => setCardsOpen(e.currentTarget.open)}
+        >
+          <summary className="review-card-section-summary">
+            <span className="review-card-section-title">Generated cards</span>
+            <span className="review-card-section-meta">
+              {cards.length} {cards.length === 1 ? 'card' : 'cards'}
+            </span>
+          </summary>
+
+          <div className="card-list">
+            {cards.map((card, index) => (
+              <CardEditor
+                key={index}
+                card={card}
+                onUpdate={(updated) => handleUpdate(index, updated)}
+                onDelete={() => handleDelete(index)}
+              />
+            ))}
+          </div>
+        </details>
 
         {snackbar && (
           <UndoSnackbar
@@ -182,4 +269,22 @@ export default function Review ({ cards: initialCards, fileName, onBack, onPush 
       </main>
     </div>
   )
+}
+
+function normalizeDescription (description, fallbackTitle = '') {
+  if (!description || typeof description !== 'object' || Array.isArray(description)) {
+    return {
+      title: fallbackTitle ? fallbackTitle.replace(/\.[^.]+$/, '') : '',
+      purpose: '',
+      contents: []
+    }
+  }
+
+  return {
+    title: String(description.title || fallbackTitle || '').replace(/\.[^.]+$/, ''),
+    purpose: String(description.purpose || ''),
+    contents: Array.isArray(description.contents)
+      ? description.contents.map(item => String(item || '').trim()).filter(Boolean)
+      : []
+  }
 }

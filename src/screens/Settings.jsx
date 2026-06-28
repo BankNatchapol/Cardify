@@ -1,38 +1,52 @@
 import React, { useEffect, useState } from 'react'
 
-/**
- * Settings screen — Claude API key management.
- *
- * Security:
- * - The raw key is held in component state only while the user is typing.
- * - After Save success, the field is cleared. The key is never re-read from
- *   the main process into the renderer (only a boolean "is a key saved?").
- */
-export default function Settings({ onBack }) {
+export default function Settings ({ onBack }) {
   const [apiKey, setApiKey] = useState('')
   const [keySaved, setKeySaved] = useState(false)
+  const [claudeCodeStatus, setClaudeCodeStatus] = useState(null)
   const [saving, setSaving] = useState(false)
+  const [checking, setChecking] = useState(false)
   const [statusMessage, setStatusMessage] = useState(null)
   const [error, setError] = useState(null)
 
-  // Check status on mount
+  const refreshStatus = async () => {
+    setChecking(true)
+    setError(null)
+    try {
+      const [keySavedResult, codeStatus] = await Promise.all([
+        window.ipc.invoke('get-api-key-set'),
+        window.ipc.invoke('get-claude-code-status')
+      ])
+      const saved = keySavedResult
+      setKeySaved(Boolean(saved))
+      setClaudeCodeStatus(codeStatus)
+    } catch (err) {
+      setError(`Could not check auth status: ${err.message}`)
+    } finally {
+      setChecking(false)
+    }
+  }
+
   useEffect(() => {
     let cancelled = false
     ;(async () => {
+      setChecking(true)
       try {
-        const saved = await window.ipc.invoke('get-api-key-set')
-        if (!cancelled) {
-          setKeySaved(Boolean(saved))
-        }
+        const [keySavedResult, codeStatus] = await Promise.all([
+          window.ipc.invoke('get-api-key-set'),
+          window.ipc.invoke('get-claude-code-status')
+        ])
+        if (cancelled) return
+        const saved = keySavedResult
+        setKeySaved(Boolean(saved))
+        setClaudeCodeStatus(codeStatus)
       } catch (err) {
-        if (!cancelled) {
-          setError(`Could not check key status: ${err.message}`)
-        }
+        if (!cancelled) setError(`Could not check auth status: ${err.message}`)
+      } finally {
+        if (!cancelled) setChecking(false)
       }
     })()
-    return () => {
-      cancelled = true
-    }
+    return () => { cancelled = true }
   }, [])
 
   const handleSave = async () => {
@@ -46,7 +60,6 @@ export default function Settings({ onBack }) {
     setSaving(true)
     try {
       await window.ipc.invoke('save-api-key', trimmed)
-      // Clear the raw key from renderer state once saved.
       setApiKey('')
       setKeySaved(true)
       setStatusMessage('Key saved')
@@ -70,6 +83,8 @@ export default function Settings({ onBack }) {
     }
   }
 
+  const codeReady = Boolean(claudeCodeStatus?.loggedIn)
+
   return (
     <div className="settings-screen">
       <header className="settings-header">
@@ -86,6 +101,48 @@ export default function Settings({ onBack }) {
 
       <main className="settings-main">
         <section className="field-group">
+          <h2 className="settings-section-title">Claude Code</h2>
+          <p className="field-hint">
+            Cardify uses your local Claude Code login. It does not open a Claude.ai
+            browser login or store Claude subscription tokens.
+          </p>
+          <section
+            className={`status-indicator ${codeReady ? 'status-saved' : 'status-empty'}`}
+            role="status"
+            aria-live="polite"
+          >
+            <p>
+              <span
+                className={`status-dot ${codeReady ? 'status-dot-ok' : 'status-dot-empty'}`}
+                aria-hidden="true"
+              />
+              {codeReady ? 'Claude Code is connected' : 'Claude Code is not connected'}
+            </p>
+            {codeReady && claudeCodeStatus?.email && (
+              <p className="status-message">
+                {claudeCodeStatus.email}
+                {claudeCodeStatus.subscriptionType ? ` · ${claudeCodeStatus.subscriptionType}` : ''}
+              </p>
+            )}
+            {!codeReady && (
+              <p className="status-message">Run claude auth login in Terminal, then refresh.</p>
+            )}
+          </section>
+          <div className="settings-actions">
+            <button
+              type="button"
+              className="secondary-btn"
+              onClick={refreshStatus}
+              disabled={checking}
+              aria-disabled={checking}
+            >
+              {checking ? 'Checking...' : 'Refresh'}
+            </button>
+          </div>
+        </section>
+
+        <section className="field-group">
+          <h2 className="settings-section-title">API key fallback</h2>
           <label htmlFor="api-key-input" className="field-label">
             Claude API key
           </label>
@@ -100,10 +157,9 @@ export default function Settings({ onBack }) {
             spellCheck={false}
           />
           <p className="field-hint">
-            Stored encrypted on this device via Electron safeStorage. The key
-            is never displayed back in this window after saving.
+            Optional fallback for direct Anthropic API usage. The key is stored
+            encrypted on this device and is never displayed back after saving.
           </p>
-
           <div className="settings-actions">
             <button
               type="button"
@@ -123,27 +179,20 @@ export default function Settings({ onBack }) {
               Clear
             </button>
           </div>
-        </section>
-
-        <section
-          className={`status-indicator ${keySaved ? 'status-saved' : 'status-empty'}`}
-          role="status"
-          aria-live="polite"
-        >
-          {keySaved ? (
+          <section
+            className={`status-indicator ${keySaved ? 'status-saved' : 'status-empty'}`}
+            role="status"
+            aria-live="polite"
+          >
             <p>
-              <span className="status-dot status-dot-ok" aria-hidden="true" />
-              API key is saved
+              <span
+                className={`status-dot ${keySaved ? 'status-dot-ok' : 'status-dot-empty'}`}
+                aria-hidden="true"
+              />
+              {keySaved ? 'API key is saved' : 'No key saved'}
             </p>
-          ) : (
-            <p>
-              <span className="status-dot status-dot-empty" aria-hidden="true" />
-              No key saved
-            </p>
-          )}
-          {statusMessage && (
-            <p className="status-message">{statusMessage}</p>
-          )}
+            {statusMessage && <p className="status-message">{statusMessage}</p>}
+          </section>
         </section>
 
         {error && (

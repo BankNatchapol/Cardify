@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 /**
  * CardEditor — renders one flashcard with inline editing and delete.
@@ -10,6 +10,10 @@ import React, { useState } from 'react'
  */
 export default function CardEditor ({ card, onUpdate, onDelete }) {
   const [localCard, setLocalCard] = useState({ ...card })
+
+  useEffect(() => {
+    setLocalCard({ ...card })
+  }, [card])
 
   const handleBlur = () => {
     onUpdate(localCard)

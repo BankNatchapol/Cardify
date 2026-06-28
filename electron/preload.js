@@ -9,7 +9,12 @@ contextBridge.exposeInMainWorld('ipc', {
       'test-anki-connection',
       'save-api-key',
       'get-api-key-set',
-      'clear-api-key'
+      'clear-api-key',
+      'get-claude-code-status',
+      'save-project',
+      'list-projects',
+      'get-latest-project',
+      'delete-project'
     ]
     if (allowedChannels.includes(channel)) {
       return ipcRenderer.invoke(channel, ...args)

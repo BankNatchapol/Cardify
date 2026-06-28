@@ -7,20 +7,38 @@ function getExtension (filePath) {
   return parts.length > 1 ? '.' + parts[parts.length - 1].toLowerCase() : ''
 }
 
-export default function Upload ({ initialState = {}, onComplete, onOpenSettings, apiKeySet = false }) {
-  const [filePath, setFilePath] = useState(initialState.filePath || null)
-  const [fileName, setFileName] = useState('')
-  const [parsedText, setParsedText] = useState(initialState.parsedText || null)
-  const [contextPrompt, setContextPrompt] = useState(initialState.contextPrompt || '')
-  const [cardFormat, setCardFormat] = useState(initialState.cardFormat || 'basic')
+export default function Upload ({
+  initialState = {},
+  onComplete,
+  onOpenSettings,
+  onOpenProjects,
+  onOpenReview,
+  onStateChange,
+  onGenerate,
+  generationState = {},
+  generatedCardCount = 0,
+  generatedCards = [],
+  description = {},
+  apiKeySet = false
+}) {
   const [fileError, setFileError] = useState(null)
   const [parsing, setParsing] = useState(false)
-  const [charCount, setCharCount] = useState(null)
   const [dragOver, setDragOver] = useState(false)
-  const [generating, setGenerating] = useState(false)
-  const [generateError, setGenerateError] = useState(null)
+  const [activityOpen, setActivityOpen] = useState(false)
 
   const fileInputRef = useRef(null)
+  const filePath = initialState.filePath || null
+  const fileName = initialState.fileName || ''
+  const parsedText = initialState.parsedText || null
+  const charCount = initialState.charCount ?? null
+  const contextPrompt = initialState.contextPrompt || ''
+  const cardFormat = initialState.cardFormat || 'basic'
+  const generating = Boolean(generationState.generating)
+  const generateError = generationState.error
+
+  const updateUploadState = useCallback((patch) => {
+    if (onStateChange) onStateChange(patch)
+  }, [onStateChange])
 
   const isGenerateEnabled =
     filePath !== null &&
@@ -34,32 +52,24 @@ export default function Upload ({ initialState = {}, onComplete, onOpenSettings,
     const ext = getExtension(p)
     if (!ALLOWED_EXTENSIONS.includes(ext)) {
       setFileError(`File type "${ext}" is not supported. Please select a .pdf or .txt file.`)
-      setFilePath(null)
-      setFileName('')
-      setParsedText(null)
-      setCharCount(null)
+      updateUploadState({ filePath: null, fileName: '', parsedText: null, charCount: null })
       return
     }
 
     setFileError(null)
-    setFilePath(p)
-    setFileName(name)
-    setParsedText(null)
-    setCharCount(null)
+    updateUploadState({ filePath: p, fileName: name, parsedText: null, charCount: null })
     setParsing(true)
 
     try {
       const text = await window.ipc.invoke('parse-file', p)
-      setParsedText(text)
-      setCharCount(text.length)
+      updateUploadState({ parsedText: text, charCount: text.length })
     } catch (err) {
       setFileError(`Failed to parse file: ${err.message}`)
-      setFilePath(null)
-      setFileName('')
+      updateUploadState({ filePath: null, fileName: '', parsedText: null, charCount: null })
     } finally {
       setParsing(false)
     }
-  }, [])
+  }, [updateUploadState])
 
   const handleFileInputChange = (e) => {
     const file = e.target.files[0]
@@ -83,39 +93,15 @@ export default function Upload ({ initialState = {}, onComplete, onOpenSettings,
   /**
    * Generate button handler:
    * 1. Show loading spinner.
-   * 2. Call generate-cards IPC.
-   * 3a. On success → call onComplete with cards to navigate to Review.
-   * 3b. On { error: 'invalid-api-key' } → show inline error banner.
+   * 2. Ask App.jsx to run generate-cards so progress survives navigation.
    */
   const handleGenerate = async () => {
     if (!isGenerateEnabled) return
-    setGenerateError(null)
-    setGenerating(true)
-
-    try {
-      const result = await window.ipc.invoke('generate-cards', {
-        parsedText,
-        contextPrompt,
-        cardFormat
-      })
-
-      if (result && result.error === 'invalid-api-key') {
-        setGenerateError('Invalid API key — check Settings')
-        return
-      }
-
-      if (!Array.isArray(result)) {
-        setGenerateError('Unexpected response from Claude — please try again.')
-        return
-      }
-
-      if (onComplete) {
-        onComplete({ filePath, parsedText, contextPrompt, cardFormat, cards: result })
-      }
-    } catch (err) {
-      setGenerateError(`Failed to generate cards: ${err.message}`)
-    } finally {
-      setGenerating(false)
+    setActivityOpen(true)
+    if (onGenerate) {
+      await onGenerate({ filePath, fileName, parsedText, contextPrompt, cardFormat })
+    } else if (onComplete) {
+      onComplete({ filePath, fileName, parsedText, contextPrompt, cardFormat, cards: [] })
     }
   }
 
@@ -125,11 +111,11 @@ export default function Upload ({ initialState = {}, onComplete, onOpenSettings,
         <button
           type="button"
           className="settings-btn"
-          onClick={onOpenSettings}
+          onClick={onOpenSettings || onOpenProjects}
           aria-label="Open Settings"
           title="Settings"
         >
-          ⚙ Settings
+          Settings
         </button>
         <h1>Cardify</h1>
         <p className="subtitle">Generate flashcards from your documents</p>
@@ -191,7 +177,7 @@ export default function Upload ({ initialState = {}, onComplete, onOpenSettings,
             rows={4}
             placeholder="Describe your study goal and level — e.g. 'Med student, Step 1 pharmacology, focus on mechanisms not brand names'"
             value={contextPrompt}
-            onChange={(e) => setContextPrompt(e.target.value)}
+            onChange={(e) => updateUploadState({ contextPrompt: e.target.value })}
             aria-describedby="context-help"
           />
           <p id="context-help" className="field-hint">
@@ -214,7 +200,7 @@ export default function Upload ({ initialState = {}, onComplete, onOpenSettings,
                 name="card-format"
                 value="basic"
                 checked={cardFormat === 'basic'}
-                onChange={() => setCardFormat('basic')}
+                onChange={() => updateUploadState({ cardFormat: 'basic' })}
               />
               <span>Basic (front / back)</span>
             </label>
@@ -224,7 +210,7 @@ export default function Upload ({ initialState = {}, onComplete, onOpenSettings,
                 name="card-format"
                 value="cloze"
                 checked={cardFormat === 'cloze'}
-                onChange={() => setCardFormat('cloze')}
+                onChange={() => updateUploadState({ cardFormat: 'cloze' })}
               />
               <span>Cloze (fill-in-the-blank)</span>
             </label>
@@ -238,10 +224,73 @@ export default function Upload ({ initialState = {}, onComplete, onOpenSettings,
           </p>
         )}
 
+        {generatedCardCount > 0 && !generating && (
+          <section className="review-ready-panel" aria-label="Generated cards">
+            <div className="review-ready-banner" role="status">
+              <span>
+                {generatedCardCount} {generatedCardCount === 1 ? 'card is' : 'cards are'} ready for review
+              </span>
+              <button type="button" className="secondary-btn" onClick={onOpenReview}>
+                Review Cards
+              </button>
+            </div>
+            {(description.title || description.purpose || (description.contents || []).length > 0) && (
+              <div className="deck-overview deck-overview--compact">
+                {description.title && <h2>{description.title}</h2>}
+                {description.purpose && <p>{description.purpose}</p>}
+                {(description.contents || []).length > 0 && (
+                  <div className="overview-topic-list" aria-label="Deck contents">
+                    {description.contents.map((item, index) => (
+                      <span className="overview-topic" key={`${item}-${index}`}>{item}</span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+            <div className="generated-card-preview-list">
+              {generatedCards.map((card, index) => (
+                <button
+                  type="button"
+                  className="generated-card-preview"
+                  key={index}
+                  onClick={onOpenReview}
+                >
+                  <span className="generated-card-index">{index + 1}</span>
+                  <span className="generated-card-content">
+                    {card.type === 'cloze'
+                      ? card.text
+                      : card.front
+                    }
+                  </span>
+                </button>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {(generating || generationState.stage || (generationState.logs || []).length > 0) && (
+          <details
+            className="generation-activity"
+            open={activityOpen || generating}
+            onToggle={(e) => setActivityOpen(e.currentTarget.open)}
+          >
+            <summary>
+              <span className={generating ? 'activity-dot activity-dot--running' : 'activity-dot'} aria-hidden="true" />
+              <span>{generationState.stage || (generating ? 'Starting generation' : 'Generation activity')}</span>
+            </summary>
+            <ol className="activity-log">
+              {(generationState.logs || []).map((log, index) => (
+                <li key={`${log}-${index}`}>{log}</li>
+              ))}
+            </ol>
+          </details>
+        )}
+
         {/* API key warning */}
+        {/* Legacy copy: Add your Claude API key in Settings first */}
         {!apiKeySet && (
           <p className="api-key-warning" role="status">
-            Add your Claude API key in Settings first
+            Sign in to Claude Code in Terminal or add a Claude API key in Settings first
           </p>
         )}
 

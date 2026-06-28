@@ -3,6 +3,7 @@ const path = require('path')
 const fs = require('fs')
 const { parseFile } = require('../src/lib/parser')
 const { generateCards, ApiKeyError } = require('../src/lib/claude')
+const { generateCardsClaudeCode, getClaudeCodeStatus } = require('../src/lib/claudeCode')
 const { testConnection, createDeck, addNotes } = require('../src/lib/ankiconnect')
 
 let mainWindow
@@ -70,6 +71,57 @@ function readApiKey () {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Local project persistence — generated cards are saved before Anki push.
+// ─────────────────────────────────────────────────────────────────────────────
+
+function getProjectsFilePath () {
+  return path.join(app.getPath('userData'), 'cardify-projects.json')
+}
+
+function readProjects () {
+  const file = getProjectsFilePath()
+  if (!fs.existsSync(file)) return []
+  try {
+    const data = JSON.parse(fs.readFileSync(file, 'utf8'))
+    return Array.isArray(data.projects) ? data.projects : []
+  } catch {
+    return []
+  }
+}
+
+function writeProjects (projects) {
+  const file = getProjectsFilePath()
+  fs.mkdirSync(path.dirname(file), { recursive: true })
+  fs.writeFileSync(file, JSON.stringify({ projects }, null, 2), { mode: 0o600 })
+}
+
+function saveProject (project) {
+  const now = new Date().toISOString()
+  const projects = readProjects()
+  const id = project.id || `project-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
+  const existing = projects.findIndex(p => p.id === id)
+  const nextProject = {
+    ...project,
+    id,
+    updatedAt: now,
+    createdAt: project.createdAt || (existing >= 0 ? projects[existing].createdAt : now)
+  }
+  if (existing >= 0) {
+    projects[existing] = nextProject
+  } else {
+    projects.unshift(nextProject)
+  }
+  writeProjects(projects)
+  return nextProject
+}
+
+function deleteProject (id) {
+  const projects = readProjects().filter(project => project.id !== id)
+  writeProjects(projects)
+  return { ok: true }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // IPC: parse-file
 // ─────────────────────────────────────────────────────────────────────────────
 ipcMain.handle('parse-file', async (_event, filePath) => {
@@ -79,29 +131,37 @@ ipcMain.handle('parse-file', async (_event, filePath) => {
 // ─────────────────────────────────────────────────────────────────────────────
 // IPC: generate-cards  (Task 3)
 // Input:  { parsedText: string, contextPrompt: string, cardFormat: 'basic'|'cloze' }
-// Output: Array<{front,back,type}> | Array<{text,type}> | { error: 'invalid-api-key' }
+// Output: Array<{front,back,type}> | Array<{text,type}>
+//       | { error: 'claude-code-unavailable'|'invalid-api-key' }
 // ─────────────────────────────────────────────────────────────────────────────
 ipcMain.handle('generate-cards', async (_event, { parsedText, contextPrompt, cardFormat }) => {
-  let apiKey
+  let claudeCodeUnavailable = false
   try {
-    apiKey = readApiKey()
-  } catch {
-    return { error: 'invalid-api-key' }
-  }
-
-  if (!apiKey) {
-    return { error: 'invalid-api-key' }
-  }
-
-  try {
-    const cards = await generateCards(parsedText, contextPrompt, cardFormat, apiKey)
-    return cards
+    return await generateCardsClaudeCode(parsedText, contextPrompt, cardFormat)
   } catch (err) {
-    if (err instanceof ApiKeyError || err.code === 'invalid-api-key') {
-      return { error: 'invalid-api-key' }
+    if (err.code === 'claude-code-unavailable') {
+      claudeCodeUnavailable = true
+    } else if (err.code === 'claude-code-error' || err.code === 'parse-error') {
+      throw err
     }
-    throw err
   }
+
+  let apiKey = null
+  try { apiKey = readApiKey() } catch { /* ignore */ }
+
+  if (apiKey) {
+    try {
+      const cards = await generateCards(parsedText, contextPrompt, cardFormat, apiKey)
+      return cards
+    } catch (err) {
+      if (err instanceof ApiKeyError || err.code === 'invalid-api-key') {
+        return { error: 'invalid-api-key' }
+      }
+      throw err
+    }
+  }
+
+  return { error: claudeCodeUnavailable ? 'claude-code-unavailable' : 'invalid-api-key' }
 })
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -134,6 +194,27 @@ ipcMain.handle('clear-api-key', async () => {
     fs.unlinkSync(file)
   }
   return { ok: true }
+})
+
+ipcMain.handle('get-claude-code-status', async () => {
+  return getClaudeCodeStatus()
+})
+
+ipcMain.handle('save-project', async (_event, project) => {
+  return saveProject(project)
+})
+
+ipcMain.handle('list-projects', async () => {
+  return readProjects()
+})
+
+ipcMain.handle('get-latest-project', async () => {
+  const projects = readProjects()
+  return projects[0] || null
+})
+
+ipcMain.handle('delete-project', async (_event, id) => {
+  return deleteProject(id)
 })
 
 // ─────────────────────────────────────────────────────────────────────────────

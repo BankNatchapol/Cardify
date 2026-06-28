@@ -1,4 +1,8 @@
 .claude/super-board/active
+.claude/bin/
+.claude/skills/
+.claude/workflows/
+.worktrees/
 node_modules/
 dist/
 package-lock.json
