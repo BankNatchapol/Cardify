@@ -29,6 +29,10 @@ export default function Review ({ cards: initialCards, description: initialDescr
   // Push-to-Anki state
   const [pushing, setPushing] = useState(false)
   const [pushResult, setPushResult] = useState(null) // null | { success, added, errors } | { error }
+
+  // Export for Mobile state
+  const [exporting, setExporting] = useState(false)
+  const [exportResult, setExportResult] = useState(null) // null | { ok, filePath } | { error }
   const [cardsOpen, setCardsOpen] = useState((initialCards || []).length <= 20)
 
   useEffect(() => {
@@ -265,7 +269,41 @@ export default function Review ({ cards: initialCards, description: initialDescr
               : 'Push to Anki'
             }
           </button>
+          <button
+            type="button"
+            className={`push-btn push-btn--secondary${exporting ? ' loading' : ''}`}
+            onClick={async () => {
+              setExporting(true)
+              setExportResult(null)
+              try {
+                const result = await window.ipc.invoke('export-mobile-package', {
+                  deckName: deckName.trim() || description.title || 'Untitled',
+                  description,
+                  cards
+                })
+                setExportResult(result)
+              } catch (err) {
+                setExportResult({ error: err.message })
+              } finally {
+                setExporting(false)
+              }
+            }}
+            disabled={exporting || cards.length === 0}
+            aria-busy={exporting}
+          >
+            {exporting ? <><span className="spinner" aria-hidden="true" /> Exporting...</> : 'Export for Mobile'}
+          </button>
         </div>
+        {exportResult?.ok && (
+          <p className="push-banner push-banner--success" role="status">
+            Saved to {exportResult.filePath} — import this file in the Cardify mobile app.
+          </p>
+        )}
+        {exportResult?.error && (
+          <p className="push-banner push-banner--error" role="alert">
+            Export failed: {exportResult.error}
+          </p>
+        )}
       </main>
     </div>
   )

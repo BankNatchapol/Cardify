@@ -14,7 +14,8 @@ contextBridge.exposeInMainWorld('ipc', {
       'save-project',
       'list-projects',
       'get-latest-project',
-      'delete-project'
+      'delete-project',
+      'export-mobile-package'
     ]
     if (allowedChannels.includes(channel)) {
       return ipcRenderer.invoke(channel, ...args)

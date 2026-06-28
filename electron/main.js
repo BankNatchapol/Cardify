@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, safeStorage } = require('electron')
+const { app, BrowserWindow, ipcMain, safeStorage, dialog } = require('electron')
 const path = require('path')
 const fs = require('fs')
 const { parseFile } = require('../src/lib/parser')
@@ -243,6 +243,38 @@ ipcMain.handle('push-to-anki', async (_event, { deckName, cards }) => {
     }
     throw err
   }
+})
+
+// ─────────────────────────────────────────────────────────────────────────────
+// IPC: export-mobile-package
+// Input:  { deckName, description, cards }
+// Output: { ok: true, filePath } | { canceled: true }
+// ─────────────────────────────────────────────────────────────────────────────
+ipcMain.handle('export-mobile-package', async (_event, { deckName, description, cards }) => {
+  const defaultName = (deckName || 'cardify-deck').replace(/[/\\:*?"<>|]/g, '-') + '.cardify.json'
+  const { canceled, filePath: savePath } = await dialog.showSaveDialog({
+    title: 'Export for Mobile',
+    defaultPath: defaultName,
+    filters: [{ name: 'Cardify Package', extensions: ['cardify.json'] }]
+  })
+  if (canceled || !savePath) return { canceled: true }
+
+  const packageId = `pkg-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
+  const deckId = `deck-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
+
+  const notes = cards.map((card, i) => ({
+    id: `note-${deckId}-${i}`,
+    noteType: card.type === 'cloze' ? 'cloze' : 'basic',
+    fields: card.type === 'cloze'
+      ? { Front: card.text || '', Back: '' }
+      : { Front: card.front || '', Back: card.back || '' },
+    tags: [],
+    source: {}
+  }))
+
+  const deckPackage = { packageId, deck: { id: deckId, name: deckName || 'Untitled', description }, notes }
+  fs.writeFileSync(savePath, JSON.stringify(deckPackage, null, 2), 'utf-8')
+  return { ok: true, filePath: savePath }
 })
 
 // ─────────────────────────────────────────────────────────────────────────────
