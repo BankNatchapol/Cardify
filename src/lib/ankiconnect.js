@@ -18,6 +18,7 @@
 const ANKI_URL = 'http://localhost:8765'
 const ANKI_VERSION = 6
 const CONNECTION_TIMEOUT_MS = 2000
+const { renderCardMarkdown } = require('./cardMarkdown.cjs')
 
 // ─── Low-level HTTP helper ────────────────────────────────────────────────────
 /**
@@ -102,7 +103,7 @@ function buildNotes (deckName, cards) {
       return {
         deckName,
         modelName: 'Cloze',
-        fields: { Text: card.text ?? '' },
+        fields: { Text: renderCardMarkdown(card.text ?? '', { target: 'anki' }) },
         options: { allowDuplicate: false },
         tags: []
       }
@@ -111,7 +112,10 @@ function buildNotes (deckName, cards) {
     return {
       deckName,
       modelName: 'Basic',
-      fields: { Front: card.front ?? '', Back: card.back ?? '' },
+      fields: {
+        Front: renderCardMarkdown(card.front ?? '', { target: 'anki' }),
+        Back: renderCardMarkdown(card.back ?? '', { target: 'anki' })
+      },
       options: { allowDuplicate: false },
       tags: []
     }

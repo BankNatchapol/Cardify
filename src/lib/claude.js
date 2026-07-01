@@ -4,11 +4,12 @@
  *
  * Exports:
  *   generateCards(parsedText, contextPrompt, cardFormat, apiKey)
- *     -> Array<{front, back, type: 'basic'}> | Array<{text, type: 'cloze'}>
+ *     -> { description, cards }
  *
- * Long texts are split into ~8000-token chunks (≈ 32 000 chars).
- * Each chunk is sent in a separate claude-sonnet-4-6 call and results
- * are concatenated before returning.
+ * Long texts are split into ~40 000-token chunks (≈ 160 000 chars).
+ * Each chunk is sent in a separate claude-sonnet-4-6 call. Cards are
+ * concatenated in source order, and chunk descriptions are summarized into one
+ * final deck overview.
  *
  * Throws:
  *   ApiKeyError   — HTTP 401 from the Claude API
@@ -17,10 +18,16 @@
  */
 
 // ─── Token / character budget ────────────────────────────────────────────────
-// claude-sonnet-4-6 context window: 200k tokens.
-// We budget 8 000 tokens per input chunk ≈ 32 000 chars (4 chars/token average).
-// This is conservative and keeps each call well within limits.
-const CHARS_PER_CHUNK = 32_000
+// Default Claude API model used when Settings/env do not override it.
+// We budget 40 000 tokens per input chunk ≈ 160 000 chars (4 chars/token average).
+// This avoids splitting normal study decks while staying below the 200k-token window.
+const CHARS_PER_CHUNK = 160_000
+const DEFAULT_CLAUDE_API_MODEL = 'claude-sonnet-4-6'
+const {
+  parseJsonFromText,
+  cardsCandidateFromPayload,
+  descriptionFromPayload
+} = require('./generationParsing')
 
 // ─── Error types ─────────────────────────────────────────────────────────────
 class ApiKeyError extends Error {
@@ -33,9 +40,11 @@ class ApiKeyError extends Error {
 
 class ParseError extends Error {
   constructor (raw) {
-    super(`Failed to parse Claude response as JSON: ${raw.slice(0, 120)}`)
+    const text = String(raw || '')
+    super(`Failed to parse Claude response as JSON: ${text.slice(0, 120)}`)
     this.name = 'ParseError'
     this.code = 'parse-error'
+    this.raw = text
   }
 }
 
@@ -48,6 +57,173 @@ class NetworkError extends Error {
   }
 }
 
+class GenerationCancelledError extends Error {
+  constructor () {
+    super('Generation was cancelled')
+    this.name = 'GenerationCancelledError'
+    this.code = 'generation-cancelled'
+  }
+}
+
+function isAbortError (err) {
+  return err?.name === 'AbortError' || err?.code === 'ABORT_ERR'
+}
+
+function resolveClaudeApiModel (options = {}, env = process.env) {
+  const configured = String(env.CARDIFY_CLAUDE_MODEL || options.apiModel || DEFAULT_CLAUDE_API_MODEL).trim()
+  return configured || DEFAULT_CLAUDE_API_MODEL
+}
+
+const SEMANTIC_HIGHLIGHT_GUIDANCE = [
+  'When color would improve scanning or retention, use semantic highlights:',
+  '- Use <span class="cf-key">...</span> for the main target term, answer, or concept.',
+  '- In example sentences, highlight the target word or phrase where it appears.',
+  '- Use <span class="cf-success">...</span> for correct usage, final answers, or important positive contrasts.',
+  '- Use <span class="cf-warning">...</span> for common mistakes, traps, exceptions, false friends, or "do not confuse with" notes.',
+  '- Use <span class="cf-muted">...</span> for pronunciation notes, literal translations, memory hints, or lower-priority context.',
+  '- Use <mark>...</mark> for one short phrase that should visually pop.',
+  'Prefer a small number of meaningful highlights over decorating the whole card.'
+].join('\n')
+
+function defaultDescription () {
+  return {
+    title: 'Generated Cardify Project',
+    purpose: '',
+    contents: []
+  }
+}
+
+function normalizeDescription (description) {
+  if (!description || typeof description !== 'object' || Array.isArray(description)) {
+    return defaultDescription()
+  }
+
+  return {
+    title: String(description.title || 'Generated Cardify Project').trim() || 'Generated Cardify Project',
+    purpose: String(description.purpose || '').trim(),
+    contents: Array.isArray(description.contents)
+      ? description.contents.map(item => String(item || '').trim()).filter(Boolean)
+      : []
+  }
+}
+
+function normalizeCoverage (coverage) {
+  const source = coverage && typeof coverage === 'object' && !Array.isArray(coverage)
+    ? coverage
+    : {}
+  return {
+    batchSummary: String(source.batchSummary || '').trim(),
+    coveredTopics: Array.isArray(source.coveredTopics)
+      ? source.coveredTopics.map(topic => String(topic || '').trim()).filter(Boolean)
+      : [],
+    remainingFocus: String(source.remainingFocus || '').trim(),
+    done: Boolean(source.done)
+  }
+}
+
+function isChunkDescription (description) {
+  const title = String(description?.title || '').toLowerCase()
+  const purpose = String(description?.purpose || '').toLowerCase()
+  const contents = Array.isArray(description?.contents) ? description.contents.join(' ').toLowerCase() : ''
+  const haystack = `${title} ${purpose} ${contents}`
+
+  return [
+    /\bpart\s*\d+\b/i,
+    /\bsection\s*\d+\b/i,
+    /\bchunk\s*\d+\b/i,
+    /\b\d+\s*[-–]\s*\d+\b/,
+    /ส่วนที่\s*\d+/,
+    /คำที่\s*\d+\s*[-–]\s*\d+/,
+    /ชุดที่\s*\d+/
+  ].some(pattern => pattern.test(haystack))
+}
+
+function normalizeCards (cards, cardFormat) {
+  if (!Array.isArray(cards)) throw new ParseError(JSON.stringify(cards || null))
+  return cards.map(card => {
+    if (cardFormat === 'basic') {
+      return { front: String(card.front ?? ''), back: String(card.back ?? ''), type: 'basic' }
+    }
+    return { text: String(card.text ?? ''), type: 'cloze' }
+  })
+}
+
+function fallbackCombinedDescription (descriptions) {
+  const normalized = descriptions.map(normalizeDescription)
+  const firstDescription = normalized.find(description =>
+    (description.title || description.purpose || description.contents.length > 0) &&
+    !isChunkDescription(description)
+  ) || normalized.find(description =>
+    description.title || description.purpose || description.contents.length > 0
+  ) || defaultDescription()
+  const contents = [...new Set(normalized.flatMap(description => description.contents))]
+
+  return {
+    ...firstDescription,
+    contents
+  }
+}
+
+function serializeSampleCards (cards = []) {
+  if (!Array.isArray(cards) || cards.length === 0) return ''
+  return cards.map((card, index) => {
+    if (card.type === 'cloze') {
+      return `Sample ${index + 1}\nCloze: ${card.text || ''}`
+    }
+    return [
+      `Sample ${index + 1}`,
+      `Front: ${card.front || ''}`,
+      `Back: ${card.back || ''}`
+    ].join('\n')
+  }).join('\n\n')
+}
+
+function buildEffectiveContext (contextPrompt, options = {}) {
+  const lines = [contextPrompt || '']
+  if (options.clarifiedContext) {
+    lines.push('', 'Clarified generation requirements:', options.clarifiedContext)
+  }
+  if (options.sampleFeedback) {
+    lines.push('', 'User feedback on sample cards:', options.sampleFeedback)
+  }
+  if (Array.isArray(options.sampleFeedbackHistory) && options.sampleFeedbackHistory.length > 0) {
+    lines.push(
+      '',
+      'Accumulated user feedback from previous sample regenerations:',
+      ...options.sampleFeedbackHistory.map((feedback, index) => `${index + 1}. ${String(feedback || '').trim()}`).filter(Boolean)
+    )
+  }
+  const previousSamples = serializeSampleCards(options.previousSampleCards)
+  if (previousSamples) {
+    lines.push(
+      '',
+      'Previous sample cards for comparison. Use these to understand what the user is trying to improve; do not copy them unless the feedback asks for it:',
+      previousSamples
+    )
+  }
+  const samples = serializeSampleCards(options.sampleCards)
+  if (samples) {
+    lines.push('', 'Accepted sample cards to preserve and follow as style examples:', samples)
+  }
+  return lines.join('\n').trim()
+}
+
+function mergeSeedCards (generatedCards, seedCards, cardFormat) {
+  const normalizedSeeds = Array.isArray(seedCards) ? normalizeCards(seedCards, cardFormat) : []
+  const normalizedGenerated = Array.isArray(generatedCards) ? normalizeCards(generatedCards, cardFormat) : []
+  const seen = new Set()
+  const merged = []
+  for (const card of [...normalizedSeeds, ...normalizedGenerated]) {
+    const key = card.type === 'cloze'
+      ? `cloze:${card.text}`
+      : `basic:${card.front}\n${card.back}`
+    if (seen.has(key)) continue
+    seen.add(key)
+    merged.push(card)
+  }
+  return merged
+}
+
 // ─── Prompt builder ───────────────────────────────────────────────────────────
 /**
  * Build the messages array for a single claude-sonnet-4-6 call.
@@ -55,23 +231,219 @@ class NetworkError extends Error {
  * @param {'basic'|'cloze'} cardFormat
  * @param {string} contextPrompt
  * @param {string} textChunk
+ * @param {{index:number,total:number}|null} [chunkMeta]
  * @returns {{ system: string, messages: Array }}
  */
-function buildPrompt (cardFormat, contextPrompt, textChunk) {
+function buildPrompt (cardFormat, contextPrompt, textChunk, chunkMeta = null, options = {}) {
   const formatInstruction =
     cardFormat === 'basic'
-      ? 'Basic: [{"front": "...", "back": "..."}]'
-      : 'Cloze: [{"text": "{{c1::term}} is ..."}]'
+      ? 'Basic cards: [{"front": "concise prompt", "back": "markdown-rich answer where useful"}]'
+      : 'Cloze cards: [{"text": "{{c1::term}} is ... with light markdown only where useful"}]'
+  const isMultiChunk = chunkMeta && chunkMeta.total > 1
+  const sourceScope = isMultiChunk
+    ? `This is chunk ${chunkMeta.index} of ${chunkMeta.total} from a larger source. Generate cards only from this chunk. The description is temporary chunk metadata for a later combine step, so do not title it as a part, section, chunk, or card range.`
+    : 'Generate cards from the complete provided text.'
 
   const system =
-    `You are a flashcard generation expert. Generate ${cardFormat} flashcards from the provided text.\n` +
+    `You are a flashcard generation expert. Generate a Cardify project with ${cardFormat} flashcards from the provided text.\n` +
+    `${sourceScope}\n` +
     `Tune the cards specifically to the user's context — emphasize what matters for their stated goal,\n` +
     `omit or deprioritize what doesn't.\n` +
-    `Return ONLY a JSON array, no explanation:\n` +
+    `Write card fields in concise markdown where it improves readability: **bold**, _italic_, lists, tables, blockquotes, and inline/fenced code.\n` +
+    `For Basic cards, keep the front short and mostly plain; use richer markdown mainly in the back.\n` +
+    `For Cloze cards, preserve valid Anki cloze syntax like {{c1::term}} and use markdown sparingly around it.\n` +
+    `For color emphasis, use only <mark>, <span class="cf-key">, <span class="cf-warning">, <span class="cf-success">, or <span class="cf-muted">. Do not use inline styles, arbitrary classes, scripts, or decorative HTML.\n` +
+    `${SEMANTIC_HIGHLIGHT_GUIDANCE}\n` +
+    `Return ONLY a JSON object, no explanation, with this top-level shape: {"description":{"title":"","purpose":"","contents":[]},"cards":[]}.\n` +
     `- ${formatInstruction}`
 
   const userContent =
-    `Context: ${contextPrompt}\nText: ${textChunk}`
+    `Context: ${buildEffectiveContext(contextPrompt, options)}\nText: ${textChunk}`
+
+  return {
+    system,
+    messages: [{ role: 'user', content: userContent }]
+  }
+}
+
+function buildClarificationPrompt (contextPrompt, text, clarificationHistory = [], maxQuestions = 5) {
+  const answeredCount = Array.isArray(clarificationHistory) ? clarificationHistory.length : 0
+  const remaining = Math.max(0, maxQuestions - answeredCount)
+  const system = [
+    'You are Cardify\'s clarification assistant for flashcard generation.',
+    'Decide whether the user intent is clear enough to generate high-quality flashcards.',
+    `Ask 1-2 targeted questions only if they materially affect card quality. Hard cap: ${maxQuestions} total clarification questions across the whole flow.`,
+    'Clarify rubric: prefer output language for cards/explanations when unclear, audience/level, exam or use case, desired granularity, terminology, card style, and what to omit.',
+    'If the desired card/explanation language is not clearly stated, ask what language or mix of languages to use.',
+    'Avoid asking about details already obvious from the source text or user context.',
+    'If the intent is clear, stop asking and produce a concise clarifiedContext.',
+    'Return ONLY JSON with either {"status":"questions","questions":["..."]} or {"status":"clear","clarifiedContext":"..."}'
+  ].join('\n')
+
+  const userContent = [
+    `Original context: ${contextPrompt}`,
+    `Questions remaining: ${remaining}`,
+    '',
+    'Clarification history:',
+    JSON.stringify(clarificationHistory || [], null, 2),
+    '',
+    'Source excerpt:',
+    String(text || '').slice(0, 12000)
+  ].join('\n')
+
+  return {
+    system,
+    messages: [{ role: 'user', content: userContent }]
+  }
+}
+
+function normalizeClarificationResult (payload, fallbackContext = '') {
+  const status = payload?.status === 'questions' ? 'questions' : 'clear'
+  if (status === 'questions') {
+    const questions = Array.isArray(payload.questions)
+      ? payload.questions.map(q => String(q || '').trim()).filter(Boolean).slice(0, 2)
+      : []
+    if (questions.length > 0) return { status: 'questions', questions }
+  }
+  return {
+    status: 'clear',
+    clarifiedContext: String(payload?.clarifiedContext || fallbackContext || '').trim()
+  }
+}
+
+function buildSamplePrompt (cardFormat, contextPrompt, text, options = {}) {
+  const formatInstruction =
+    cardFormat === 'basic'
+      ? 'Each sample card must have "front" and "back" strings.'
+      : 'Each sample card must have a "text" string using valid Anki cloze syntax like {{c1::term}}.'
+
+  const system = [
+    'You are generating sample Cardify flashcards before the full deck is created.',
+    `Generate exactly 3 ${cardFormat} sample flashcards from the source text.`,
+    'These are examples for user approval, so prioritize representative cards that reveal style and content choices.',
+    'Use the clarified requirements, user feedback, and accepted sample cards as style guidance.',
+    'Do not copy accepted sample cards into the new sample set unless necessary to show a corrected version.',
+    'Write card fields in concise markdown where it improves readability.',
+    'Use semantic highlights when useful: <mark>, <span class="cf-key">, <span class="cf-warning">, <span class="cf-success">, <span class="cf-muted">.',
+    SEMANTIC_HIGHLIGHT_GUIDANCE,
+    'Return ONLY a JSON object with this top-level shape: {"description":{"title":"","purpose":"","contents":[]},"cards":[]}.',
+    formatInstruction
+  ].join('\n')
+
+  const userContent = [
+    `Context: ${buildEffectiveContext(contextPrompt, options)}`,
+    '',
+    'Source excerpt:',
+    String(text || '').slice(0, 24000)
+  ].join('\n')
+
+  return {
+    system,
+    messages: [{ role: 'user', content: userContent }]
+  }
+}
+
+function buildIterativeBatchPrompt (cardFormat, contextPrompt, text, progress = {}) {
+  const batchSize = Number(progress.batchSize) || 10
+  const nextBatch = (Number(progress.completedBatches) || 0) + 1
+  const maxBatches = Number(progress.maxBatches) || 20
+  const formatInstruction =
+    cardFormat === 'basic'
+      ? 'Each card must have "front" and "back" strings. Keep fronts short; make backs useful with markdown where it improves review.'
+      : 'Each card must have a "text" string using valid Anki cloze syntax like {{c1::term}}.'
+
+  const system = [
+    'You are continuing an iterative Cardify deck generation.',
+    `Generate exactly ${batchSize} new ${cardFormat} flashcards for batch ${nextBatch} of ${maxBatches}, unless the source is fully covered; if fully covered, return fewer cards only when necessary and set coverage.done to true.`,
+    'Choose the next most valuable content from the source based on the user goal and prior coverage; do not blindly slice the source by position.',
+    'Do not repeat existing cards or accepted samples. Use the duplicate keys as content already covered.',
+    'Do not return deck title or deck description. Return only cards and batch coverage metadata.',
+    'Write card fields in concise markdown where it improves readability.',
+    'Use semantic highlights when useful: <mark>, <span class="cf-key">, <span class="cf-warning">, <span class="cf-success">, <span class="cf-muted">.',
+    SEMANTIC_HIGHLIGHT_GUIDANCE,
+    'Return ONLY a JSON object with this top-level shape: {"cards":[],"coverage":{"batchSummary":"","coveredTopics":[],"remainingFocus":"","done":false}}.',
+    formatInstruction
+  ].join('\n')
+
+  const userContent = [
+    `Context: ${buildEffectiveContext(contextPrompt, {
+      clarifiedContext: progress.clarifiedContext,
+      sampleFeedback: progress.sampleFeedback,
+      sampleCards: progress.acceptedSampleCards
+    })}`,
+    '',
+    'Prior coverage history:',
+    JSON.stringify(progress.coverageHistory || [], null, 2),
+    '',
+    'Existing duplicate keys to avoid:',
+    JSON.stringify(progress.duplicateKeys || [], null, 2),
+    '',
+    'Source text:',
+    String(text || '').slice(0, 120000)
+  ].join('\n')
+
+  return {
+    system,
+    messages: [{ role: 'user', content: userContent }]
+  }
+}
+
+function buildIterativeBatchRecoveryPrompt (cardFormat, contextPrompt, text, progress = {}) {
+  const prompt = buildIterativeBatchPrompt(cardFormat, contextPrompt, text, progress)
+  return {
+    system: [
+      'The previous iterative batch response could not be parsed by Cardify.',
+      'Return only one valid JSON object. Do not wrap it in markdown fences.',
+      'Use exactly this top-level shape: {"cards":[],"coverage":{"batchSummary":"","coveredTopics":[],"remainingFocus":"","done":false}}.',
+      `Generate up to ${Number(progress.batchSize) || 10} new ${cardFormat} flashcards for the same batch. Do not repeat duplicate keys.`,
+      'Every quote, newline, and backslash inside string values must be valid JSON escaping.',
+      'Markdown is allowed only inside JSON string values.',
+      '',
+      prompt.system
+    ].join('\n'),
+    messages: prompt.messages
+  }
+}
+
+function buildDescriptionCombinePrompt (contextPrompt, descriptions) {
+  const system = [
+    'You are combining Cardify chunk descriptions into one final deck overview.',
+    'Return ONLY a JSON object with this exact top-level shape: {"description":{"title":"","purpose":"","contents":[]}}.',
+    'Do not include cards.',
+    'Create one coherent deck title, purpose, and contents list for the whole source.',
+    'Do not use titles based on part, section, chunk, or numeric/card ranges.',
+    'Keep the title short and the contents concise.'
+  ].join('\n')
+
+  const userContent = [
+    `Context: ${contextPrompt}`,
+    '',
+    'Chunk descriptions:',
+    JSON.stringify(descriptions.map(normalizeDescription), null, 2)
+  ].join('\n')
+
+  return {
+    system,
+    messages: [{ role: 'user', content: userContent }]
+  }
+}
+
+function buildDeckOverviewPrompt (contextPrompt, text, options = {}) {
+  const system = [
+    'You are creating the global Cardify deck overview before batch card generation begins.',
+    'Return ONLY a JSON object with this exact top-level shape: {"description":{"title":"","purpose":"","contents":[]}}.',
+    'Do not include cards or batch coverage.',
+    'Create one coherent deck title, purpose, and contents list for the whole source and user goal.',
+    'Do not use titles based on part, section, chunk, batch, or numeric/card ranges.',
+    'Keep the title short and useful as an Anki deck name.'
+  ].join('\n')
+
+  const userContent = [
+    `Context: ${buildEffectiveContext(contextPrompt, options)}`,
+    '',
+    'Source excerpt:',
+    String(text || '').slice(0, 24000)
+  ].join('\n')
 
   return {
     system,
@@ -135,6 +507,15 @@ function chunkText (text, maxChars = CHARS_PER_CHUNK) {
   return chunks.filter(c => c.length > 0)
 }
 
+function chunkTextWithMetadata (text, maxChars = CHARS_PER_CHUNK) {
+  const chunks = chunkText(text, maxChars)
+  return chunks.map((chunk, index) => ({
+    text: chunk,
+    index: index + 1,
+    total: chunks.length
+  }))
+}
+
 // ─── Single-chunk Claude call ─────────────────────────────────────────────────
 /**
  * Send one chunk to Claude and return the parsed card array.
@@ -145,18 +526,21 @@ function chunkText (text, maxChars = CHARS_PER_CHUNK) {
  * @param {string} textChunk
  * @returns {Promise<Array>}
  */
-async function callClaude (client, cardFormat, contextPrompt, textChunk) {
-  const { system, messages } = buildPrompt(cardFormat, contextPrompt, textChunk)
+async function callClaude (client, cardFormat, contextPrompt, chunk, options = {}) {
+  const textChunk = typeof chunk === 'string' ? chunk : chunk.text
+  const chunkMeta = typeof chunk === 'string' ? null : { index: chunk.index, total: chunk.total }
+  const { system, messages } = buildPrompt(cardFormat, contextPrompt, textChunk, chunkMeta, options)
 
   let response
   try {
     response = await client.messages.create({
-      model: 'claude-sonnet-4-6',
+      model: resolveClaudeApiModel(options),
       max_tokens: 4096,
       system,
       messages
-    })
+    }, { signal: options.signal })
   } catch (err) {
+    if (isAbortError(err)) throw new GenerationCancelledError()
     // Detect auth errors from the SDK
     if (
       err.status === 401 ||
@@ -172,45 +556,164 @@ async function callClaude (client, cardFormat, contextPrompt, textChunk) {
       ? response.content[0].text
       : ''
 
-  // Strip markdown code fences if the model wrapped the JSON
-  const cleaned = rawText.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/i, '').trim()
-
-  let cards
+  let payload
   try {
-    cards = JSON.parse(cleaned)
+    payload = parseJsonFromText(rawText)
   } catch {
     throw new ParseError(rawText)
   }
 
-  if (!Array.isArray(cards)) throw new ParseError(rawText)
+  const cards = cardsCandidateFromPayload(payload)
+  return {
+    description: normalizeDescription(descriptionFromPayload(payload)),
+    cards: normalizeCards(cards, cardFormat)
+  }
+}
 
-  // Normalise: ensure each card has the expected `type` field
-  return cards.map(card => {
-    if (cardFormat === 'basic') {
-      return { front: String(card.front ?? ''), back: String(card.back ?? ''), type: 'basic' }
-    } else {
-      return { text: String(card.text ?? ''), type: 'cloze' }
+async function callClaudeJson (client, prompt, maxTokens = 1024, options = {}) {
+  let response
+  try {
+    response = await client.messages.create({
+      model: resolveClaudeApiModel(options),
+      max_tokens: maxTokens,
+      system: prompt.system,
+      messages: prompt.messages
+    }, { signal: options.signal })
+  } catch (err) {
+    if (isAbortError(err)) throw new GenerationCancelledError()
+    if (
+      err.status === 401 ||
+      (err.message && err.message.toLowerCase().includes('authentication'))
+    ) {
+      throw new ApiKeyError()
     }
-  })
+    throw new NetworkError(err)
+  }
+
+  const rawText =
+    response.content && response.content[0] && response.content[0].type === 'text'
+      ? response.content[0].text
+      : ''
+  try {
+    return parseJsonFromText(rawText)
+  } catch {
+    throw new ParseError(rawText)
+  }
+}
+
+async function callClaudeDescriptionCombine (client, contextPrompt, descriptions, options = {}) {
+  const { system, messages } = buildDescriptionCombinePrompt(contextPrompt, descriptions)
+
+  let response
+  try {
+    response = await client.messages.create({
+      model: resolveClaudeApiModel(options),
+      max_tokens: 1024,
+      system,
+      messages
+    }, { signal: options.signal })
+  } catch (err) {
+    if (isAbortError(err)) throw new GenerationCancelledError()
+    if (
+      err.status === 401 ||
+      (err.message && err.message.toLowerCase().includes('authentication'))
+    ) {
+      throw new ApiKeyError()
+    }
+    throw new NetworkError(err)
+  }
+
+  const rawText =
+    response.content && response.content[0] && response.content[0].type === 'text'
+      ? response.content[0].text
+      : ''
+  let payload
+  try {
+    payload = parseJsonFromText(rawText)
+  } catch {
+    throw new ParseError(rawText)
+  }
+
+  return normalizeDescription(payload.description)
 }
 
 // ─── Public API ───────────────────────────────────────────────────────────────
 /**
  * Generate flashcards from parsed text (used internally for .txt files).
  */
-async function generateCards (parsedText, contextPrompt, cardFormat, apiKey) {
+async function generateCards (parsedText, contextPrompt, cardFormat, apiKey, options = {}) {
   const Anthropic = require('@anthropic-ai/sdk')
   const client = new Anthropic({ apiKey })
 
-  const chunks = chunkText(parsedText)
-  const results = []
+  const chunks = chunkTextWithMetadata(parsedText)
+  const cards = []
+  const descriptions = []
 
   for (const chunk of chunks) {
-    const cards = await callClaude(client, cardFormat, contextPrompt, chunk)
-    results.push(...cards)
+    const generation = await callClaude(client, cardFormat, contextPrompt, chunk, options)
+    descriptions.push(generation.description)
+    cards.push(...generation.cards)
   }
 
-  return results
+  let description
+  if (descriptions.length > 1) {
+    try {
+      description = await callClaudeDescriptionCombine(client, contextPrompt, descriptions, options)
+    } catch {
+      description = fallbackCombinedDescription(descriptions)
+    }
+  } else {
+    description = fallbackCombinedDescription(descriptions)
+  }
+
+  return { description, cards: mergeSeedCards(cards, options.sampleCards, cardFormat) }
+}
+
+async function prepareGeneration (parsedText, contextPrompt, cardFormat, apiKey, clarificationHistory = [], options = {}) {
+  const Anthropic = require('@anthropic-ai/sdk')
+  const client = new Anthropic({ apiKey })
+  const prompt = buildClarificationPrompt(contextPrompt, parsedText, clarificationHistory)
+  const payload = await callClaudeJson(client, prompt, 1024, options)
+  return normalizeClarificationResult(payload, buildEffectiveContext(contextPrompt))
+}
+
+async function generateSampleCards (parsedText, contextPrompt, cardFormat, apiKey, options = {}) {
+  const Anthropic = require('@anthropic-ai/sdk')
+  const client = new Anthropic({ apiKey })
+  const prompt = buildSamplePrompt(cardFormat, contextPrompt, parsedText, options)
+  const payload = await callClaudeJson(client, prompt, 2048, options)
+  const cards = normalizeCards(cardsCandidateFromPayload(payload), cardFormat)
+  if (cards.length === 0) throw new ParseError(JSON.stringify(payload || null))
+  return {
+    description: normalizeDescription(descriptionFromPayload(payload)),
+    cards: cards.slice(0, 3)
+  }
+}
+
+async function generateDeckOverview (parsedText, contextPrompt, cardFormat, apiKey, options = {}) {
+  const Anthropic = require('@anthropic-ai/sdk')
+  const client = new Anthropic({ apiKey })
+  const prompt = buildDeckOverviewPrompt(contextPrompt, parsedText, options)
+  const payload = await callClaudeJson(client, prompt, 1024, options)
+  return {
+    description: normalizeDescription(payload.description)
+  }
+}
+
+async function generateIterativeBatch (parsedText, contextPrompt, cardFormat, apiKey, progress = {}) {
+  const Anthropic = require('@anthropic-ai/sdk')
+  const client = new Anthropic({ apiKey })
+  let payload
+  try {
+    payload = await callClaudeJson(client, buildIterativeBatchPrompt(cardFormat, contextPrompt, parsedText, progress), 4096, progress)
+  } catch (err) {
+    if (err.code !== 'parse-error') throw err
+    payload = await callClaudeJson(client, buildIterativeBatchRecoveryPrompt(cardFormat, contextPrompt, parsedText, progress), 4096, progress)
+  }
+  return {
+    cards: normalizeCards(payload.cards, cardFormat),
+    coverage: normalizeCoverage(payload.coverage)
+  }
 }
 
 /**
@@ -218,7 +721,7 @@ async function generateCards (parsedText, contextPrompt, cardFormat, apiKey) {
  * PDFs are sent as native base64 document blocks — no text extraction needed.
  * .txt files are read and chunked as before.
  */
-async function generateCardsFromFile (filePath, contextPrompt, cardFormat, apiKey) {
+async function generateCardsFromFile (filePath, contextPrompt, cardFormat, apiKey, options = {}) {
   const fs = require('fs')
   const path = require('path')
   const ext = path.extname(filePath).toLowerCase()
@@ -234,6 +737,11 @@ async function generateCardsFromFile (filePath, contextPrompt, cardFormat, apiKe
     const system =
       `You are a flashcard generation expert. Generate ${cardFormat} flashcards from the provided document.\n` +
       `Tune the cards specifically to the user's context — emphasize what matters for their stated goal.\n` +
+      `Write card fields in concise markdown where it improves readability: **bold**, _italic_, lists, tables, blockquotes, and inline/fenced code.\n` +
+      `For Basic cards, keep the front short and mostly plain; use richer markdown mainly in the back.\n` +
+      `For Cloze cards, preserve valid Anki cloze syntax like {{c1::term}} and use markdown sparingly around it.\n` +
+      `For color emphasis, use only <mark>, <span class="cf-key">, <span class="cf-warning">, <span class="cf-success">, or <span class="cf-muted">. Do not use inline styles, arbitrary classes, scripts, or decorative HTML.\n` +
+      `${SEMANTIC_HIGHLIGHT_GUIDANCE}\n` +
       `Return ONLY a JSON array, no explanation:\n` +
       `- ${formatInstruction}`
 
@@ -242,7 +750,7 @@ async function generateCardsFromFile (filePath, contextPrompt, cardFormat, apiKe
     let response
     try {
       response = await client.messages.create({
-        model: 'claude-sonnet-4-6',
+        model: resolveClaudeApiModel(options),
         max_tokens: 4096,
         system,
         messages: [{
@@ -252,8 +760,9 @@ async function generateCardsFromFile (filePath, contextPrompt, cardFormat, apiKe
             { type: 'text', text: `Context: ${contextPrompt}\n\nGenerate flashcards from this document.` }
           ]
         }]
-      })
+      }, { signal: options.signal })
     } catch (err) {
+      if (isAbortError(err)) throw new GenerationCancelledError()
       if (err.status === 401 || (err.message && err.message.toLowerCase().includes('authentication'))) {
         throw new ApiKeyError()
       }
@@ -261,9 +770,12 @@ async function generateCardsFromFile (filePath, contextPrompt, cardFormat, apiKe
     }
 
     const rawText = response.content?.[0]?.type === 'text' ? response.content[0].text : ''
-    const cleaned = rawText.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/i, '').trim()
     let cards
-    try { cards = JSON.parse(cleaned) } catch { throw new ParseError(rawText) }
+    try {
+      cards = cardsCandidateFromPayload(parseJsonFromText(rawText))
+    } catch {
+      throw new ParseError(rawText)
+    }
     if (!Array.isArray(cards)) throw new ParseError(rawText)
 
     return cards.map(card => cardFormat === 'basic'
@@ -274,7 +786,32 @@ async function generateCardsFromFile (filePath, contextPrompt, cardFormat, apiKe
 
   // .txt — read and use text-based generation
   const text = fs.readFileSync(filePath, 'utf-8')
-  return generateCards(text, contextPrompt, cardFormat, apiKey)
+  return generateCards(text, contextPrompt, cardFormat, apiKey, options)
 }
 
-module.exports = { generateCards, generateCardsFromFile, chunkText, buildPrompt, ApiKeyError, ParseError, NetworkError }
+module.exports = {
+  generateCards,
+  prepareGeneration,
+  generateSampleCards,
+  generateDeckOverview,
+  generateIterativeBatch,
+  generateCardsFromFile,
+  chunkText,
+  chunkTextWithMetadata,
+  buildPrompt,
+  buildClarificationPrompt,
+  buildSamplePrompt,
+  buildDeckOverviewPrompt,
+  buildIterativeBatchPrompt,
+  buildIterativeBatchRecoveryPrompt,
+  buildDescriptionCombinePrompt,
+  fallbackCombinedDescription,
+  normalizeCoverage,
+  mergeSeedCards,
+  resolveClaudeApiModel,
+  DEFAULT_CLAUDE_API_MODEL,
+  ApiKeyError,
+  ParseError,
+  GenerationCancelledError,
+  NetworkError
+}

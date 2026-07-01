@@ -30,7 +30,8 @@ afterEach(() => {
 
 // ─── AC1: Push to Anki IPC contract ──────────────────────────────────────────
 // "Clicking Push to Anki calls window.ipc.invoke('push-to-anki', { deckName, cards })
-// and shows a loading spinner on the button; on success shows a '✓ N cards added to [deckName]' banner"
+// using the deck overview title as deckName, and shows a loading spinner on the
+// button; on success shows a '✓ N cards added to [title]' banner"
 //
 // Renderer-side: Review.jsx exposes onPush override for testability (verified via source inspection below).
 // IPC-side: push-to-anki handler is tested here end-to-end via the anki lib.
@@ -56,7 +57,7 @@ describe('AC1 — push-to-anki IPC: success path returns { success, added, error
     expect(result).toEqual({ added: 2, errors: [] })
   })
 
-  test('Review.jsx success banner text: "✓ N cards added to [deckName]" (source-code inspection)', () => {
+  test('Review.jsx success banner text uses the deck overview title (source-code inspection)', () => {
     // Parse the Review component source to verify the banner text contract
     const fs = require('fs')
     const path = require('path')
@@ -65,18 +66,19 @@ describe('AC1 — push-to-anki IPC: success path returns { success, added, error
       'utf8'
     )
 
-    // Verify the success banner includes the checkmark and deckName interpolation
+    // Verify the success banner includes the checkmark and title interpolation
     expect(reviewSrc).toContain('✓ ${msg}')
     // Verify loading spinner is rendered when pushing=true
     expect(reviewSrc).toContain('Pushing to Anki...')
     expect(reviewSrc).toContain('spinner')
     // Verify disabled when pushing
-    expect(reviewSrc).toContain('disabled={pushing || !deckName.trim()}')
+    expect(reviewSrc).toContain('disabled={pushing || !description.title.trim()}')
+    expect(reviewSrc).not.toContain('<DeckNameInput')
     // Verify data-testid for push button
     expect(reviewSrc).toContain('data-testid="push-to-anki-btn"')
   })
 
-  test('Review.jsx invokes window.ipc.invoke("push-to-anki", { deckName, cards })', () => {
+  test('Review.jsx invokes window.ipc.invoke("push-to-anki", { deckName: title, cards })', () => {
     const fs = require('fs')
     const path = require('path')
     const reviewSrc = fs.readFileSync(
@@ -85,7 +87,8 @@ describe('AC1 — push-to-anki IPC: success path returns { success, added, error
     )
     // Verify the exact IPC channel and shape
     expect(reviewSrc).toContain("window.ipc.invoke('push-to-anki'")
-    expect(reviewSrc).toContain('deckName: deckName.trim()')
+    expect(reviewSrc).toContain('const title = description.title.trim()')
+    expect(reviewSrc).toContain('deckName: title')
     expect(reviewSrc).toContain('cards')
   })
 })
@@ -247,25 +250,25 @@ describe('AC5 — ankiconnect.js unit test coverage (this suite)', () => {
     expect(result).toEqual({ connected: false })
   })
 
-  test('buildNotes maps Basic {front,back} to modelName "Basic" with correct fields', () => {
+  test('buildNotes maps Basic {front,back} to modelName "Basic" with Anki-renderable HTML fields', () => {
     const notes = buildNotes('Deck', [
       { type: 'basic', front: 'What is DNA?', back: 'Deoxyribonucleic acid.' }
     ])
     expect(notes[0]).toMatchObject({
       deckName: 'Deck',
       modelName: 'Basic',
-      fields: { Front: 'What is DNA?', Back: 'Deoxyribonucleic acid.' }
+      fields: { Front: '<p>What is DNA?</p>', Back: '<p>Deoxyribonucleic acid.</p>' }
     })
   })
 
-  test('buildNotes maps Cloze {text} to modelName "Cloze" with correct fields', () => {
+  test('buildNotes maps Cloze {text} to modelName "Cloze" with Anki-renderable HTML fields', () => {
     const notes = buildNotes('Deck', [
       { type: 'cloze', text: '{{c1::DNA}} stands for deoxyribonucleic acid.' }
     ])
     expect(notes[0]).toMatchObject({
       deckName: 'Deck',
       modelName: 'Cloze',
-      fields: { Text: '{{c1::DNA}} stands for deoxyribonucleic acid.' }
+      fields: { Text: '<p>{{c1::DNA}} stands for deoxyribonucleic acid.</p>' }
     })
   })
 

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { renderCardMarkdown } from '../lib/cardMarkdown'
 
 /**
  * CardEditor — renders one flashcard with inline editing and delete.
@@ -36,6 +37,7 @@ export default function CardEditor ({ card, onUpdate, onDelete }) {
             rows={3}
             aria-label="Cloze text"
           />
+          <MarkdownPreview source={localCard.text} label="Cloze preview" />
         </div>
       ) : (
         <>
@@ -49,6 +51,7 @@ export default function CardEditor ({ card, onUpdate, onDelete }) {
               rows={2}
               aria-label="Card front"
             />
+            <MarkdownPreview source={localCard.front} label="Front preview" />
           </div>
           <div className="card-field">
             <label className="field-label">Back</label>
@@ -60,6 +63,7 @@ export default function CardEditor ({ card, onUpdate, onDelete }) {
               rows={2}
               aria-label="Card back"
             />
+            <MarkdownPreview source={localCard.back} label="Back preview" />
           </div>
         </>
       )}
@@ -71,6 +75,18 @@ export default function CardEditor ({ card, onUpdate, onDelete }) {
       >
         Delete
       </button>
+    </div>
+  )
+}
+
+function MarkdownPreview ({ source, label }) {
+  return (
+    <div className="markdown-preview" aria-label={label}>
+      <div className="markdown-preview-label">{label}</div>
+      <div
+        className="markdown-preview-body"
+        dangerouslySetInnerHTML={{ __html: renderCardMarkdown(source, { target: 'preview' }) || '<p class="markdown-preview-empty">No preview</p>' }}
+      />
     </div>
   )
 }

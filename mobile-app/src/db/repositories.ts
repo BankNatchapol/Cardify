@@ -2,10 +2,17 @@ import { getDatabase } from './database'
 import { buildReviewQueue, flattenReviewQueue, review, reviewWithFsrs } from '../../../packages/scheduler/src'
 import type { CardState, ReviewRating } from '../../../packages/shared/src/types'
 
+export type DeckDescription = {
+  title?: string
+  purpose?: string
+  contents?: string[]
+} | string | null
+
 export type MobileDeck = {
   id: string
-  name: string
-  description?: unknown
+  name: string          // raw DB name (may be a hash)
+  displayName: string   // description.title ?? name
+  description?: DeckDescription
   packageId?: string
   newCount: number
   learningCount: number
@@ -41,10 +48,13 @@ export async function listDecks (): Promise<MobileDeck[]> {
       FROM cards
       WHERE deck_id = ?
     `, [now, now, deck.id])
+    const description = parseJson(deck.description_json) as DeckDescription
+    const title = description && typeof description === 'object' && !Array.isArray(description) ? description.title : undefined
     return {
       id: deck.id,
       name: deck.name,
-      description: parseJson(deck.description_json),
+      displayName: title || deck.name,
+      description,
       packageId: deck.package_id,
       newCount: Number(counts?.newCount || 0),
       learningCount: Number(counts?.learningCount || 0),
@@ -56,14 +66,25 @@ export async function listDecks (): Promise<MobileDeck[]> {
 export async function getDeck (deckId: string) {
   const db = await getDatabase()
   const deck = await db.getFirstAsync<any>('SELECT * FROM decks WHERE id = ?', [deckId])
-  return deck
-    ? {
-        id: deck.id,
-        name: deck.name,
-        description: parseJson(deck.description_json),
-        packageId: deck.package_id
-      }
-    : null
+  if (!deck) return null
+  const description = parseJson(deck.description_json) as DeckDescription
+  const title = description && typeof description === 'object' && !Array.isArray(description) ? description.title : undefined
+  return {
+    id: deck.id,
+    name: deck.name,
+    displayName: title || deck.name,
+    description,
+    packageId: deck.package_id,
+  }
+}
+
+export async function updateDeck (deckId: string, name: string, description?: string) {
+  const db = await getDatabase()
+  const now = Date.now()
+  await db.runAsync(
+    'UPDATE decks SET name = ?, description_json = ?, updated_at = ? WHERE id = ?',
+    [name.trim(), description ? JSON.stringify(description) : null, now, deckId]
+  )
 }
 
 export async function listCards (deckId: string, query = ''): Promise<MobileCard[]> {

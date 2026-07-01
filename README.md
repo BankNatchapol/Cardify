@@ -4,6 +4,8 @@ Automatic flashcard generation for Anki.
 
 Cardify is a desktop app that turns PDFs and plain-text files into editable Anki cards. It uses your local Claude Code login by default, generates a deck overview plus flashcards, saves each generation as a reusable project, and pushes reviewed cards to Anki through AnkiConnect.
 
+Generated card fields use concise markdown by default. Cardify previews that markdown during review and converts it to safe HTML when pushing to Anki, so bold text, lists, tables, code, quotes, and limited semantic color highlights render visually instead of appearing as raw markdown.
+
 ## Tech Stack
 
 | Layer | Technology |
@@ -100,6 +102,19 @@ The Projects tab lists saved generations. Each project stores:
 
 Opening a project restores the deck overview and card review state so cards can be edited, reused, or pushed later.
 
+## Markdown Cards
+
+Cardify asks Claude to make backs visually structured with markdown where useful while keeping fronts concise. Supported generated formatting includes:
+
+```markdown
+**Key idea:** enzymes lower activation energy.
+
+- <span class="cf-key">Important</span>: active sites are shape-specific.
+- <span class="cf-warning">Watch out</span>: enzymes are not consumed.
+```
+
+Allowed semantic color tags are `<mark>`, `<span class="cf-key">`, `<span class="cf-warning">`, `<span class="cf-success">`, and `<span class="cf-muted">`. Unsafe HTML and arbitrary styling are stripped before previewing or pushing to Anki.
+
 ## AnkiConnect Setup
 
 1. Open Anki desktop.
@@ -119,12 +134,13 @@ If Cardify says Anki is not running, this usually means Anki is closed, AnkiConn
 
 ## Claude Code Timeout
 
-Large decks can take several minutes. Cardify waits up to 10 minutes for each Claude Code generation by default.
+Large decks can take several minutes. Cardify waits up to 20 minutes for each Claude Code generation by default.
+Normal-sized decks are sent as one source when possible; very large sources are split only when they exceed the app's larger safety budget.
 
 Override it with:
 
 ```bash
-CARDIFY_CLAUDE_CODE_TIMEOUT_MS=900000 npm run dev
+CARDIFY_CLAUDE_CODE_TIMEOUT_MS=1800000 npm run dev
 ```
 
 The value is in milliseconds.

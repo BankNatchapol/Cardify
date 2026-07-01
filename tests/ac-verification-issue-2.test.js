@@ -31,19 +31,17 @@ beforeAll(() => {
   uploadJsx = read('src/screens/Upload.jsx')
 })
 
-// ─── AC1: Settings button in Upload header opens src/screens/Settings.jsx ────
-describe('AC1 — Settings button in Upload header navigates to Settings.jsx', () => {
-  it('Upload.jsx renders a Settings button in the header', () => {
-    // Header element wrapping the Settings trigger.
+// ─── AC1: Settings tab opens src/screens/Settings.jsx ───────────────────────
+describe('AC1 — Settings tab navigates to Settings.jsx', () => {
+  it('Upload.jsx does not render a duplicate Settings button in the page header', () => {
     expect(uploadJsx).toMatch(/upload-header/)
-    // Button with click handler that opens Settings, with an accessible label.
-    expect(uploadJsx).toMatch(/onOpenSettings/)
-    expect(uploadJsx).toMatch(/aria-label=["']Open Settings["']/)
+    expect(uploadJsx).not.toMatch(/onOpenSettings/)
+    expect(uploadJsx).not.toMatch(/aria-label=["']Open Settings["']/)
   })
 
-  it('App.jsx wires the Upload onOpenSettings handler to render Settings screen', () => {
+  it('App.jsx wires the primary Settings tab to render Settings screen', () => {
     expect(appJsx).toMatch(/import Settings from .\.\/screens\/Settings./)
-    expect(appJsx).toMatch(/onOpenSettings=\{[^}]*['"]settings['"]/)
+    expect(appJsx).toMatch(/handleNavigate\(['"]settings['"]\)/)
     expect(appJsx).toMatch(/screen === ['"]settings['"]/)
     expect(appJsx).toMatch(/<Settings[\s/>]/)
   })
@@ -67,10 +65,62 @@ describe('AC2 — Settings has password input, Save button, and saved-state indi
     expect(settingsJsx).toMatch(/>\s*\{saving \? 'Saving…' : 'Save'\}/)
   })
 
-  it('Settings.jsx has a status indicator that flips when keySaved is true', () => {
-    expect(settingsJsx).toMatch(/keySaved \?[\s\S]*API key is saved[\s\S]*No key saved/)
-    expect(settingsJsx).toMatch(/setKeySaved\(true\)/)
+  it('Settings.jsx has a status indicator for the saved API key', () => {
+    expect(settingsJsx).toMatch(/keyStatus\.saved[\s\S]*API key is saved[\s\S]*No API key available/)
+    expect(settingsJsx).toMatch(/setKeyStatus\(\{ available: true, saved: true/)
     expect(settingsJsx).toMatch(/setStatusMessage\(['"]Key saved['"]\)/)
+  })
+})
+
+describe('Generation settings — batch limits', () => {
+  it('Settings.jsx renders batch size, max batches, and calculated maximum flashcards', () => {
+    expect(settingsJsx).toMatch(/Batch size/)
+    expect(settingsJsx).toMatch(/Max batches/)
+    expect(settingsJsx).toMatch(/Maximum flashcards/)
+    expect(settingsJsx).toMatch(/Claude model/)
+    expect(settingsJsx).toMatch(/getModelSelectOptions/)
+    expect(settingsJsx).toMatch(/Save API key to load models/)
+    expect(settingsJsx).not.toMatch(/CLAUDE_CODE_MODEL_OPTIONS/)
+    expect(settingsJsx).not.toMatch(/Claude API model/)
+    expect(settingsJsx).toMatch(/Refresh Models/)
+    expect(settingsJsx).not.toMatch(/ANTHROPIC_API_KEY/)
+    expect(settingsJsx).toMatch(/<select/)
+    expect(settingsJsx).toMatch(/batchSize \* generationSettings\.maxBatches/)
+  })
+
+  it('Settings.jsx saves generation settings through IPC', () => {
+    expect(settingsJsx).toMatch(/window\.ipc\.invoke\(['"]get-generation-settings['"]\)/)
+    expect(settingsJsx).toMatch(/const unifiedSettings =/)
+    expect(settingsJsx).toMatch(/apiModel: generationSettings\.claudeCodeModel/)
+    expect(settingsJsx).toMatch(/window\.ipc\.invoke\(['"]save-generation-settings['"]\s*,\s*unifiedSettings\)/)
+    expect(settingsJsx).toMatch(/window\.ipc\.invoke\(['"]list-claude-api-models['"]\)/)
+    expect(settingsJsx).toMatch(/handleModelChange/)
+  })
+
+  it('App.jsx passes saved generation settings into new iterative progress', () => {
+    expect(appJsx).toMatch(/const \[generationSettings, setGenerationSettings\]/)
+    expect(appJsx).toMatch(/progress\.batchSize = generationSettings\.batchSize/)
+    expect(appJsx).toMatch(/progress\.maxBatches = generationSettings\.maxBatches/)
+    expect(appJsx).toMatch(/progress\.claudeCodeModel = generationSettings\.claudeCodeModel/)
+    expect(appJsx).toMatch(/progress\.apiModel = generationSettings\.apiModel/)
+  })
+
+  it('electron IPC exposes private generation settings channels', () => {
+    expect(mainJs).toMatch(/cardify-generation-settings\.json/)
+    expect(mainJs).toMatch(/claudeCodeModel/)
+    expect(mainJs).toMatch(/apiModel/)
+    expect(mainJs).toMatch(/https:\/\/api\.anthropic\.com\/v1\/models/)
+    expect(mainJs).toMatch(/x-api-key/)
+    expect(mainJs).not.toMatch(/readEnvironmentApiKey/)
+    expect(mainJs).not.toMatch(/ANTHROPIC_API_KEY/)
+    expect(mainJs).toMatch(/readConfiguredApiKey/)
+    expect(mainJs).toMatch(/ipcMain\.handle\(['"]get-generation-settings['"]/)
+    expect(mainJs).toMatch(/ipcMain\.handle\(['"]save-generation-settings['"]/)
+    expect(mainJs).toMatch(/ipcMain\.handle\(['"]list-claude-api-models['"]/)
+    expect(preloadJs).toMatch(/['"]get-generation-settings['"]/)
+    expect(preloadJs).toMatch(/['"]save-generation-settings['"]/)
+    expect(preloadJs).toMatch(/['"]list-claude-api-models['"]/)
+    expect(preloadJs).toMatch(/['"]get-api-key-status['"]/)
   })
 })
 
@@ -131,23 +181,26 @@ describe('AC3 — Save key path is encrypted via safeStorage and never echoed ba
 
 // ─── AC4: On relaunch, get-api-key-set returns true and indicator shows saved ──
 describe('AC4 — get-api-key-set survives relaunch and Settings reflects it', () => {
-  it('Settings.jsx queries get-api-key-set on mount', () => {
+  it('Settings.jsx queries API key status on mount', () => {
     expect(settingsJsx).toMatch(/useEffect\(/)
-    expect(settingsJsx).toMatch(/window\.ipc\.invoke\(['"]get-api-key-set['"]\)/)
-    expect(settingsJsx).toMatch(/setKeySaved\(Boolean\(saved\)\)/)
+    expect(settingsJsx).toMatch(/window\.ipc\.invoke\(['"]get-api-key-status['"]\)/)
+    expect(settingsJsx).toMatch(/setKeyStatus\(keySavedResult/)
   })
 
-  it('electron/main.js implements get-api-key-set via readApiKey() boolean coercion', () => {
+  it('electron/main.js implements get-api-key-set without returning plaintext keys', () => {
     const handler = mainJs.match(/ipcMain\.handle\(['"]get-api-key-set['"][\s\S]*?\n\}\)/)
     expect(handler).not.toBeNull()
     // Must coerce to a boolean (never the key itself).
-    expect(handler[0]).toMatch(/Boolean\(/)
+    expect(handler[0]).toMatch(/available/)
     // Must read from the encrypted file via readApiKey/decryptString path.
-    expect(handler[0]).toMatch(/readApiKey/)
+    expect(mainJs).toMatch(/readApiKey/)
+    expect(mainJs).not.toMatch(/ANTHROPIC_API_KEY/)
   })
 
-  it('Settings.jsx renders "API key is saved" text when keySaved is true', () => {
+  it('Settings.jsx renders available API key status text', () => {
     expect(settingsJsx).toMatch(/API key is saved/)
+    expect(settingsJsx).toMatch(/No API key available/)
+    expect(settingsJsx).not.toMatch(/Using ANTHROPIC_API_KEY/)
   })
 
   it('relaunch simulation: after save → fresh module-style store still reports isSet=true', () => {
@@ -191,15 +244,15 @@ describe('AC4 — get-api-key-set survives relaunch and Settings reflects it', (
 describe('AC5 — Clear key flow', () => {
   it('Settings.jsx renders a Clear button wired to handleClear', () => {
     expect(settingsJsx).toMatch(/onClick=\{handleClear\}/)
-    expect(settingsJsx).toMatch(/>\s*Clear\s*</)
+    expect(settingsJsx).toMatch(/>\s*Clear saved key\s*</)
   })
 
   it('handleClear invokes window.ipc.invoke("clear-api-key") and resets indicator', () => {
     const handleClearBlock = settingsJsx.match(/handleClear[\s\S]*?\n\s*\}\s*\n/)
     expect(handleClearBlock).not.toBeNull()
     expect(handleClearBlock[0]).toMatch(/window\.ipc\.invoke\(['"]clear-api-key['"]\)/)
-    expect(handleClearBlock[0]).toMatch(/setKeySaved\(false\)/)
-    expect(handleClearBlock[0]).toMatch(/setStatusMessage\(['"]No key saved['"]\)/)
+    expect(handleClearBlock[0]).toMatch(/setKeyStatus\(\{ available: false, saved: false, source: null \}/)
+    expect(handleClearBlock[0]).toMatch(/No API key available/)
   })
 
   it('electron/main.js clear-api-key handler unlinks the encrypted key file', () => {

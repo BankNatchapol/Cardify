@@ -5,7 +5,7 @@
   "main": "electron/main.js",
   "scripts": {
     "postinstall": "node node_modules/electron/install.js",
-    "dev": "NODE_ENV=development concurrently \"vite\" \"electron .\"",
+    "dev": "unset ELECTRON_RUN_AS_NODE; NODE_ENV=development concurrently \"vite\" \"electron .\"",
     "build": "vite build && electron-builder",
     "test": "node --experimental-vm-modules node_modules/.bin/jest"
   },
@@ -14,7 +14,9 @@
     "pdf-parse": "^1.1.1"
   },
   "devDependencies": {
+    "@upstash/context7-mcp": "^3.2.2",
     "@vitejs/plugin-react": "^4.3.1",
+    "ccusage": "^20.0.14",
     "concurrently": "^9.0.1",
     "electron": "^31.7.7",
     "electron-builder": "^24.13.3",

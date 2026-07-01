@@ -78,14 +78,14 @@ describe('buildNotes', () => {
     expect(notes[0]).toEqual({
       deckName,
       modelName: 'Basic',
-      fields: { Front: 'What is photosynthesis?', Back: 'The process plants use to make food from sunlight.' },
+      fields: { Front: '<p>What is photosynthesis?</p>', Back: '<p>The process plants use to make food from sunlight.</p>' },
       options: { allowDuplicate: false },
       tags: []
     })
     expect(notes[1]).toEqual({
       deckName,
       modelName: 'Basic',
-      fields: { Front: 'Capital of France?', Back: 'Paris' },
+      fields: { Front: '<p>Capital of France?</p>', Back: '<p>Paris</p>' },
       options: { allowDuplicate: false },
       tags: []
     })
@@ -103,14 +103,14 @@ describe('buildNotes', () => {
     expect(notes[0]).toEqual({
       deckName,
       modelName: 'Cloze',
-      fields: { Text: '{{c1::Mitochondria}} is the powerhouse of the cell.' },
+      fields: { Text: '<p>{{c1::Mitochondria}} is the powerhouse of the cell.</p>' },
       options: { allowDuplicate: false },
       tags: []
     })
     expect(notes[1]).toEqual({
       deckName,
       modelName: 'Cloze',
-      fields: { Text: 'The capital of France is {{c1::Paris}}.' },
+      fields: { Text: '<p>The capital of France is {{c1::Paris}}.</p>' },
       options: { allowDuplicate: false },
       tags: []
     })
@@ -125,9 +125,9 @@ describe('buildNotes', () => {
     const notes = buildNotes(deckName, cards)
 
     expect(notes[0].modelName).toBe('Basic')
-    expect(notes[0].fields).toEqual({ Front: 'Q1', Back: 'A1' })
+    expect(notes[0].fields).toEqual({ Front: '<p>Q1</p>', Back: '<p>A1</p>' })
     expect(notes[1].modelName).toBe('Cloze')
-    expect(notes[1].fields).toEqual({ Text: '{{c1::answer}} is correct.' })
+    expect(notes[1].fields).toEqual({ Text: '<p>{{c1::answer}} is correct.</p>' })
   })
 
   test('defaults to Basic for cards with no type field', () => {
@@ -146,6 +146,19 @@ describe('buildNotes', () => {
     const cards = [{ type: 'cloze', text: undefined }]
     const notes = buildNotes(deckName, cards)
     expect(notes[0].fields).toEqual({ Text: '' })
+  })
+
+  test('converts markdown to Anki-safe HTML fields', () => {
+    const notes = buildNotes(deckName, [{
+      type: 'basic',
+      front: '**Photosynthesis**?',
+      back: '- Uses <span class="cf-success">light</span>\n- Makes `glucose`'
+    }])
+
+    expect(notes[0].fields.Front).toContain('<strong>Photosynthesis</strong>')
+    expect(notes[0].fields.Back).toContain('<ul>')
+    expect(notes[0].fields.Back).toContain('style="color:#047857;font-weight:700;"')
+    expect(notes[0].fields.Back).toContain('<code>glucose</code>')
   })
 
   test('returns empty array for empty card list', () => {

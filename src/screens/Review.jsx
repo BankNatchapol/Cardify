@@ -1,27 +1,34 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import CardEditor from '../components/CardEditor'
-import DeckNameInput from '../components/DeckNameInput'
 import UndoSnackbar from '../components/UndoSnackbar'
+import ProgressBar from '../components/ProgressBar'
+import StatusTile from '../components/StatusTile'
 
 /**
  * Review screen — shows generated flashcards with inline editing,
- * delete with undo, deck name input, and Push to Anki button.
+ * delete with undo, deck overview editing, and Push to Anki button.
  *
  * Props:
  *   cards     — Array<{front,back,type}|{text,type}> from generate-cards IPC
  *   description — {title,purpose,contents}, editable generated deck overview
- *   fileName  — string, used to pre-populate the deck name
- *   onBack    — called to navigate back to the Upload screen
+ *   fileName  — string, used as a fallback title
+ *   onBack    — called to navigate back to the project list
  *   onPush    — optional external handler; if omitted, uses window.ipc directly
  */
-export default function Review ({ cards: initialCards, description: initialDescription, fileName, onBack, onPush, onProjectChange }) {
+export default function Review ({
+  cards: initialCards,
+  description: initialDescription,
+  fileName,
+  onBack,
+  onPush,
+  onProjectChange,
+  generationProgress,
+  continuingGeneration = false,
+  onContinueGeneration,
+  onStopGeneration
+}) {
   const [cards, setCards] = useState(initialCards || [])
   const [description, setDescription] = useState(() => normalizeDescription(initialDescription, fileName))
-  const [deckName, setDeckName] = useState(() => {
-    if (!fileName) return ''
-    // Strip extension
-    return fileName.replace(/\.[^.]+$/, '')
-  })
 
   // Snackbar state: null | { card, index }
   const [snackbar, setSnackbar] = useState(null)
@@ -44,10 +51,6 @@ export default function Review ({ cards: initialCards, description: initialDescr
   useEffect(() => {
     setDescription(normalizeDescription(initialDescription, fileName))
   }, [initialDescription, fileName])
-
-  useEffect(() => {
-    setDeckName(fileName ? fileName.replace(/\.[^.]+$/, '') : '')
-  }, [fileName])
 
   const saveDescription = useCallback((nextDescription) => {
     const normalized = normalizeDescription(nextDescription, fileName)
@@ -93,17 +96,18 @@ export default function Review ({ cards: initialCards, description: initialDescr
 
   // ── Push to Anki ─────────────────────────────────────────────────────────
   const handlePush = async () => {
-    if (pushing || !deckName.trim()) return
+    const title = description.title.trim()
+    if (pushing || !title) return
     setPushResult(null)
     setPushing(true)
 
     try {
       let result
       if (onPush) {
-        result = await onPush(deckName.trim(), cards)
+        result = await onPush(title, cards)
       } else {
         result = await window.ipc.invoke('push-to-anki', {
-          deckName: deckName.trim(),
+          deckName: title,
           cards
         })
       }
@@ -145,12 +149,80 @@ export default function Review ({ cards: initialCards, description: initialDescr
     const duplicateCount = (pushResult.errors || []).filter(e => e.startsWith('duplicate:')).length
     const msg = duplicateCount > 0
       ? `${pushResult.added} cards added, ${duplicateCount} duplicates skipped`
-      : `${pushResult.added} cards added to ${deckName}`
+      : `${pushResult.added} cards added to ${description.title.trim()}`
 
     return (
       <div className="push-banner push-banner--success" role="status" data-testid="push-success-banner">
         {duplicateCount > 0 ? msg : `✓ ${msg}`}
       </div>
+    )
+  }
+
+  const renderGenerationPanel = () => {
+    if (!generationProgress || generationProgress.status === 'done') return null
+
+    const canContinue = ['failed', 'stopped', 'capped'].includes(generationProgress.status)
+    const completedBatches = generationProgress.completedBatches ?? 0
+    const batchSize = generationProgress.batchSize || 10
+    const maxBatches = generationProgress.maxBatches || 20
+    const maximumCards = batchSize * maxBatches
+    const status = continuingGeneration ? 'in_progress' : (generationProgress.status || 'idle')
+    const latestCoverage = Array.isArray(generationProgress.coverageHistory)
+      ? generationProgress.coverageHistory.at(-1)
+      : null
+
+    return (
+      <section className="project-generation-panel" aria-label="Project generation status">
+        <div className="project-generation-content">
+          <h2>Generation</h2>
+
+          <ProgressBar value={maxBatches ? (100 * completedBatches / maxBatches) : null} />
+          <div className="iterative-progress-grid project-generation-grid">
+            <div>
+              <span className="iterative-label">Cards</span>
+              <strong>{cards.length}</strong>
+            </div>
+            <div>
+              <span className="iterative-label">Batch</span>
+              <strong>{completedBatches} / {maxBatches}</strong>
+            </div>
+            <div>
+              <span className="iterative-label">Max cards</span>
+              <strong>{maximumCards}</strong>
+            </div>
+            <StatusTile status={status} />
+          </div>
+
+          {latestCoverage?.batchSummary && (
+            <p className="iterative-summary project-generation-summary">{latestCoverage.batchSummary}</p>
+          )}
+          {latestCoverage?.remainingFocus && (
+            <p className="project-generation-focus">
+              Remaining focus: {latestCoverage.remainingFocus}
+            </p>
+          )}
+        </div>
+        <div className="project-generation-actions">
+          {continuingGeneration && (
+            <button
+              type="button"
+              className="secondary-btn project-generation-btn"
+              onClick={onStopGeneration}
+            >
+              Stop and Review
+            </button>
+          )}
+          {canContinue && !continuingGeneration && (
+            <button
+              type="button"
+              className="primary-btn project-generation-btn"
+              onClick={onContinueGeneration}
+            >
+              Continue Generation
+            </button>
+          )}
+        </div>
+      </section>
     )
   }
 
@@ -161,9 +233,9 @@ export default function Review ({ cards: initialCards, description: initialDescr
           type="button"
           className="back-btn"
           onClick={onBack}
-          aria-label="Back to Upload"
+          aria-label="Back to Projects"
         >
-          Back to Upload
+          Back
         </button>
         <h1>Review Cards</h1>
         <span className="card-count" data-testid="card-count">
@@ -172,7 +244,7 @@ export default function Review ({ cards: initialCards, description: initialDescr
       </header>
 
       <main className="review-main">
-        <DeckNameInput value={deckName} onChange={setDeckName} />
+        {renderGenerationPanel()}
 
         <section className="deck-overview" aria-label="Deck overview">
           <div className="deck-overview-heading">
@@ -259,8 +331,8 @@ export default function Review ({ cards: initialCards, description: initialDescr
             type="button"
             className={`push-btn${pushing ? ' loading' : ''}`}
             onClick={handlePush}
-            disabled={pushing || !deckName.trim()}
-            aria-disabled={pushing || !deckName.trim()}
+            disabled={pushing || !description.title.trim()}
+            aria-disabled={pushing || !description.title.trim()}
             aria-busy={pushing}
             data-testid="push-to-anki-btn"
           >
@@ -277,7 +349,7 @@ export default function Review ({ cards: initialCards, description: initialDescr
               setExportResult(null)
               try {
                 const result = await window.ipc.invoke('export-mobile-package', {
-                  deckName: deckName.trim() || description.title || 'Untitled',
+                  deckName: description.title.trim() || 'Untitled',
                   description,
                   cards
                 })

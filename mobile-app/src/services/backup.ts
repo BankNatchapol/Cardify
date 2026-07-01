@@ -2,8 +2,54 @@ import * as FileSystem from 'expo-file-system'
 import * as Sharing from 'expo-sharing'
 import * as DocumentPicker from 'expo-document-picker'
 import { getDatabase } from '../db/database'
+import { getDeck } from '../db/repositories'
 
 const BACKUP_VERSION = 1
+
+export async function exportDeckPackage (deckId: string) {
+  const db = await getDatabase()
+  const deck = await getDeck(deckId)
+  if (!deck) throw new Error('Deck not found')
+
+  const notes = await db.getAllAsync<any>('SELECT * FROM notes WHERE deck_id = ?', [deckId])
+  const cards = await db.getAllAsync<any>('SELECT * FROM cards WHERE deck_id = ?', [deckId])
+
+  const pkg = {
+    packageId: deck.packageId || `pkg-export-${Date.now()}`,
+    deck: {
+      id: deck.id,
+      name: deck.displayName,
+      description: deck.description,
+    },
+    notes: notes.map((n: any) => ({
+      id: n.id,
+      noteType: n.note_type,
+      fields: JSON.parse(n.fields_json || '{}'),
+      tags: JSON.parse(n.tags_json || '[]'),
+      source: JSON.parse(n.source_json || '{}'),
+    })),
+    // cardsState lets a re-import restore FSRS progress
+    cardsState: cards.map((c: any) => ({
+      id: c.id,
+      state: c.state,
+      dueAt: c.due_at,
+      intervalDays: c.interval_days,
+      stability: c.stability,
+      difficulty: c.difficulty,
+      reps: c.reps,
+      lapses: c.lapses,
+      suspended: c.suspended,
+    })),
+  }
+
+  const safeName = deck.displayName.replace(/[^a-z0-9]/gi, '-').toLowerCase()
+  const uri = `${FileSystem.documentDirectory}${safeName}.cardify.json`
+  await FileSystem.writeAsStringAsync(uri, JSON.stringify(pkg, null, 2))
+  if (await Sharing.isAvailableAsync()) {
+    await Sharing.shareAsync(uri, { mimeType: 'application/json', UTI: 'public.json' })
+  }
+  return uri
+}
 
 export async function exportBackup () {
   const db = await getDatabase()

@@ -1,18 +1,25 @@
 import { Stack } from 'expo-router'
+import { colors } from '../src/styles/theme'
 
 export default function RootLayout () {
   return (
     <Stack
       screenOptions={{
-        headerStyle: { backgroundColor: '#ffffff' },
-        headerTintColor: '#111827',
-        contentStyle: { backgroundColor: '#f0f4f8' }
+        headerStyle: { backgroundColor: colors.background },
+        headerShadowVisible: true,
+        headerTintColor: colors.text,
+        headerTitleStyle: {
+          fontWeight: '800',
+          fontSize: 17,
+          color: colors.text,
+        },
+contentStyle: { backgroundColor: colors.background },
       }}
     >
-      <Stack.Screen name="index" options={{ title: 'Cardify' }} />
+      <Stack.Screen name="index" options={{ title: 'My Decks' }} />
       <Stack.Screen name="import" options={{ title: 'Import Deck' }} />
-      <Stack.Screen name="deck/[deckId]" options={{ title: 'Deck' }} />
-      <Stack.Screen name="study/[deckId]" options={{ title: 'Study' }} />
+      <Stack.Screen name="deck/[deckId]" options={{ title: '' }} />
+      <Stack.Screen name="study/[deckId]" options={{ title: 'Study', headerBackTitle: 'Back' }} />
       <Stack.Screen name="browse/[deckId]" options={{ title: 'Browse' }} />
       <Stack.Screen name="stats/[deckId]" options={{ title: 'Stats' }} />
     </Stack>

@@ -1,4 +1,7 @@
-import React, { useState, useRef, useCallback } from 'react'
+import React, { useState, useRef, useCallback, useEffect } from 'react'
+import CardEditor from '../components/CardEditor'
+import ProgressBar from '../components/ProgressBar'
+import StatusTile from '../components/StatusTile'
 
 const ALLOWED_EXTENSIONS = ['.pdf', '.txt']
 
@@ -7,42 +10,126 @@ function getExtension (filePath) {
   return parts.length > 1 ? '.' + parts[parts.length - 1].toLowerCase() : ''
 }
 
+function stopWizardUndoShortcut (event) {
+  const key = String(event.key || '').toLowerCase()
+  if ((event.metaKey || event.ctrlKey) && key === 'z') {
+    event.stopPropagation()
+  }
+}
+
+function stopWizardHistoryUndo (event) {
+  if (event.nativeEvent?.inputType === 'historyUndo' || event.inputType === 'historyUndo') {
+    event.stopPropagation()
+  }
+}
+
+function escapeInlineHtml (value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+}
+
+function renderInlineQuestionMarkdown (source) {
+  return escapeInlineHtml(source)
+    .replace(/`([^`\n]+)`/g, '<code>$1</code>')
+    .replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/__([^_\n]+)__/g, '<strong>$1</strong>')
+    .replace(/(^|[^\w])_([^_\n]+)_/g, '$1<em>$2</em>')
+    .replace(/(^|[^\w])\*([^*\n]+)\*/g, '$1<em>$2</em>')
+    .replace(/\n/g, '<br>')
+}
+
+function MarkdownQuestionLabel ({ question }) {
+  return (
+    <span
+      className="field-label"
+      dangerouslySetInnerHTML={{ __html: renderInlineQuestionMarkdown(question) }}
+    />
+  )
+}
+
 export default function Upload ({
   initialState = {},
   onComplete,
-  onOpenSettings,
   onOpenProjects,
   onOpenReview,
   onStateChange,
   onGenerate,
   generationState = {},
+  wizardState = {},
   generatedCardCount = 0,
   generatedCards = [],
   description = {},
-  apiKeySet = false
+  apiKeySet = false,
+  onClarificationAnswerChange,
+  onSubmitClarification,
+  onSampleCardUpdate,
+  onSampleCardDelete,
+  onSampleFeedbackChange,
+  onRegenerateSamples,
+  onAcceptSamples,
+  onContinueGeneration,
+  onStopIterativeGeneration,
+  onCancelGeneration,
+  onReviewPartialDeck
 }) {
   const [fileError, setFileError] = useState(null)
   const [dragOver, setDragOver] = useState(false)
   const [activityOpen, setActivityOpen] = useState(false)
 
   const fileInputRef = useRef(null)
+  const regenerateStartedRef = useRef(false)
+  const sampleReviewRef = useRef(null)
+  const previousSampleSignatureRef = useRef('')
   const filePath = initialState.filePath || null
   const fileName = initialState.fileName || ''
+  const parsedText = initialState.parsedText || null
   const contextPrompt = initialState.contextPrompt || ''
   const cardFormat = initialState.cardFormat || 'basic'
   const generating = Boolean(generationState.generating)
   const generateError = generationState.error
+  const wizardStep = wizardState.step || 'idle'
+  const progress = wizardState.generationProgress || null
+  const progressStatus = progress?.status || ''
+  const canContinue = progress?.mode === 'iterative' && ['failed', 'stopped', 'capped'].includes(progressStatus) && !generating
+
+  useEffect(() => {
+    const sampleCards = wizardState.sampleCards || []
+    const sampleSignature = JSON.stringify(sampleCards.map(card => (
+      card?.type === 'cloze'
+        ? { type: card.type, text: card.text || '' }
+        : { type: card?.type || 'basic', front: card?.front || '', back: card?.back || '' }
+    )))
+    const previousSignature = previousSampleSignatureRef.current
+    previousSampleSignatureRef.current = sampleSignature
+
+    if (
+      wizardStep === 'sample_review' &&
+      !generating &&
+      sampleCards.length > 0 &&
+      previousSignature &&
+      previousSignature !== sampleSignature
+    ) {
+      requestAnimationFrame(() => {
+        sampleReviewRef.current?.scrollIntoView({ block: 'start', behavior: 'smooth' })
+      })
+    }
+  }, [generating, wizardState.sampleCards, wizardStep])
 
   const updateUploadState = useCallback((patch) => {
     if (onStateChange) onStateChange(patch)
   }, [onStateChange])
 
   const isGenerateEnabled =
-    filePath !== null &&
+    (filePath !== null || parsedText !== null || generatedCardCount > 0) &&
     contextPrompt.trim().length >= 10 &&
     cardFormat !== null &&
     apiKeySet &&
-    !generating
+    !generating &&
+    wizardStep === 'idle'
 
   const handleFile = useCallback((p, name) => {
     const ext = getExtension(p)
@@ -52,7 +139,7 @@ export default function Upload ({
       return
     }
     setFileError(null)
-    updateUploadState({ filePath: p, fileName: name })
+    updateUploadState({ filePath: p, fileName: name, parsedText: null, charCount: null })
   }, [updateUploadState])
 
   const handleFileInputChange = (e) => {
@@ -77,7 +164,7 @@ export default function Upload ({
   /**
    * Generate button handler:
    * 1. Show loading spinner.
-   * 2. Ask App.jsx to run generate-cards so progress survives navigation.
+   * 2. Ask App.jsx to run the guided clarify/sample flow.
    */
   const handleGenerate = async () => {
     if (!isGenerateEnabled) return
@@ -89,18 +176,19 @@ export default function Upload ({
     }
   }
 
+  const handleRegenerateSamples = useCallback(() => {
+    if (generating || (wizardState.sampleCards || []).length === 0) return
+    if (regenerateStartedRef.current) return
+    regenerateStartedRef.current = true
+    Promise.resolve(onRegenerateSamples?.({ filePath, fileName, parsedText, contextPrompt, cardFormat }))
+      .finally(() => {
+        regenerateStartedRef.current = false
+      })
+  }, [cardFormat, contextPrompt, fileName, filePath, generating, onRegenerateSamples, parsedText, wizardState.sampleCards])
+
   return (
     <div className="upload-screen">
       <header className="upload-header">
-        <button
-          type="button"
-          className="settings-btn"
-          onClick={onOpenSettings || onOpenProjects}
-          aria-label="Open Settings"
-          title="Settings"
-        >
-          Settings
-        </button>
         <h1>Cardify</h1>
         <p className="subtitle">Generate flashcards from your documents</p>
       </header>
@@ -203,6 +291,158 @@ export default function Upload ({
           </p>
         )}
 
+        {wizardStep !== 'idle' && (
+          <section className="generation-wizard" aria-label="Guided generation">
+            <div className="wizard-heading">
+              <div>
+                <h2>Guided generation</h2>
+                <p>Cardify clarifies the target, shows samples, then builds the full deck after approval.</p>
+              </div>
+              <span className="wizard-step">{wizardStep.replace('_', ' ')}</span>
+            </div>
+
+            {wizardStep === 'clarifying' && (wizardState.clarificationQuestions || []).length > 0 && (
+              <div className="wizard-section">
+                <h3>Clarify the deck</h3>
+                {(wizardState.clarificationQuestions || []).map((question, index) => (
+                  <label className="card-field" key={`${question}-${index}`}>
+                    <MarkdownQuestionLabel question={question} />
+                    <textarea
+                      className="card-textarea"
+                      rows={2}
+                      value={wizardState.clarificationAnswers?.[index] || ''}
+                      onKeyDown={stopWizardUndoShortcut}
+                      onBeforeInput={stopWizardHistoryUndo}
+                      onChange={(e) => onClarificationAnswerChange?.(index, e.target.value)}
+                    />
+                  </label>
+                ))}
+                <button
+                  type="button"
+                  className="secondary-btn"
+                  disabled={generating}
+                  onClick={() => onSubmitClarification?.({ filePath, fileName, parsedText, contextPrompt, cardFormat })}
+                >
+                  Continue to Samples
+                </button>
+              </div>
+            )}
+
+            {wizardStep === 'sampling' && (
+              <div className="wizard-section">
+                <h3>Generating sample cards</h3>
+              </div>
+            )}
+
+            {wizardStep === 'generating_full' && (
+              <div className="wizard-section iterative-progress">
+                <h3>Generating full deck</h3>
+                <ProgressBar
+                  value={progress?.maxBatches ? (100 * (progress.completedBatches || 0) / progress.maxBatches) : null}
+                />
+                <div className="iterative-progress-grid">
+                  <div>
+                    <span className="iterative-label">Cards</span>
+                    <strong>{generatedCardCount}</strong>
+                  </div>
+                  <div>
+                    <span className="iterative-label">Batch</span>
+                    <strong>{progress?.completedBatches || 0} / {progress?.maxBatches || 20}</strong>
+                  </div>
+                  <div>
+                    <span className="iterative-label">Max cards</span>
+                    <strong>{(progress?.batchSize || 10) * (progress?.maxBatches || 20)}</strong>
+                  </div>
+                  <StatusTile status={progressStatus || (generating ? 'in_progress' : 'idle')} />
+                </div>
+                {wizardState.latestCoverage?.batchSummary && (
+                  <p className="iterative-summary">{wizardState.latestCoverage.batchSummary}</p>
+                )}
+                <div className="wizard-actions">
+                  {generating && (
+                    <button
+                      type="button"
+                      className="secondary-btn"
+                      onClick={onStopIterativeGeneration}
+                    >
+                      Stop and Review
+                    </button>
+                  )}
+                  {canContinue && (
+                    <button
+                      type="button"
+                      className="generate-btn generate-btn--compact"
+                      onClick={() => onContinueGeneration?.({ filePath, fileName, parsedText, contextPrompt, cardFormat })}
+                    >
+                      Continue Generation
+                    </button>
+                  )}
+                  {(canContinue || generatedCardCount > 0) && !generating && (
+                    <button
+                      type="button"
+                      className="secondary-btn"
+                      onClick={onReviewPartialDeck}
+                    >
+                      Review Partial Deck
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {wizardStep === 'sample_review' && (
+              <div className="wizard-section" ref={sampleReviewRef}>
+                <h3>{generating ? 'Regenerating sample cards' : 'Review 3 sample cards'}</h3>
+                <p className="field-hint">Edit these examples or add feedback. Regenerating keeps edited samples as guidance.</p>
+                <div className="sample-card-list">
+                  {(wizardState.sampleCards || []).map((card, index) => (
+                    <CardEditor
+                      key={index}
+                      card={card}
+                      onUpdate={(updated) => onSampleCardUpdate?.(index, updated)}
+                      onDelete={() => onSampleCardDelete?.(index)}
+                    />
+                  ))}
+                </div>
+                <label className="card-field">
+                  <span className="field-label">Feedback for the next generation</span>
+                  <textarea
+                    className="context-textarea"
+                    rows={3}
+                    value={wizardState.sampleFeedback || ''}
+                    onKeyDown={stopWizardUndoShortcut}
+                    onBeforeInput={stopWizardHistoryUndo}
+                    onChange={(e) => onSampleFeedbackChange?.(e.target.value)}
+                    placeholder="Example: make backs shorter, highlight target words in examples, avoid overly easy cards"
+                  />
+                </label>
+                <div className="wizard-actions">
+                  <button
+                    type="button"
+                    className="secondary-btn"
+                    disabled={generating || (wizardState.sampleCards || []).length === 0}
+                    onPointerDown={(event) => {
+                      event.preventDefault()
+                      handleRegenerateSamples()
+                    }}
+                    onClick={handleRegenerateSamples}
+                  >
+                    {generating ? 'Regenerating...' : 'Regenerate Samples'}
+                  </button>
+                  <button
+                    type="button"
+                    className="generate-btn generate-btn--compact"
+                    disabled={generating || (wizardState.sampleCards || []).length === 0}
+                    onClick={() => onAcceptSamples?.({ filePath, fileName, parsedText, contextPrompt, cardFormat })}
+                  >
+                    Accept & Generate Full Deck
+                  </button>
+                </div>
+              </div>
+            )}
+          </section>
+        )}
+
         {generatedCardCount > 0 && !generating && (
           <section className="review-ready-panel" aria-label="Generated cards">
             <div className="review-ready-banner" role="status">
@@ -276,14 +516,14 @@ export default function Upload ({
         {/* Generate button */}
         <button
           className={`generate-btn${generating ? ' loading' : ''}`}
-          onClick={handleGenerate}
-          disabled={!isGenerateEnabled}
-          aria-disabled={!isGenerateEnabled}
+          onClick={generating ? onCancelGeneration : handleGenerate}
+          disabled={!generating && !isGenerateEnabled}
+          aria-disabled={!generating && !isGenerateEnabled}
           aria-busy={generating}
         >
           {generating
-            ? <><span className="spinner" aria-hidden="true" /> Generating...</>
-            : 'Generate Flashcards'
+            ? <><span className="spinner" aria-hidden="true" /> Cancel Generation</>
+            : 'Start Guided Generation'
           }
         </button>
       </main>

@@ -72,5 +72,16 @@ export async function importDeckPackage (deckPackage: ReturnType<typeof validate
         now
       ])
     }
+
+    // Restore FSRS state if this was exported from mobile
+    const cardsState = (deckPackage as any).cardsState as any[] | undefined
+    if (Array.isArray(cardsState)) {
+      for (const cs of cardsState) {
+        await db.runAsync(
+          'UPDATE cards SET state=?, due_at=?, interval_days=?, stability=?, difficulty=?, reps=?, lapses=?, suspended=? WHERE id=?',
+          [cs.state, cs.dueAt ?? null, cs.intervalDays ?? 0, cs.stability ?? null, cs.difficulty ?? null, cs.reps ?? 0, cs.lapses ?? 0, cs.suspended ?? 0, cs.id]
+        )
+      }
+    }
   })
 }
