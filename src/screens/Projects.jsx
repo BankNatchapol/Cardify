@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 function formatDate (value) {
   if (!value) return 'Unknown'
@@ -19,10 +19,12 @@ function projectProgressStatus (project) {
   return status && status !== 'done' ? status : ''
 }
 
-export default function Projects ({ activeProjectId, activeProject, onOpenProject, onNewProject }) {
+export default function Projects ({ activeProjectId, activeProject, onOpenProject, onNewProject, onImportProject }) {
   const [projects, setProjects] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [importing, setImporting] = useState(false)
+  const importInputRef = useRef(null)
 
   const refreshProjects = async () => {
     setLoading(true)
@@ -50,6 +52,22 @@ export default function Projects ({ activeProjectId, activeProject, onOpenProjec
     }
   }
 
+  const handleImportFile = async (event) => {
+    const file = event.target.files?.[0]
+    event.target.value = ''
+    if (!file) return
+
+    setImporting(true)
+    setError(null)
+    try {
+      await onImportProject?.(file.path, file.name)
+    } catch (err) {
+      setError(`Could not import JSON project: ${err.message}`)
+    } finally {
+      setImporting(false)
+    }
+  }
+
   return (
     <div className="projects-screen">
       <header className="screen-header">
@@ -57,9 +75,22 @@ export default function Projects ({ activeProjectId, activeProject, onOpenProjec
           <h1>Projects</h1>
           <p className="subtitle">Saved generations you can reopen, edit, and push later</p>
         </div>
-        <button type="button" className="primary-btn" onClick={onNewProject}>
-          New Project
-        </button>
+        <div className="project-header-actions">
+          <button type="button" className="secondary-btn" onClick={() => importInputRef.current?.click()} disabled={importing}>
+            {importing ? 'Importing...' : 'Import JSON'}
+          </button>
+          <button type="button" className="primary-btn" onClick={onNewProject}>
+            New Project
+          </button>
+          <input
+            ref={importInputRef}
+            type="file"
+            accept=".json,.cardify.json"
+            onChange={handleImportFile}
+            style={{ display: 'none' }}
+            aria-hidden="true"
+          />
+        </div>
       </header>
 
       {error && <p className="error-message" role="alert">{error}</p>}

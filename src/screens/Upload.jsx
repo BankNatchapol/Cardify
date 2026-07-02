@@ -82,6 +82,7 @@ export default function Upload ({
 
   const fileInputRef = useRef(null)
   const regenerateStartedRef = useRef(false)
+  const acceptStartedRef = useRef(false)
   const sampleReviewRef = useRef(null)
   const previousSampleSignatureRef = useRef('')
   const filePath = initialState.filePath || null
@@ -94,7 +95,9 @@ export default function Upload ({
   const wizardStep = wizardState.step || 'idle'
   const progress = wizardState.generationProgress || null
   const progressStatus = progress?.status || ''
-  const canContinue = progress?.mode === 'iterative' && ['failed', 'stopped', 'capped'].includes(progressStatus) && !generating
+  const targetCardCount = progress?.generationGoal?.targetCardCount || null
+  const generationLimit = (progress?.batchSize || 10) * (progress?.maxBatches || 20)
+  const canContinue = progress?.mode === 'iterative' && ['failed', 'stopped', 'capped', 'shortfall'].includes(progressStatus) && !generating
 
   useEffect(() => {
     const sampleCards = wizardState.sampleCards || []
@@ -185,6 +188,16 @@ export default function Upload ({
         regenerateStartedRef.current = false
       })
   }, [cardFormat, contextPrompt, fileName, filePath, generating, onRegenerateSamples, parsedText, wizardState.sampleCards])
+
+  const handleAcceptSamples = useCallback(() => {
+    if (generating || (wizardState.sampleCards || []).length === 0) return
+    if (acceptStartedRef.current) return
+    acceptStartedRef.current = true
+    Promise.resolve(onAcceptSamples?.({ filePath, fileName, parsedText, contextPrompt, cardFormat }))
+      .finally(() => {
+        acceptStartedRef.current = false
+      })
+  }, [cardFormat, contextPrompt, fileName, filePath, generating, onAcceptSamples, parsedText, wizardState.sampleCards])
 
   return (
     <div className="upload-screen">
@@ -342,16 +355,16 @@ export default function Upload ({
                 />
                 <div className="iterative-progress-grid">
                   <div>
-                    <span className="iterative-label">Cards</span>
-                    <strong>{generatedCardCount}</strong>
+                    <span className="iterative-label">{targetCardCount ? 'Target cards' : 'Cards'}</span>
+                    <strong>{targetCardCount ? `${generatedCardCount} / ${targetCardCount}` : generatedCardCount}</strong>
                   </div>
                   <div>
                     <span className="iterative-label">Batch</span>
                     <strong>{progress?.completedBatches || 0} / {progress?.maxBatches || 20}</strong>
                   </div>
                   <div>
-                    <span className="iterative-label">Max cards</span>
-                    <strong>{(progress?.batchSize || 10) * (progress?.maxBatches || 20)}</strong>
+                    <span className="iterative-label">Limit</span>
+                    <strong>{generationLimit}</strong>
                   </div>
                   <StatusTile status={progressStatus || (generating ? 'in_progress' : 'idle')} />
                 </div>
@@ -433,7 +446,11 @@ export default function Upload ({
                     type="button"
                     className="generate-btn generate-btn--compact"
                     disabled={generating || (wizardState.sampleCards || []).length === 0}
-                    onClick={() => onAcceptSamples?.({ filePath, fileName, parsedText, contextPrompt, cardFormat })}
+                    onPointerDown={(event) => {
+                      event.preventDefault()
+                      handleAcceptSamples()
+                    }}
+                    onClick={handleAcceptSamples}
                   >
                     Accept & Generate Full Deck
                   </button>

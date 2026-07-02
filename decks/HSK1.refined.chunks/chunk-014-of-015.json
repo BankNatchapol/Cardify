@@ -1,0 +1,88 @@
+{
+  "chunkNumber": 14,
+  "chunkCount": 15,
+  "cardIndexes": [
+    130,
+    131,
+    132,
+    133,
+    134,
+    135,
+    136,
+    137,
+    138,
+    139
+  ],
+  "cards": [
+    {
+      "index": 130,
+      "type": "basic",
+      "front": "一点儿",
+      "back": "**พินอิน:** <span class=\"cf-key\">yìdiǎnr</span>\n\n**ชนิดของคำ:** ลักษณนาม\n**ความหมาย:** <span class=\"cf-success\">เล็กน้อย, นิดหน่อย</span>\n\n**ตัวอย่างประโยค:**\n我只有<span class=\"cf-key\">一点儿</span>钱。\n<span class=\"cf-muted\">Wǒ zhǐ yǒu yìdiǎnr qián.</span>\n<span class=\"cf-muted\">(ฉันมีเงินอยู่เพียงนิดหน่อย)</span>",
+      "changed": true
+    },
+    {
+      "index": 131,
+      "type": "basic",
+      "front": "衣服",
+      "back": "**พินอิน:** <span class=\"cf-key\">yīfu</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">เสื้อผ้า</span>\n\n**ตัวอย่างประโยค:**\n我在商店买了很多<span class=\"cf-key\">衣服</span>。\n<span class=\"cf-muted\">Wǒ zài shāngdiàn mǎi le hěn duō yīfu.</span>\n<span class=\"cf-muted\">(ฉันซื้อเสื้อผ้ามาเยอะมากที่ร้านค้า)</span>",
+      "changed": true
+    },
+    {
+      "index": 132,
+      "type": "basic",
+      "front": "医生",
+      "back": "**พินอิน:** <span class=\"cf-key\">yīshēng</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">หมอ, แพทย์</span>\n\n**ตัวอย่างประโยค:**\n他是这个医院里的<span class=\"cf-key\">医生</span>。\n<span class=\"cf-muted\">Tā shì zhège yīyuàn lǐ de yīshēng.</span>\n<span class=\"cf-muted\">(เขาเป็นหมอที่โรงพยาบาลแห่งนี้)</span>",
+      "changed": true
+    },
+    {
+      "index": 133,
+      "type": "basic",
+      "front": "医院",
+      "back": "**พินอิน:** <span class=\"cf-key\">yīyuàn</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">โรงพยาบาล</span>\n\n**ตัวอย่างประโยค:**\n这是一个大<span class=\"cf-key\">医院</span>。\n<span class=\"cf-muted\">Zhè shì yí ge dà yīyuàn.</span>\n<span class=\"cf-muted\">(นี่คือโรงพยาบาลขนาดใหญ่แห่งหนึ่ง)</span>",
+      "changed": true
+    },
+    {
+      "index": 134,
+      "type": "basic",
+      "front": "椅子",
+      "back": "**พินอิน:** <span class=\"cf-key\">yǐzi</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">เก้าอี้</span>\n\n**ตัวอย่างประโยค:**\n小狗在<span class=\"cf-key\">椅子</span>下面呢。\n<span class=\"cf-muted\">Xiǎo gǒu zài yǐzi xiàmiàn ne.</span>\n<span class=\"cf-muted\">(ลูกสุนัขอยู่ใต้เก้าอี้)</span>",
+      "changed": true
+    },
+    {
+      "index": 135,
+      "type": "basic",
+      "front": "有",
+      "back": "**พินอิน:** <span class=\"cf-key\">yǒu</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">มี</span>\n\n**ตัวอย่างประโยค:**\n我<span class=\"cf-key\">有</span>一个女儿。\n<span class=\"cf-muted\">Wǒ yǒu yí ge nǚ'ér.</span>\n<span class=\"cf-muted\">(ฉันมีลูกสาวคนหนึ่ง)</span>\n\n桌子上<span class=\"cf-key\">有</span>本书。\n<span class=\"cf-muted\">Zhuōzi shàng yǒu běn shū.</span>\n<span class=\"cf-muted\">(บนโต๊ะมีหนังสือเล่มหนึ่ง)</span>",
+      "changed": false
+    },
+    {
+      "index": 136,
+      "type": "basic",
+      "front": "月",
+      "back": "**พินอิน:** <span class=\"cf-key\">yuè</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">เดือน</span>\n\n**ตัวอย่างประโยค:**\n一年有12个<span class=\"cf-key\">月</span>。\n<span class=\"cf-muted\">Yì nián yǒu shí'èr ge yuè.</span>\n<span class=\"cf-muted\">(หนึ่งปีมีสิบสองเดือน)</span>",
+      "changed": false
+    },
+    {
+      "index": 137,
+      "type": "basic",
+      "front": "再见",
+      "back": "**พินอิน:** <span class=\"cf-key\">zàijiàn</span>\n\n**ชนิดของคำ:** สำนวน\n**ความหมาย:** <span class=\"cf-success\">ลาก่อน</span>\n\n**ตัวอย่างประโยค:**\n妈妈，我去学校了，<span class=\"cf-key\">再见</span>。\n<span class=\"cf-muted\">Māma, wǒ qù xuéxiào le, zàijiàn.</span>\n<span class=\"cf-muted\">(แม่ ฉันไปโรงเรียนแล้วนะ ลาก่อน)</span>",
+      "changed": false
+    },
+    {
+      "index": 138,
+      "type": "basic",
+      "front": "在",
+      "back": "**พินอิน:** <span class=\"cf-key\">zài</span>\n\n**ความหมายที่ 1 — คำกริยา:** <span class=\"cf-success\">อยู่ที่</span>\n书<span class=\"cf-key\">在</span>桌子上。\n<span class=\"cf-muted\">Shū zài zhuōzi shàng.</span>\n<span class=\"cf-muted\">(หนังสืออยู่บนโต๊ะ)</span>\n\n**ความหมายที่ 2 — คำวิเศษณ์:** <span class=\"cf-success\">กำลัง</span>\n我<span class=\"cf-key\">在</span>吃饭呢。\n<span class=\"cf-muted\">Wǒ zài chīfàn ne.</span>\n<span class=\"cf-muted\">(ฉันกำลังกินข้าวอยู่)</span>",
+      "changed": false
+    },
+    {
+      "index": 139,
+      "type": "basic",
+      "front": "怎么",
+      "back": "**พินอิน:** <span class=\"cf-key\">zěnme</span>\n\n**ชนิดของคำ:** คำสรรพนาม\n**ความหมาย:** <span class=\"cf-success\">อย่างไร, ยังไง</span>\n\n**ตัวอย่างประโยค:**\n你<span class=\"cf-key\">怎么</span>去北京？\n<span class=\"cf-muted\">Nǐ zěnme qù Běijīng?</span>\n<span class=\"cf-muted\">(คุณไปปักกิ่งอย่างไร)</span>",
+      "changed": true
+    }
+  ]
+}

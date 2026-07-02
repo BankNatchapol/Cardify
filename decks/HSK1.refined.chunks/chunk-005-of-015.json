@@ -1,0 +1,88 @@
+{
+  "chunkNumber": 5,
+  "chunkCount": 15,
+  "cardIndexes": [
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49
+  ],
+  "cards": [
+    {
+      "index": 40,
+      "type": "basic",
+      "front": "回",
+      "back": "**พินอิน:** <span class=\"cf-key\">huí</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">กลับ</span>\n\n**ตัวอย่างประโยค:**\n我八点<span class=\"cf-key\">回</span>家。\n<span class=\"cf-muted\">Wǒ bā diǎn huí jiā.</span>\n<span class=\"cf-muted\">(ฉันกลับบ้านตอนแปดโมง)</span>",
+      "changed": true
+    },
+    {
+      "index": 41,
+      "type": "basic",
+      "front": "会",
+      "back": "**พินอิน:** <span class=\"cf-key\">huì</span>\n\n**ชนิดของคำ:** คำช่วยกริยา\n**ความหมาย:** <span class=\"cf-success\">เป็น, สามารถ</span> <span class=\"cf-muted\">(ทักษะที่ฝึกฝนมา)</span>\n\n**ตัวอย่างประโยค:**\n我<span class=\"cf-key\">会</span>开车。\n<span class=\"cf-muted\">Wǒ huì kāichē.</span>\n<span class=\"cf-muted\">(ฉันขับรถเป็น)</span>",
+      "changed": true
+    },
+    {
+      "index": 42,
+      "type": "basic",
+      "front": "几",
+      "back": "**พินอิน:** <span class=\"cf-key\">jǐ</span>\n\n**ชนิดของคำ:** คำสรรพนาม\n**ความหมาย:** <span class=\"cf-success\">กี่, เท่าไหร่</span> <span class=\"cf-muted\">(ใช้ถามจำนวนที่คาดว่าไม่มาก)</span>\n\n**ตัวอย่างประโยค:**\n你有<span class=\"cf-key\">几</span>个儿子？\n<span class=\"cf-muted\">Nǐ yǒu jǐ ge érzi?</span>\n<span class=\"cf-muted\">(คุณมีลูกชายกี่คน)</span>",
+      "changed": true
+    },
+    {
+      "index": 43,
+      "type": "basic",
+      "front": "家",
+      "back": "**พินอิน:** <span class=\"cf-key\">jiā</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">บ้าน, ครอบครัว</span>\n\n**ตัวอย่างประโยค:**\n我<span class=\"cf-key\">家</span>在北京。\n<span class=\"cf-muted\">Wǒ jiā zài Běijīng.</span>\n<span class=\"cf-muted\">(บ้านของฉันอยู่ที่ปักกิ่ง)</span>",
+      "changed": true
+    },
+    {
+      "index": 44,
+      "type": "basic",
+      "front": "叫",
+      "back": "**พินอิน:** <span class=\"cf-key\">jiào</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">ชื่อว่า</span>\n\n**ตัวอย่างประโยค:**\n我的名字<span class=\"cf-key\">叫</span>李明。\n<span class=\"cf-muted\">Wǒ de míngzi jiào Lǐ Míng.</span>\n<span class=\"cf-muted\">(ฉันชื่อว่าหลี่หมิง)</span>",
+      "changed": true
+    },
+    {
+      "index": 45,
+      "type": "basic",
+      "front": "今天",
+      "back": "**พินอิน:** <span class=\"cf-key\">jīntiān</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">วันนี้</span>\n\n**ตัวอย่างประโยค:**\n我<span class=\"cf-key\">今天</span>去北京。\n<span class=\"cf-muted\">Wǒ jīntiān qù Běijīng.</span>\n<span class=\"cf-muted\">(วันนี้ฉันไปปักกิ่ง)</span>",
+      "changed": true
+    },
+    {
+      "index": 46,
+      "type": "basic",
+      "front": "九",
+      "back": "**พินอิน:** <span class=\"cf-key\">jiǔ</span>\n\n**ชนิดของคำ:** ตัวเลข\n**ความหมาย:** <span class=\"cf-success\">เก้า</span>\n\n**ตัวอย่างประโยค:**\n今天是八月<span class=\"cf-key\">九</span>日。\n<span class=\"cf-muted\">Jīntiān shì bā yuè jiǔ rì.</span>\n<span class=\"cf-muted\">(วันนี้คือวันที่เก้าเดือนสิงหาคม)</span>",
+      "changed": true
+    },
+    {
+      "index": 47,
+      "type": "basic",
+      "front": "开",
+      "back": "**พินอิน:** <span class=\"cf-key\">kāi</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">ขับ (รถ)</span>\n\n**ตัวอย่างประโยค:**\n我<span class=\"cf-key\">开</span>了三年出租车了。\n<span class=\"cf-muted\">Wǒ kāi le sān nián chūzūchē le.</span>\n<span class=\"cf-muted\">(ฉันขับรถแท็กซี่มาสามปีแล้ว)</span>",
+      "changed": true
+    },
+    {
+      "index": 48,
+      "type": "basic",
+      "front": "看",
+      "back": "**พินอิน:** <span class=\"cf-key\">kàn</span>\n\n**ความหมายที่ 1 — คำกริยา:** <span class=\"cf-success\">ดู, มอง</span>\n你<span class=\"cf-key\">看</span>，那本书在桌子上呢。\n<span class=\"cf-muted\">Nǐ kàn, nà běn shū zài zhuōzi shàng ne.</span>\n<span class=\"cf-muted\">(คุณดูสิ หนังสือเล่มนั้นอยู่บนโต๊ะ)</span>\n\n**ความหมายที่ 2 — คำกริยา:** <span class=\"cf-success\">อ่าน</span>\n我在<span class=\"cf-key\">看</span>书呢。\n<span class=\"cf-muted\">Wǒ zài kàn shū ne.</span>\n<span class=\"cf-muted\">(ฉันกำลังอ่านหนังสืออยู่)</span>",
+      "changed": true
+    },
+    {
+      "index": 49,
+      "type": "basic",
+      "front": "看见",
+      "back": "**พินอิน:** <span class=\"cf-key\">kànjiàn</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">เห็น</span>\n\n**ตัวอย่างประโยค:**\n我没<span class=\"cf-key\">看见</span>他。\n<span class=\"cf-muted\">Wǒ méi kànjiàn tā.</span>\n<span class=\"cf-muted\">(ฉันไม่เห็นเขา)</span>",
+      "changed": true
+    }
+  ]
+}

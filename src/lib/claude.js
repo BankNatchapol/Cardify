@@ -28,6 +28,7 @@ const {
   cardsCandidateFromPayload,
   descriptionFromPayload
 } = require('./generationParsing')
+const { generationGoalStats } = require('./generationGoal.cjs')
 
 // ─── Error types ─────────────────────────────────────────────────────────────
 class ApiKeyError extends Error {
@@ -83,6 +84,15 @@ const SEMANTIC_HIGHLIGHT_GUIDANCE = [
   '- Use <span class="cf-muted">...</span> for pronunciation notes, literal translations, memory hints, or lower-priority context.',
   '- Use <mark>...</mark> for one short phrase that should visually pop.',
   'Prefer a small number of meaningful highlights over decorating the whole card.'
+].join('\n')
+
+const SEMANTIC_AUDIO_GUIDANCE = [
+  'Add semantic audio placeholders for Chinese speech where useful:',
+  '- Keep Basic card "front" fields clean for recall; do not put audio tags on the front.',
+  '- For Basic cards with spoken front text, put {{audio:front}} in the "back" field near the pinyin/pronunciation line for that front text.',
+  '- For Chinese example sentences in the "back" field, append {{audio:example_1}}, {{audio:example_2}}, etc. directly after each matching Chinese example sentence in card order.',
+  '- Do not use [sound:...] filenames and do not invent MP3 paths; Cardify resolves semantic audio tags later.',
+  '- Do not add audio placeholders to pinyin-only, translation-only, explanation-only, or cloze cards unless explicitly requested.'
 ].join('\n')
 
 function defaultDescription () {
@@ -254,6 +264,7 @@ function buildPrompt (cardFormat, contextPrompt, textChunk, chunkMeta = null, op
     `For Cloze cards, preserve valid Anki cloze syntax like {{c1::term}} and use markdown sparingly around it.\n` +
     `For color emphasis, use only <mark>, <span class="cf-key">, <span class="cf-warning">, <span class="cf-success">, or <span class="cf-muted">. Do not use inline styles, arbitrary classes, scripts, or decorative HTML.\n` +
     `${SEMANTIC_HIGHLIGHT_GUIDANCE}\n` +
+    `${SEMANTIC_AUDIO_GUIDANCE}\n` +
     `Return ONLY a JSON object, no explanation, with this top-level shape: {"description":{"title":"","purpose":"","contents":[]},"cards":[]}.\n` +
     `- ${formatInstruction}`
 
@@ -273,7 +284,8 @@ function buildClarificationPrompt (contextPrompt, text, clarificationHistory = [
     'You are Cardify\'s clarification assistant for flashcard generation.',
     'Decide whether the user intent is clear enough to generate high-quality flashcards.',
     `Ask 1-2 targeted questions only if they materially affect card quality. Hard cap: ${maxQuestions} total clarification questions across the whole flow.`,
-    'Clarify rubric: prefer output language for cards/explanations when unclear, audience/level, exam or use case, desired granularity, terminology, card style, and what to omit.',
+    'Clarify rubric: prefer output language for cards/explanations when unclear, audience/level, exam or use case, desired granularity, terminology, card style, audio placement for spoken study content, and what to omit.',
+    'If spoken audio placement is ambiguous for a language-learning deck, ask whether audio should appear on fronts, example sentences, both, or neither. Cardify uses semantic tags like {{audio:front}} and {{audio:example_1}}.',
     'If the desired card/explanation language is not clearly stated, ask what language or mix of languages to use.',
     'Avoid asking about details already obvious from the source text or user context.',
     'If the intent is clear, stop asking and produce a concise clarifiedContext.',
@@ -326,6 +338,7 @@ function buildSamplePrompt (cardFormat, contextPrompt, text, options = {}) {
     'Write card fields in concise markdown where it improves readability.',
     'Use semantic highlights when useful: <mark>, <span class="cf-key">, <span class="cf-warning">, <span class="cf-success">, <span class="cf-muted">.',
     SEMANTIC_HIGHLIGHT_GUIDANCE,
+    SEMANTIC_AUDIO_GUIDANCE,
     'Return ONLY a JSON object with this top-level shape: {"description":{"title":"","purpose":"","contents":[]},"cards":[]}.',
     formatInstruction
   ].join('\n')
@@ -347,6 +360,11 @@ function buildIterativeBatchPrompt (cardFormat, contextPrompt, text, progress = 
   const batchSize = Number(progress.batchSize) || 10
   const nextBatch = (Number(progress.completedBatches) || 0) + 1
   const maxBatches = Number(progress.maxBatches) || 20
+  const goalStats = generationGoalStats(progress, Number(progress.currentCardCount) || (Array.isArray(progress.duplicateKeys) ? progress.duplicateKeys.length : 0))
+  const isRepair = progress.status === 'repairing_shortfall'
+  const requestedCount = isRepair && goalStats.remainingToTarget
+    ? goalStats.remainingToTarget
+    : batchSize
   const formatInstruction =
     cardFormat === 'basic'
       ? 'Each card must have "front" and "back" strings. Keep fronts short; make backs useful with markdown where it improves review.'
@@ -354,13 +372,21 @@ function buildIterativeBatchPrompt (cardFormat, contextPrompt, text, progress = 
 
   const system = [
     'You are continuing an iterative Cardify deck generation.',
-    `Generate exactly ${batchSize} new ${cardFormat} flashcards for batch ${nextBatch} of ${maxBatches}, unless the source is fully covered; if fully covered, return fewer cards only when necessary and set coverage.done to true.`,
+    isRepair
+      ? `Repair a generation shortfall. Generate exactly ${requestedCount} missing ${cardFormat} flashcards for batch ${nextBatch} of ${maxBatches}.`
+      : `Generate exactly ${batchSize} new ${cardFormat} flashcards for batch ${nextBatch} of ${maxBatches}, unless the source is fully covered and the target card count is already met.`,
+    goalStats.targetCardCount
+      ? `Generation goal: target ${goalStats.targetCardCount} unique cards, current ${goalStats.currentCardCount}, remaining ${goalStats.remainingToTarget}.`
+      : 'Generation goal: target card count is unknown; use coverage.done only when the source is fully covered.',
+    'Do not set coverage.done to true unless the target card count is met or there is truly no remaining source material.',
     'Choose the next most valuable content from the source based on the user goal and prior coverage; do not blindly slice the source by position.',
     'Do not repeat existing cards or accepted samples. Use the duplicate keys as content already covered.',
     'Do not return deck title or deck description. Return only cards and batch coverage metadata.',
+    'Coverage text must be user-facing. Do not mention internal duplicate keys, duplicate-safety, no-op, parser, schema, or implementation details.',
     'Write card fields in concise markdown where it improves readability.',
     'Use semantic highlights when useful: <mark>, <span class="cf-key">, <span class="cf-warning">, <span class="cf-success">, <span class="cf-muted">.',
     SEMANTIC_HIGHLIGHT_GUIDANCE,
+    SEMANTIC_AUDIO_GUIDANCE,
     'Return ONLY a JSON object with this top-level shape: {"cards":[],"coverage":{"batchSummary":"","coveredTopics":[],"remainingFocus":"","done":false}}.',
     formatInstruction
   ].join('\n')
@@ -371,6 +397,14 @@ function buildIterativeBatchPrompt (cardFormat, contextPrompt, text, progress = 
       sampleFeedback: progress.sampleFeedback,
       sampleCards: progress.acceptedSampleCards
     })}`,
+    '',
+    'Generation goal state:',
+    JSON.stringify({
+      targetCardCount: goalStats.targetCardCount,
+      currentCardCount: goalStats.currentCardCount,
+      remainingToTarget: goalStats.remainingToTarget,
+      repairShortfall: isRepair
+    }, null, 2),
     '',
     'Prior coverage history:',
     JSON.stringify(progress.coverageHistory || [], null, 2),
@@ -742,6 +776,7 @@ async function generateCardsFromFile (filePath, contextPrompt, cardFormat, apiKe
       `For Cloze cards, preserve valid Anki cloze syntax like {{c1::term}} and use markdown sparingly around it.\n` +
       `For color emphasis, use only <mark>, <span class="cf-key">, <span class="cf-warning">, <span class="cf-success">, or <span class="cf-muted">. Do not use inline styles, arbitrary classes, scripts, or decorative HTML.\n` +
       `${SEMANTIC_HIGHLIGHT_GUIDANCE}\n` +
+      `${SEMANTIC_AUDIO_GUIDANCE}\n` +
       `Return ONLY a JSON array, no explanation:\n` +
       `- ${formatInstruction}`
 

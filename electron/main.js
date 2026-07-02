@@ -1,11 +1,23 @@
 const { app, BrowserWindow, ipcMain, safeStorage, dialog } = require('electron')
 const path = require('path')
 const fs = require('fs')
+const { pathToFileURL } = require('url')
 const { parseFile } = require('../src/lib/parser')
 const { generateCards, generateCardsFromFile, prepareGeneration, generateSampleCards, generateDeckOverview, generateIterativeBatch, ApiKeyError } = require('../src/lib/claude')
 const { generateCardsClaudeCode, prepareGenerationClaudeCode, generateSampleCardsClaudeCode, generateDeckOverviewClaudeCode, generateIterativeBatchClaudeCode, getClaudeCodeStatus } = require('../src/lib/claudeCode')
 const { testConnection, createDeck, addNotes } = require('../src/lib/ankiconnect')
 const { createDebugId, createGenerationLogger } = require('../src/lib/generationDebug')
+const { importCardifyJson } = require('../src/lib/cardifyImport.cjs')
+const { buildAudioResolver } = require('../src/lib/audioTags.cjs')
+const { zipSync, strToU8 } = require('fflate')
+const {
+  detectGenerationGoal,
+  extractGenerationGoalFromClarifications,
+  generationGoalQuestion,
+  generationGoalStats,
+  normalizeGenerationGoal,
+  shouldAskGenerationGoalQuestion
+} = require('../src/lib/generationGoal.cjs')
 
 const DEFAULT_CLAUDE_API_MODEL = 'claude-sonnet-4-6'
 const ANTHROPIC_API_VERSION = '2023-06-01'
@@ -61,7 +73,9 @@ function normalizeGenerationProgress (progress = {}) {
     clarifiedContext: String(progress.clarifiedContext || ''),
     sampleFeedback: String(progress.sampleFeedback || ''),
     acceptedSampleCards,
-    duplicateKeys
+    duplicateKeys,
+    currentCardCount: Number(progress.currentCardCount) || acceptedSampleCards.length,
+    generationGoal: normalizeGenerationGoal(progress.generationGoal)
   }
 }
 
@@ -75,6 +89,28 @@ function dedupeBatchCards (cards = [], duplicateKeys = []) {
     fresh.push(card)
   }
   return { cards: fresh, duplicateKeys: [...seen] }
+}
+
+function sanitizeCoverageText (value) {
+  let text = String(value || '').trim()
+  text = text
+    .replace(/\bduplicate[-\s]*safety\s+no[-\s]*op\b/ig, '')
+    .replace(/\bduplicate[-\s]*safety\b/ig, '')
+    .replace(/\bno[-\s]*op\b/ig, '')
+    .replace(/\s{2,}/g, ' ')
+    .replace(/\s+([.,;:])/g, '$1')
+    .trim()
+
+  if (/^batch\s+\d+\s*:?\s*$/i.test(text)) return ''
+  return text
+}
+
+function sanitizeCoverage (coverage = {}) {
+  return {
+    ...coverage,
+    batchSummary: sanitizeCoverageText(coverage.batchSummary),
+    remainingFocus: sanitizeCoverageText(coverage.remainingFocus)
+  }
 }
 
 function createWindow () {
@@ -389,6 +425,16 @@ ipcMain.handle('parse-file', async (_event, filePath) => {
   return parseFile(filePath)
 })
 
+ipcMain.handle('import-cardify-json', async (_event, filePath) => {
+  const input = JSON.parse(fs.readFileSync(filePath, 'utf8'))
+  const imported = importCardifyJson(input)
+  return {
+    ...imported,
+    filePath,
+    fileName: path.basename(filePath)
+  }
+})
+
 async function runWithClaudeFallback (claudeCodeFn, apiFn, context = {}) {
   let claudeCodeUnavailable = false
   let claudeCodeParseError = null
@@ -494,16 +540,34 @@ ipcMain.handle('prepare-generation', async (_event, { filePath, parsedText, cont
     clarificationCount: Array.isArray(clarificationHistory) ? clarificationHistory.length : 0
   }
   try {
+    const detectionText = sourceText || await parseFile(filePath)
+    const detectedGoal = detectGenerationGoal({ contextPrompt, parsedText: detectionText })
+    const clarifiedGoal = extractGenerationGoalFromClarifications(clarificationHistory || [])
     const claudeCodeOptions = { signal: generation.signal, claudeCodeModel: generationSettings.claudeCodeModel }
     const result = await runWithClaudeFallback(
       () => prepareGenerationClaudeCode(filePath, contextPrompt, cardFormat, sourceText, clarificationHistory || [], claudeCodeOptions),
-      async (apiKey) => prepareGeneration(sourceText || await parseFile(filePath), contextPrompt, cardFormat, apiKey, clarificationHistory || [], { signal: generation.signal, apiModel: generationSettings.apiModel }),
+      async (apiKey) => prepareGeneration(detectionText, contextPrompt, cardFormat, apiKey, clarificationHistory || [], { signal: generation.signal, apiModel: generationSettings.apiModel }),
       context
     )
     if (result?.error === 'generation-parse-error') {
-      return fallbackClarificationResponse(contextPrompt, clarificationHistory || [])
+      const fallback = fallbackClarificationResponse(contextPrompt, clarificationHistory || [])
+      if (shouldAskGenerationGoalQuestion(fallback.questions, clarificationHistory || [], clarifiedGoal.targetCardCount ? clarifiedGoal : detectedGoal)) {
+        fallback.questions.push(generationGoalQuestion())
+      }
+      return { ...fallback, generationGoal: clarifiedGoal.targetCardCount ? clarifiedGoal : detectedGoal }
     }
-    return result
+    const generationGoal = clarifiedGoal.targetCardCount ? clarifiedGoal : detectedGoal
+    const questions = Array.isArray(result?.questions) ? [...result.questions] : []
+    const originalQuestionCount = questions.length
+    if (shouldAskGenerationGoalQuestion(questions, clarificationHistory || [], generationGoal)) {
+      questions.push(generationGoalQuestion())
+    }
+    return {
+      ...result,
+      status: questions.length > originalQuestionCount ? 'questions' : result.status,
+      questions,
+      generationGoal
+    }
   } finally {
     generation.done()
   }
@@ -730,19 +794,41 @@ ipcMain.handle('start-iterative-generation', async (event, { projectId, filePath
       return { status, error: result.message || result.error, generationProgress: progress }
     }
 
+    const wasRepairBatch = progress.status === 'repairing_shortfall'
     const deduped = dedupeBatchCards(result.cards, progress.duplicateKeys)
-    const coverage = result.coverage || { batchSummary: '', coveredTopics: [], remainingFocus: '', done: false }
-    const nextStatus = coverage.done
-      ? 'done'
-      : batchNumber >= progress.maxBatches
-        ? 'capped'
-        : 'in_progress'
+    const coverage = sanitizeCoverage(result.coverage || { batchSummary: '', coveredTopics: [], remainingFocus: '', done: false })
+    const currentCardCount = (Number(progress.currentCardCount) || 0) + deduped.cards.length
+    const stats = generationGoalStats(progress, currentCardCount)
+    const shortfall = stats.remainingToTarget || 0
+    let nextGoal = progress.generationGoal
+    let nextStatus = 'in_progress'
+    if (stats.targetMet) {
+      nextStatus = 'done'
+    } else if (wasRepairBatch) {
+      nextStatus = 'shortfall'
+    } else if (coverage.done && stats.targetCardCount && shortfall > 0 && !progress.generationGoal.shortfallRepairAttempted && batchNumber < progress.maxBatches) {
+      nextStatus = 'repairing_shortfall'
+      nextGoal = {
+        ...progress.generationGoal,
+        shortfallRepairAttempted: true
+      }
+      coverage.done = false
+      coverage.remainingFocus = coverage.remainingFocus || `Repair shortfall: generate ${shortfall} more cards to reach the target of ${stats.targetCardCount}.`
+    } else if (coverage.done && !stats.targetCardCount) {
+      nextStatus = 'done'
+    } else if (coverage.done && progress.generationGoal.shortfallRepairAttempted) {
+      nextStatus = 'shortfall'
+    } else if (batchNumber >= progress.maxBatches) {
+      nextStatus = 'capped'
+    }
     progress = {
       ...progress,
       status: nextStatus,
       completedBatches: batchNumber,
       coverageHistory: [...progress.coverageHistory, coverage],
-      duplicateKeys: deduped.duplicateKeys
+      duplicateKeys: deduped.duplicateKeys,
+      currentCardCount,
+      generationGoal: nextGoal
     }
 
     event.sender.send('generation-batch', {
@@ -770,7 +856,7 @@ ipcMain.handle('start-iterative-generation', async (event, { projectId, filePath
       return { status: 'stopped', generationProgress: progress }
     }
 
-    if (progress.status === 'done' || progress.status === 'capped') {
+    if (['done', 'capped', 'shortfall'].includes(progress.status)) {
       iterativeStops.delete(id)
       return { status: progress.status, generationProgress: progress }
     }
@@ -855,7 +941,7 @@ ipcMain.handle('delete-project', async (_event, id) => {
 // Output: { success: true, added: number, errors: string[] }
 //       | { error: 'anki-not-running' }
 // ─────────────────────────────────────────────────────────────────────────────
-ipcMain.handle('push-to-anki', async (_event, { deckName, cards }) => {
+ipcMain.handle('push-to-anki', async (_event, { deckName, cards, audioManifest }) => {
   // 1. Test connectivity
   const { connected } = await testConnection()
   if (!connected) {
@@ -867,7 +953,7 @@ ipcMain.handle('push-to-anki', async (_event, { deckName, cards }) => {
     await createDeck(deckName)
 
     // 3. Add notes — duplicates are counted, not errored
-    const { added, errors } = await addNotes(deckName, cards)
+    const { added, errors } = await addNotes(deckName, cards, { audioManifest })
 
     return { success: true, added, errors }
   } catch (err) {
@@ -880,34 +966,145 @@ ipcMain.handle('push-to-anki', async (_event, { deckName, cards }) => {
 
 // ─────────────────────────────────────────────────────────────────────────────
 // IPC: export-mobile-package
-// Input:  { deckName, description, cards }
+// Input:  { deckName, description, cards, audioManifest }
 // Output: { ok: true, filePath } | { canceled: true }
 // ─────────────────────────────────────────────────────────────────────────────
-ipcMain.handle('export-mobile-package', async (_event, { deckName, description, cards }) => {
-  const defaultName = (deckName || 'cardify-deck').replace(/[/\\:*?"<>|]/g, '-') + '.cardify.json'
+ipcMain.handle('export-mobile-package', async (_event, { deckName, description, cards, audioManifest }) => {
+  const hasAudioTags = Array.isArray(cards) && cards.some(card => /\{\{audio:[A-Za-z0-9_-]+\}\}/.test(
+    card?.type === 'cloze' ? String(card.text || '') : `${card?.front || ''}\n${card?.back || ''}`
+  ))
+  const canBundleAudio = hasAudioTags && audioManifest && Array.isArray(audioManifest.targets)
+
+  const defaultExt = canBundleAudio ? 'cardify.zip' : 'cardify.json'
+  const defaultName = (deckName || 'cardify-deck').replace(/[/\\:*?"<>|]/g, '-') + `.${defaultExt}`
   const { canceled, filePath: savePath } = await dialog.showSaveDialog({
     title: 'Export for Mobile',
     defaultPath: defaultName,
-    filters: [{ name: 'Cardify Package', extensions: ['cardify.json'] }]
+    filters: canBundleAudio
+      ? [{ name: 'Cardify Package (with audio)', extensions: ['cardify.zip'] }]
+      : [{ name: 'Cardify Package', extensions: ['cardify.json'] }]
   })
   if (canceled || !savePath) return { canceled: true }
 
   const packageId = `pkg-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
   const deckId = `deck-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
 
-  const notes = cards.map((card, i) => ({
-    id: `note-${deckId}-${i}`,
-    noteType: card.type === 'cloze' ? 'cloze' : 'basic',
-    fields: card.type === 'cloze'
-      ? { Front: card.text || '', Back: '' }
-      : { Front: card.front || '', Back: card.back || '' },
-    tags: [],
-    source: {}
-  }))
+  const resolveAudioTag = canBundleAudio ? buildAudioResolver(audioManifest) : null
+  const audioMapping = []
+  const audioFileBuffers = new Map()
 
-  const deckPackage = { packageId, deck: { id: deckId, name: deckName || 'Untitled', description }, notes }
-  fs.writeFileSync(savePath, JSON.stringify(deckPackage, null, 2), 'utf-8')
+  const notes = cards.map((card, i) => {
+    const noteId = `note-${deckId}-${i}`
+    const fields = card.type === 'cloze'
+      ? { Front: card.text || '', Back: '' }
+      : { Front: card.front || '', Back: card.back || '' }
+
+    if (resolveAudioTag) {
+      for (const text of Object.values(fields)) {
+        for (const match of String(text).matchAll(/\{\{audio:([A-Za-z0-9_-]+)\}\}/g)) {
+          const slot = match[1]
+          const target = resolveAudioTag(i, slot)
+          if (!target || !target.filePath || !fs.existsSync(target.filePath)) continue
+          const zipName = `audio/${noteId}_${slot}.mp3`
+          if (!audioFileBuffers.has(zipName)) {
+            audioFileBuffers.set(zipName, fs.readFileSync(target.filePath))
+          }
+          audioMapping.push({ noteId, slot, file: zipName })
+        }
+      }
+    }
+
+    return { id: noteId, noteType: card.type === 'cloze' ? 'cloze' : 'basic', fields, tags: [], source: {} }
+  })
+
+  const deckPackage = {
+    packageId,
+    deck: { id: deckId, name: deckName || 'Untitled', description },
+    notes,
+    ...(audioMapping.length > 0 ? { audio: audioMapping } : {})
+  }
+
+  if (audioFileBuffers.size === 0) {
+    fs.writeFileSync(savePath, JSON.stringify(deckPackage, null, 2), 'utf-8')
+    return { ok: true, filePath: savePath }
+  }
+
+  const zipInput = { 'deck.json': strToU8(JSON.stringify(deckPackage, null, 2)) }
+  for (const [zipName, buffer] of audioFileBuffers) {
+    zipInput[zipName] = new Uint8Array(buffer.buffer, buffer.byteOffset, buffer.byteLength)
+  }
+  const zipped = zipSync(zipInput, { level: 6 })
+  fs.writeFileSync(savePath, Buffer.from(zipped))
   return { ok: true, filePath: savePath }
+})
+
+ipcMain.handle('load-audio-manifest', async (_event, payload = {}) => {
+  let manifestPath = payload.path
+  if (!manifestPath) {
+    const { canceled, filePaths } = await dialog.showOpenDialog({
+      title: 'Load Audio Manifest',
+      filters: [{ name: 'Audio Manifest', extensions: ['json'] }],
+      properties: ['openFile']
+    })
+    if (canceled || !filePaths?.[0]) return { canceled: true }
+    manifestPath = filePaths[0]
+  }
+
+  if (!fs.existsSync(manifestPath)) {
+    return { missing: true, manifestPath }
+  }
+
+  const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
+  const basePath = path.dirname(manifestPath)
+  const targets = Array.isArray(manifest.targets)
+    ? manifest.targets.map(target => {
+      const file = target.file || target.relativeFile || ''
+      const filePath = file ? path.resolve(basePath, file) : ''
+      return {
+        ...target,
+        file,
+        filePath,
+        fileUrl: filePath ? pathToFileURL(filePath).href : ''
+      }
+    })
+    : []
+
+  return {
+    ...manifest,
+    manifestPath,
+    basePath,
+    targets
+  }
+})
+
+ipcMain.handle('read-audio-file', async (_event, payload = {}) => {
+  const filePath = payload.path
+  if (!filePath || typeof filePath !== 'string') {
+    throw new Error('Audio file path is required')
+  }
+  if (!fs.existsSync(filePath)) {
+    throw new Error(`Audio file does not exist: ${filePath}`)
+  }
+
+  const ext = path.extname(filePath).toLowerCase()
+  const mimeTypes = {
+    '.mp3': 'audio/mpeg',
+    '.wav': 'audio/wav',
+    '.m4a': 'audio/mp4',
+    '.aac': 'audio/aac',
+    '.ogg': 'audio/ogg'
+  }
+  const mime = mimeTypes[ext]
+  if (!mime) {
+    throw new Error(`Unsupported audio file type: ${ext || 'unknown'}`)
+  }
+
+  const buffer = fs.readFileSync(filePath)
+  return {
+    mime,
+    byteLength: buffer.length,
+    dataUrl: `data:${mime};base64,${buffer.toString('base64')}`
+  }
 })
 
 // ─────────────────────────────────────────────────────────────────────────────

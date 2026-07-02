@@ -1,9 +1,48 @@
 import { useFocusEffect, useLocalSearchParams } from 'expo-router'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Alert, Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
+import Markdown from 'react-native-markdown-display'
 import Screen from '../../src/components/Screen'
-import { deleteCard, listCards, setCardSuspended, updateCardText, type MobileCard } from '../../src/db/repositories'
+import { deleteCard, getCardAudio, listCards, setCardSuspended, updateCardText, type MobileCard } from '../../src/db/repositories'
+import { cfMarkdownIt, createCfMarkdownRules } from '../../src/lib/cardHighlights'
 import { colors, fonts, radius, spacing } from '../../src/styles/theme'
+
+const mdStyles = {
+  body: {
+    fontFamily: fonts.sans,
+    fontSize: 15,
+    color: colors.text,
+    lineHeight: 22,
+    textAlign: 'left' as const,
+  },
+  strong: { fontWeight: '800' as const, color: colors.text },
+  em: { fontStyle: 'italic' as const, color: colors.textBody },
+  code_inline: {
+    fontFamily: fonts.mono,
+    fontSize: 14,
+    backgroundColor: colors.surface,
+    borderRadius: 4,
+    color: colors.accent,
+    paddingHorizontal: 4,
+  },
+  fence: {
+    fontFamily: fonts.mono,
+    fontSize: 13,
+    backgroundColor: colors.surface,
+    borderRadius: 6,
+    padding: 8,
+    color: colors.text,
+  },
+  bullet_list: { marginTop: 2 },
+  ordered_list: { marginTop: 2 },
+  list_item: { flexDirection: 'row' as const, marginBottom: 2 },
+  paragraph: { marginBottom: 4 },
+  cf_key: { color: colors.primaryPress, fontWeight: '700' as const },
+  cf_warning: { color: colors.stateLearningFg, fontWeight: '700' as const },
+  cf_success: { color: colors.primary, fontWeight: '700' as const },
+  cf_muted: { color: colors.muted },
+  cf_mark: { color: colors.stateLearningFg, backgroundColor: colors.stateLearningBg },
+}
 
 // State badge — uses design-system tone tokens
 function StateBadge ({ state, suspended }: { state: string; suspended?: boolean }) {
@@ -92,6 +131,35 @@ function EditableCard ({ card, onSave, onSuspend, onDelete }: {
 }) {
   const [front, setFront] = useState(card.front)
   const [back, setBack] = useState(card.back)
+  const [editingBack, setEditingBack] = useState(false)
+  const backSnapshotRef = useRef(card.back)
+
+  const [cardAudioMap, setCardAudioMap] = useState<Record<string, string>>({})
+
+  useEffect(() => {
+    getCardAudio(card.noteId).then(setCardAudioMap)
+  }, [card.noteId])
+
+  const cfMarkdownRules = useMemo(
+    () => createCfMarkdownRules(mdStyles, (slot) => cardAudioMap[slot] ?? null),
+    [cardAudioMap]
+  )
+
+  const startEditingBack = () => {
+    backSnapshotRef.current = back
+    setEditingBack(true)
+  }
+
+  const cancelEditingBack = () => {
+    setBack(backSnapshotRef.current)
+    setEditingBack(false)
+  }
+
+  const handleSave = async () => {
+    await onSave(card, front, back)
+    backSnapshotRef.current = back
+    setEditingBack(false)
+  }
 
   return (
     <View style={[styles.card, card.suspended && styles.cardSuspended]}>
@@ -101,7 +169,7 @@ function EditableCard ({ card, onSave, onSuspend, onDelete }: {
         {!!card.suspended && <StateBadge state="suspended" />}
       </View>
 
-      {/* Front / back inputs */}
+      {/* Front — always a live editable input */}
       <TextInput
         style={styles.cardInput}
         value={front}
@@ -110,23 +178,43 @@ function EditableCard ({ card, onSave, onSuspend, onDelete }: {
         placeholder="Front"
         placeholderTextColor={colors.mutedLight}
       />
-      <TextInput
-        style={styles.cardInput}
-        value={back}
-        onChangeText={setBack}
-        multiline
-        placeholder="Back"
-        placeholderTextColor={colors.mutedLight}
-      />
+
+      {/* Back — rendered preview by default; tap to edit raw text */}
+      {editingBack ? (
+        <TextInput
+          style={styles.cardInput}
+          value={back}
+          onChangeText={setBack}
+          multiline
+          placeholder="Back"
+          placeholderTextColor={colors.mutedLight}
+          autoFocus
+        />
+      ) : (
+        <Pressable style={styles.cardPreview} onPress={startEditingBack}>
+          {back.length > 0
+            ? <Markdown style={mdStyles} markdownit={cfMarkdownIt} rules={cfMarkdownRules}>{back}</Markdown>
+            : <Text style={styles.cardPreviewPlaceholder}>Back</Text>}
+        </Pressable>
+      )}
 
       {/* Actions */}
       <View style={styles.cardActions}>
-        <Pressable style={({ pressed }) => [styles.actionBtn, pressed && { opacity: 0.75 }]} onPress={() => onSave(card, front, back)}>
+        <Pressable style={({ pressed }) => [styles.actionBtn, pressed && { opacity: 0.75 }]} onPress={handleSave}>
           <Text style={styles.actionBtnText}>Save</Text>
         </Pressable>
         <Pressable style={({ pressed }) => [styles.actionBtn, pressed && { opacity: 0.75 }]} onPress={onSuspend}>
           <Text style={styles.actionBtnText}>{card.suspended ? 'Unsuspend' : 'Suspend'}</Text>
         </Pressable>
+        {editingBack ? (
+          <Pressable style={({ pressed }) => [styles.actionBtn, pressed && { opacity: 0.75 }]} onPress={cancelEditingBack}>
+            <Text style={styles.actionBtnText}>Cancel</Text>
+          </Pressable>
+        ) : (
+          <Pressable style={({ pressed }) => [styles.actionBtn, pressed && { opacity: 0.75 }]} onPress={startEditingBack}>
+            <Text style={styles.actionBtnText}>Edit</Text>
+          </Pressable>
+        )}
         <Pressable style={({ pressed }) => [styles.actionBtn, styles.deleteBtn, pressed && { opacity: 0.75 }]} onPress={onDelete}>
           <Text style={styles.deleteBtnText}>Delete</Text>
         </Pressable>
@@ -184,6 +272,21 @@ const styles = StyleSheet.create({
     color: colors.text,
     fontSize: 15,
     lineHeight: 22,
+  },
+  cardPreview: {
+    minHeight: 52,
+    padding: spacing.sm,
+    borderRadius: radius.sm,
+    borderWidth: 1,
+    borderColor: colors.border,
+    backgroundColor: colors.surfaceSecondary,
+    justifyContent: 'center',
+  },
+  cardPreviewPlaceholder: {
+    fontFamily: fonts.sans,
+    fontSize: 15,
+    lineHeight: 22,
+    color: colors.mutedLight,
   },
   cardActions: { flexDirection: 'row', flexWrap: 'wrap', gap: 6, paddingTop: spacing.xs },
   actionBtn: {

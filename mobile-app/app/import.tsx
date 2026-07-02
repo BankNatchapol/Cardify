@@ -34,7 +34,7 @@ export default function ImportScreen () {
 
         <Text style={styles.title}>Import a deck</Text>
         <Text style={styles.body}>
-          Choose a .cardify.json exported from Cardify Desktop to start studying on your phone.
+          Choose a .cardify.json or .cardify.zip exported from Cardify Desktop to start studying on your phone.
         </Text>
 
         <Pressable

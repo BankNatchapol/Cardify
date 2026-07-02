@@ -3,6 +3,21 @@ import CardEditor from '../components/CardEditor'
 import UndoSnackbar from '../components/UndoSnackbar'
 import ProgressBar from '../components/ProgressBar'
 import StatusTile from '../components/StatusTile'
+import { defaultAudioManifestCandidates } from '../lib/audioManifestPaths'
+
+function cardsContainAudioTags (cards = []) {
+  return cards.some(card => /\{\{audio:[A-Za-z0-9_-]+\}\}/.test(
+    card?.type === 'cloze'
+      ? String(card.text || '')
+      : `${card?.front || ''}\n${card?.back || ''}`
+  ))
+}
+
+function countLoadedAudioTargets (manifest) {
+  return Array.isArray(manifest?.targets)
+    ? manifest.targets.filter(target => target.status === 'success').length
+    : 0
+}
 
 /**
  * Review screen — shows generated flashcards with inline editing,
@@ -19,6 +34,7 @@ export default function Review ({
   cards: initialCards,
   description: initialDescription,
   fileName,
+  sourceFilePath,
   onBack,
   onPush,
   onProjectChange,
@@ -41,6 +57,8 @@ export default function Review ({
   const [exporting, setExporting] = useState(false)
   const [exportResult, setExportResult] = useState(null) // null | { ok, filePath } | { error }
   const [cardsOpen, setCardsOpen] = useState((initialCards || []).length <= 20)
+  const [audioManifest, setAudioManifest] = useState(null)
+  const [audioManifestResult, setAudioManifestResult] = useState(null)
 
   useEffect(() => {
     const nextCards = initialCards || []
@@ -51,6 +69,36 @@ export default function Review ({
   useEffect(() => {
     setDescription(normalizeDescription(initialDescription, fileName))
   }, [initialDescription, fileName])
+
+  useEffect(() => {
+    let cancelled = false
+    setAudioManifest(null)
+    setAudioManifestResult(null)
+
+    if (!sourceFilePath || !cardsContainAudioTags(initialCards || [])) return () => { cancelled = true }
+
+    const candidates = defaultAudioManifestCandidates(sourceFilePath)
+    if (candidates.length === 0) return () => { cancelled = true }
+
+    ;(async () => {
+      for (const manifestPath of candidates) {
+        try {
+          const result = await window.ipc.invoke('load-audio-manifest', { path: manifestPath })
+          if (cancelled || result?.canceled) return
+          const count = countLoadedAudioTargets(result)
+          if (count > 0) {
+            setAudioManifest(result)
+            setAudioManifestResult({ success: true, count, path: result.manifestPath, automatic: true })
+            return
+          }
+        } catch {
+          // Missing neighboring manifests are normal; the manual loader remains available.
+        }
+      }
+    })()
+
+    return () => { cancelled = true }
+  }, [sourceFilePath])
 
   const saveDescription = useCallback((nextDescription) => {
     const normalized = normalizeDescription(nextDescription, fileName)
@@ -104,11 +152,12 @@ export default function Review ({
     try {
       let result
       if (onPush) {
-        result = await onPush(title, cards)
+        result = await onPush(title, cards, { audioManifest })
       } else {
         result = await window.ipc.invoke('push-to-anki', {
           deckName: title,
-          cards
+          cards,
+          audioManifest
         })
       }
 
@@ -125,6 +174,19 @@ export default function Review ({
       setPushing(false)
     }
   }
+
+  const handleLoadAudioManifest = useCallback(async () => {
+    setAudioManifestResult(null)
+    try {
+      const result = await window.ipc.invoke('load-audio-manifest')
+      if (result?.canceled) return
+      setAudioManifest(result)
+      const count = countLoadedAudioTargets(result)
+      setAudioManifestResult({ success: true, count, path: result.manifestPath })
+    } catch (err) {
+      setAudioManifestResult({ error: err.message })
+    }
+  }, [])
 
   // ── Render helpers ────────────────────────────────────────────────────────
   const renderPushBanner = () => {
@@ -161,11 +223,12 @@ export default function Review ({
   const renderGenerationPanel = () => {
     if (!generationProgress || generationProgress.status === 'done') return null
 
-    const canContinue = ['failed', 'stopped', 'capped'].includes(generationProgress.status)
+    const canContinue = ['failed', 'stopped', 'capped', 'shortfall'].includes(generationProgress.status)
     const completedBatches = generationProgress.completedBatches ?? 0
     const batchSize = generationProgress.batchSize || 10
     const maxBatches = generationProgress.maxBatches || 20
-    const maximumCards = batchSize * maxBatches
+    const generationLimit = batchSize * maxBatches
+    const targetCardCount = generationProgress.generationGoal?.targetCardCount || null
     const status = continuingGeneration ? 'in_progress' : (generationProgress.status || 'idle')
     const latestCoverage = Array.isArray(generationProgress.coverageHistory)
       ? generationProgress.coverageHistory.at(-1)
@@ -179,16 +242,16 @@ export default function Review ({
           <ProgressBar value={maxBatches ? (100 * completedBatches / maxBatches) : null} />
           <div className="iterative-progress-grid project-generation-grid">
             <div>
-              <span className="iterative-label">Cards</span>
-              <strong>{cards.length}</strong>
+              <span className="iterative-label">{targetCardCount ? 'Target cards' : 'Cards'}</span>
+              <strong>{targetCardCount ? `${cards.length} / ${targetCardCount}` : cards.length}</strong>
             </div>
             <div>
               <span className="iterative-label">Batch</span>
               <strong>{completedBatches} / {maxBatches}</strong>
             </div>
             <div>
-              <span className="iterative-label">Max cards</span>
-              <strong>{maximumCards}</strong>
+              <span className="iterative-label">Limit</span>
+              <strong>{generationLimit}</strong>
             </div>
             <StatusTile status={status} />
           </div>
@@ -307,11 +370,33 @@ export default function Review ({
             </span>
           </summary>
 
+          <div className="audio-manifest-toolbar">
+            <button
+              type="button"
+              className="secondary-btn"
+              onClick={handleLoadAudioManifest}
+            >
+              Load Audio Manifest
+            </button>
+            {audioManifestResult?.success && (
+              <span className="audio-manifest-status">
+                {audioManifestResult.count} audio clips loaded{audioManifestResult.automatic ? ' automatically' : ''}
+              </span>
+            )}
+            {audioManifestResult?.error && (
+              <span className="audio-manifest-status audio-manifest-status--error">
+                Audio manifest failed: {audioManifestResult.error}
+              </span>
+            )}
+          </div>
+
           <div className="card-list">
             {cards.map((card, index) => (
               <CardEditor
                 key={index}
                 card={card}
+                cardIndex={index}
+                audioManifest={audioManifest}
                 onUpdate={(updated) => handleUpdate(index, updated)}
                 onDelete={() => handleDelete(index)}
               />
@@ -351,7 +436,8 @@ export default function Review ({
                 const result = await window.ipc.invoke('export-mobile-package', {
                   deckName: description.title.trim() || 'Untitled',
                   description,
-                  cards
+                  cards,
+                  audioManifest
                 })
                 setExportResult(result)
               } catch (err) {

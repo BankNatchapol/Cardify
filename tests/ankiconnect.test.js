@@ -182,6 +182,26 @@ describe('buildNotes', () => {
     const notes = buildNotes(deckName, cards)
     expect(notes[0].tags).toEqual([])
   })
+
+  test('resolves semantic audio tags to Anki sound references from manifest', () => {
+    const cards = [{
+      type: 'basic',
+      front: '爱 {{audio:front}}',
+      back: '妈妈，我爱你。 {{audio:example_1}}\n谢谢 {{audio:missing}}'
+    }]
+    const audioManifest = {
+      targets: [
+        { id: 'note-0001-front', noteIndex: 0, kind: 'front', file: 'front/note-0001-front.mp3', status: 'success' },
+        { id: 'note-0001-example-01', noteIndex: 0, kind: 'example', file: 'examples/note-0001-example-01.mp3', status: 'success' }
+      ]
+    }
+
+    const notes = buildNotes(deckName, cards, { audioManifest })
+
+    expect(notes[0].fields.Front).toContain('[sound:note-0001-front.mp3]')
+    expect(notes[0].fields.Back).toContain('[sound:note-0001-example-01.mp3]')
+    expect(notes[0].fields.Back).not.toContain('{{audio:missing}}')
+  })
 })
 
 // ─── createDeck ───────────────────────────────────────────────────────────────

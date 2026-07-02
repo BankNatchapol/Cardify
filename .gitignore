@@ -10,3 +10,28 @@ package-lock.json
 .agent-tools/
 .claude/settings.local.json
 .codex/log/
+tools/omnivoice-lab/OmniVoice/
+tools/omnivoice-lab/.venv/
+tools/omnivoice-lab/.cache/
+tools/omnivoice-lab/outputs/
+tools/omnivoice-lab/ref-audio/
+tools/elevenlabs-samples/
+decks/*.audio/
+__pycache__/
+
+# Secrets — local API keys (Gemini, ElevenLabs, etc.)
+.env
+.env.local
+.env*.local
+
+# Expo build cache / logs and the prebuilt native iOS project (regenerate
+# with `npx expo prebuild` — not committed, managed-workflow style)
+mobile-app/.expo/
+mobile-app/ios/
+
+# Local agent-tool configs — personal machine tooling, not project source
+AGENTS.md
+.serena/
+.codex/
+.design-sync/
+.agents/

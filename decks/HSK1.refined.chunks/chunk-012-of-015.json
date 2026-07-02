@@ -1,0 +1,88 @@
+{
+  "chunkNumber": 12,
+  "chunkCount": 15,
+  "cardIndexes": [
+    110,
+    111,
+    112,
+    113,
+    114,
+    115,
+    116,
+    117,
+    118,
+    119
+  ],
+  "cards": [
+    {
+      "index": 110,
+      "type": "basic",
+      "front": "我",
+      "back": "**พินอิน:** <span class=\"cf-key\">wǒ</span>\n\n**ชนิดของคำ:** คำสรรพนาม\n**ความหมาย:** <span class=\"cf-success\">ฉัน, ผม</span>\n\n**ตัวอย่างประโยค:**\n<span class=\"cf-key\">我</span>是一个学生。\n<span class=\"cf-muted\">Wǒ shì yí ge xuésheng.</span>\n<span class=\"cf-muted\">(ฉันเป็นนักเรียน)</span>",
+      "changed": true
+    },
+    {
+      "index": 111,
+      "type": "basic",
+      "front": "我们",
+      "back": "**พินอิน:** <span class=\"cf-key\">wǒmen</span>\n\n**ชนิดของคำ:** คำสรรพนาม\n**ความหมาย:** <span class=\"cf-success\">พวกเรา</span>\n\n**ตัวอย่างประโยค:**\n<span class=\"cf-key\">我们</span>都是学生。\n<span class=\"cf-muted\">Wǒmen dōu shì xuésheng.</span>\n<span class=\"cf-muted\">(พวกเราทุกคนเป็นนักเรียน)</span>",
+      "changed": true
+    },
+    {
+      "index": 112,
+      "type": "basic",
+      "front": "五",
+      "back": "**พินอิน:** <span class=\"cf-key\">wǔ</span>\n\n**ชนิดของคำ:** ตัวเลข\n**ความหมาย:** <span class=\"cf-success\">ห้า</span>\n\n**ตัวอย่างประโยค:**\n今天星期<span class=\"cf-key\">五</span>。\n<span class=\"cf-muted\">Jīntiān xīngqīwǔ.</span>\n<span class=\"cf-muted\">(วันนี้วันศุกร์)</span>",
+      "changed": true
+    },
+    {
+      "index": 113,
+      "type": "basic",
+      "front": "喜欢",
+      "back": "**พินอิน:** <span class=\"cf-key\">xǐhuan</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">ชอบ</span>\n\n**ตัวอย่างประโยค:**\n我<span class=\"cf-key\">喜欢</span>学汉语。\n<span class=\"cf-muted\">Wǒ xǐhuan xué Hànyǔ.</span>\n<span class=\"cf-muted\">(ฉันชอบเรียนภาษาจีน)</span>",
+      "changed": true
+    },
+    {
+      "index": 114,
+      "type": "basic",
+      "front": "下",
+      "back": "**พินอิน:** <span class=\"cf-key\">xià</span>\n\n**ความหมายที่ 1 — คำนาม:** <span class=\"cf-success\">ด้านล่าง</span>\n小猫在桌子<span class=\"cf-key\">下</span>面。\n<span class=\"cf-muted\">Xiǎo māo zài zhuōzi xiàmiàn.</span>\n<span class=\"cf-muted\">(แมวตัวเล็กอยู่ใต้โต๊ะ)</span>\n\n**ความหมายที่ 2 — คำกริยา:** <span class=\"cf-success\">ตก (ใช้กับฝนหรือหิมะ)</span>\n今天<span class=\"cf-key\">下</span>雨了。\n<span class=\"cf-muted\">Jīntiān xià yǔ le.</span>\n<span class=\"cf-muted\">(วันนี้ฝนตกแล้ว)</span>\n\n**ความหมายที่ 3 — คำนาม:** <span class=\"cf-success\">ถัดไป / หน้า</span>\n我<span class=\"cf-key\">下</span>个月去北京。\n<span class=\"cf-muted\">Wǒ xià ge yuè qù Běijīng.</span>\n<span class=\"cf-muted\">(เดือนหน้าฉันจะไปปักกิ่ง)</span>",
+      "changed": true
+    },
+    {
+      "index": 115,
+      "type": "basic",
+      "front": "下午",
+      "back": "**พินอิน:** <span class=\"cf-key\">xiàwǔ</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ช่วงบ่าย</span>\n\n**ตัวอย่างประโยค:**\n我今天<span class=\"cf-key\">下午</span>不去学校了。\n<span class=\"cf-muted\">Wǒ jīntiān xiàwǔ bú qù xuéxiào le.</span>\n<span class=\"cf-muted\">(บ่ายวันนี้ฉันจะไม่ไปโรงเรียน)</span>",
+      "changed": true
+    },
+    {
+      "index": 116,
+      "type": "basic",
+      "front": "下雨",
+      "back": "**พินอิน:** <span class=\"cf-key\">xià yǔ</span>\n\n**ชนิดของคำ:** คำกริยา (วลี)\n**ความหมาย:** <span class=\"cf-success\">ฝนตก</span>\n\n**ตัวอย่างประโยค:**\n昨天<span class=\"cf-key\">下雨</span>了。\n<span class=\"cf-muted\">Zuótiān xià yǔ le.</span>\n<span class=\"cf-muted\">(เมื่อวานฝนตก)</span>\n\n<span class=\"cf-muted\">หมายเหตุ: 下雨 เป็นการบอกเหตุการณ์ฝนตก ต่างจากคำว่า 下 ที่เป็นคำกริยาซึ่งต้องมีคำนามตามหลัง เช่น 雨 (ฝน) หรือ 雪 (หิมะ)</span>",
+      "changed": true
+    },
+    {
+      "index": 117,
+      "type": "basic",
+      "front": "先生",
+      "back": "**พินอิน:** <span class=\"cf-key\">xiānsheng</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">คุณ (ผู้ชาย)</span>\n\n**ตัวอย่างประโยค:**\n你也认识王<span class=\"cf-key\">先生</span>？\n<span class=\"cf-muted\">Nǐ yě rènshi Wáng xiānsheng?</span>\n<span class=\"cf-muted\">(คุณก็รู้จักคุณหวังด้วยหรือ)</span>",
+      "changed": true
+    },
+    {
+      "index": 118,
+      "type": "basic",
+      "front": "现在",
+      "back": "**พินอิน:** <span class=\"cf-key\">xiànzài</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ตอนนี้</span>\n\n**ตัวอย่างประโยค:**\n<span class=\"cf-key\">现在</span>是12点。\n<span class=\"cf-muted\">Xiànzài shì shí'èr diǎn.</span>\n<span class=\"cf-muted\">(ตอนนี้เป็นเวลาสิบสองนาฬิกา)</span>",
+      "changed": true
+    },
+    {
+      "index": 119,
+      "type": "basic",
+      "front": "想",
+      "back": "**พินอิน:** <span class=\"cf-key\">xiǎng</span>\n\n**ความหมายที่ 1 — คำช่วยกริยา:** <span class=\"cf-success\">อยาก</span>\n我<span class=\"cf-key\">想</span>星期六去北京。\n<span class=\"cf-muted\">Wǒ xiǎng xīngqīliù qù Běijīng.</span>\n<span class=\"cf-muted\">(ฉันอยากไปปักกิ่งวันเสาร์)</span>\n\n**ความหมายที่ 2 — คำกริยา:** <span class=\"cf-success\">คิด</span>\n妈妈，你在<span class=\"cf-key\">想</span>什么呢？\n<span class=\"cf-muted\">Māma, nǐ zài xiǎng shénme ne?</span>\n<span class=\"cf-muted\">(แม่ แม่กำลังคิดอะไรอยู่)</span>",
+      "changed": true
+    }
+  ]
+}

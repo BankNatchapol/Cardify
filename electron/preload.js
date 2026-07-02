@@ -6,6 +6,7 @@ contextBridge.exposeInMainWorld('ipc', {
   invoke: (channel, ...args) => {
     const allowedChannels = [
       'parse-file',
+      'import-cardify-json',
       'prepare-generation',
       'generate-sample-cards',
       'generate-deck-overview',
@@ -27,7 +28,9 @@ contextBridge.exposeInMainWorld('ipc', {
       'list-projects',
       'get-latest-project',
       'delete-project',
-      'export-mobile-package'
+      'export-mobile-package',
+      'load-audio-manifest',
+      'read-audio-file'
     ]
     if (allowedChannels.includes(channel)) {
       return ipcRenderer.invoke(channel, ...args)

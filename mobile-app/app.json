@@ -6,14 +6,22 @@
     "version": "0.1.0",
     "orientation": "portrait",
     "userInterfaceStyle": "automatic",
+    "icon": "./assets/app-icon.png",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.cardify.mobile"
+      "bundleIdentifier": "com.cardify.mobile",
+      "icon": "./assets/app-icon.png",
+      "appleTeamId": "QKB4NG6NNY",
+      "entitlements": {
+        "com.apple.security.application-groups": ["group.com.cardify.mobile.widget"]
+      }
     },
     "plugins": [
       "expo-router",
       "expo-sqlite",
-      "expo-document-picker"
+      "expo-document-picker",
+      "expo-audio",
+      "@bacons/apple-targets"
     ],
     "experiments": {
       "typedRoutes": true

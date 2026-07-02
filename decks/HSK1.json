@@ -1,0 +1,1521 @@
+{
+  "packageId": "pkg-1782919036352-hakggn",
+  "deck": {
+    "id": "deck-1782919036352-tro5ny",
+    "name": "HSK 1 คำศัพท์ 150 คำ",
+    "description": {
+      "title": "HSK 1 คำศัพท์ 150 คำ",
+      "purpose": "ชุดแฟลชการ์ดสำหรับท่องจำคำศัพท์ทั้ง 150 คำในรายการคำศัพท์ 新HSK（一级）เพื่อเตรียมสอบวัดระดับภาษาจีน HSK 1 แต่ละใบบัตรมีตัวอักษรจีนด้านหน้า และด้านหลังแสดงพินอิน ชนิดของคำ ความหมายภาษาไทยแบบเต็ม (ไม่ย่อ) พร้อมประโยคตัวอย่างที่มีทั้งอักษรจีน พินอิน และคำแปลไทยกำกับ คำศัพท์ที่มีหลายความหมาย/หลายชนิดคำจะรวมอยู่ในบัตรใบเดียวกัน โดยแยกแต่ละความหมายพร้อมชนิดคำและประโยคตัวอย่างของตนเองไว้ด้วยกัน",
+      "contents": [
+        "ลำดับคำศัพท์ 150 คำตามลำดับเดิมจากเอกสารต้นฉบับ 新HSK（一级）词汇——（汉语-泰语）",
+        "รูปแบบบัตรแต่ละใบ: หน้าบัตร = คำศัพท์ภาษาจีน (เช่น 爱, 八, 爸爸)",
+        "หลังบัตร = พินอิน (มีวรรณยุกต์), ชนิดของคำ, ความหมายภาษาไทยแบบเต็มไม่ย่อ, ประโยคตัวอย่างภาษาจีนพร้อมพินอินและคำแปลไทยกำกับ",
+        "คำที่มีหลายความหมาย/ชนิดคำ (เช่น 爱, 好, 是, 下, 多, 工作, 看, 的, 呢, 和, 没有, 坐, 做, 想, 有, 在) รวมเป็นบัตรเดียว โดยแยกแสดงแต่ละความหมายพร้อมชนิดคำและตัวอย่างประโยคของตนเองในบัตรเดียวกัน",
+        "ครอบคลุมคำศัพท์ทั้งหมด 150 รายการจากต้นฉบับ ไม่มีการตัดคำใดออก",
+        "รูปแบบการจัดวาง/สไตล์อ้างอิงตามตัวอย่างที่ผู้ใช้ยอมรับแล้ว (Sample 1-3) ใช้ span class cf-key, cf-success, cf-muted สำหรับเน้นคำศัพท์ ความหมาย และพินอิน/คำแปลตามลำดับ"
+      ]
+    }
+  },
+  "notes": [
+    {
+      "id": "note-deck-1782919036352-tro5ny-0",
+      "noteType": "basic",
+      "fields": {
+        "Front": "爸爸",
+        "Back": "**พินอิน:** <span class=\"cf-key\">bàba</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">พ่อ</span>\n\n**ตัวอย่างประโยค:**\n我<span class=\"cf-key\">爸爸</span>是医生。\n<span class=\"cf-muted\">Wǒ bàba shì yīshēng.</span>\n<span class=\"cf-muted\">(พ่อของฉันเป็นหมอ)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-1",
+      "noteType": "basic",
+      "fields": {
+        "Front": "爱",
+        "Back": "**พินอิน:** <span class=\"cf-key\">ài</span>\n\n**ความหมายที่ 1 — คำกริยา:** <span class=\"cf-success\">รัก</span>\n妈妈，我<span class=\"cf-key\">爱</span>你。\n<span class=\"cf-muted\">Māma, wǒ ài nǐ.</span>\n<span class=\"cf-muted\">(แม่ ฉันรักแม่)</span>\n\n**ความหมายที่ 2 — คำกริยา:** <span class=\"cf-success\">ชอบ</span>\n我<span class=\"cf-key\">爱</span>吃米饭。\n<span class=\"cf-muted\">Wǒ ài chī mǐfàn.</span>\n<span class=\"cf-muted\">(ฉันชอบกินข้าวสวย)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-2",
+      "noteType": "basic",
+      "fields": {
+        "Front": "不客气",
+        "Back": "**พินอิน:** <span class=\"cf-key\">bú kèqi</span>\n\n**ชนิดของคำ:** สำนวน (ใช้ตอบรับค้าขอบคุณ)\n**ความหมาย:** <span class=\"cf-success\">ไม่เป็นไร</span> <span class=\"cf-muted\">(ตอบรับเมื่ออีกฝ่ายขอบคุณ)</span>\n\n**ตัวอย่างประโยค:**\n甲：谢谢你！ 乙：<span class=\"cf-key\">不客气</span>。\n<span class=\"cf-muted\">Jiǎ: Xièxie nǐ! Yǐ: Bú kèqi.</span>\n<span class=\"cf-muted\">(ก: ขอบคุณ! ข: ไม่เป็นไร)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-3",
+      "noteType": "basic",
+      "fields": {
+        "Front": "八",
+        "Back": "**พินอิน:** <span class=\"cf-key\">bā</span>\n\n**ชนิดของคำ:** ตัวเลข\n**ความหมาย:** <span class=\"cf-success\">แปด</span>\n\n**ตัวอย่างประโยค:**\n他儿子今年<span class=\"cf-key\">八</span>岁了。\n<span class=\"cf-muted\">Tā érzi jīnnián bā suì le.</span>\n<span class=\"cf-muted\">(ลูกชายของเขาปีนี้อายุแปดขวบแล้ว)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-4",
+      "noteType": "basic",
+      "fields": {
+        "Front": "杯子",
+        "Back": "**พินอิน:** <span class=\"cf-key\">bēizi</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ถ้วย, แก้ว</span>\n\n**ตัวอย่างประโยค:**\n<span class=\"cf-key\">杯子</span>里有茶。\n<span class=\"cf-muted\">Bēizi lǐ yǒu chá.</span>\n<span class=\"cf-muted\">(ในแก้วมีชา)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-5",
+      "noteType": "basic",
+      "fields": {
+        "Front": "北京",
+        "Back": "**พินอิน:** <span class=\"cf-key\">Běijīng</span>\n\n**ชนิดของคำ:** คำนาม (ชื่อเฉพาะ)\n**ความหมาย:** <span class=\"cf-success\">ปักกิ่ง</span>\n\n**ตัวอย่างประโยค:**\n我住在<span class=\"cf-key\">北京</span>。\n<span class=\"cf-muted\">Wǒ zhù zài Běijīng.</span>\n<span class=\"cf-muted\">(ฉันอาศัยอยู่ที่ปักกิ่ง)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-6",
+      "noteType": "basic",
+      "fields": {
+        "Front": "本",
+        "Back": "**พินอิน:** <span class=\"cf-key\">běn</span>\n\n**ชนิดของคำ:** ลักษณนาม\n**ความหมาย:** <span class=\"cf-success\">เล่ม</span>\n\n**ตัวอย่างประโยค:**\n桌子上有一<span class=\"cf-key\">本</span>书。\n<span class=\"cf-muted\">Zhuōzi shàng yǒu yì běn shū.</span>\n<span class=\"cf-muted\">(บนโต๊ะมีหนังสือหนึ่งเล่ม)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-7",
+      "noteType": "basic",
+      "fields": {
+        "Front": "不",
+        "Back": "**พินอิน:** <span class=\"cf-key\">bù</span>\n\n**ชนิดของคำ:** คำวิเศษณ์\n**ความหมาย:** <span class=\"cf-success\">ไม่</span>\n\n**ตัวอย่างประโยค:**\n我<span class=\"cf-key\">不</span>是学生。\n<span class=\"cf-muted\">Wǒ bú shì xuésheng.</span>\n<span class=\"cf-muted\">(ฉันไม่ใช่นักเรียน)</span>\n\n<span class=\"cf-warning\">ข้อควรระวัง: เมื่ออยู่หน้าเสียงวรรณยุกต์ที่ 4 ให้ออกเสียง 不 เป็น bú (เสียงที่ 2)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-8",
+      "noteType": "basic",
+      "fields": {
+        "Front": "菜",
+        "Back": "**พินอิน:** <span class=\"cf-key\">cài</span>\n\n**ความหมายที่ 1 — คำนาม:** <span class=\"cf-success\">ผัก</span>\n我去超市买点儿<span class=\"cf-key\">菜</span>。\n<span class=\"cf-muted\">Wǒ qù chāoshì mǎi diǎnr cài.</span>\n<span class=\"cf-muted\">(ฉันไปซูเปอร์มาร์เก็ตซื้อผักหน่อยหนึ่ง)</span>\n\n**ความหมายที่ 2 — คำนาม:** <span class=\"cf-success\">กับข้าว, อาหาร</span>\n今天我做了三个<span class=\"cf-key\">菜</span>。\n<span class=\"cf-muted\">Jīntiān wǒ zuò le sān ge cài.</span>\n<span class=\"cf-muted\">(วันนี้ฉันทำกับข้าวสามอย่าง)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-9",
+      "noteType": "basic",
+      "fields": {
+        "Front": "茶",
+        "Back": "**พินอิน:** <span class=\"cf-key\">chá</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">น้ำชา, ใบชา</span>\n\n**ตัวอย่างประโยค:**\n请喝杯<span class=\"cf-key\">茶</span>吧。\n<span class=\"cf-muted\">Qǐng hē bēi chá ba.</span>\n<span class=\"cf-muted\">(เชิญดื่มชาสักแก้วเถอะ)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-10",
+      "noteType": "basic",
+      "fields": {
+        "Front": "吃",
+        "Back": "**พินอิน:** <span class=\"cf-key\">chī</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">กิน</span>\n\n**ตัวอย่างประโยค:**\n请<span class=\"cf-key\">吃</span>点儿米饭。\n<span class=\"cf-muted\">Qǐng chī diǎnr mǐfàn.</span>\n<span class=\"cf-muted\">(เชิญกินข้าวสวยหน่อย)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-11",
+      "noteType": "basic",
+      "fields": {
+        "Front": "出租车",
+        "Back": "**พินอิน:** <span class=\"cf-key\">chūzūchē</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">รถแท็กซี่</span>\n\n**ตัวอย่างประโยค:**\n我们坐<span class=\"cf-key\">出租车</span>去火车站。\n<span class=\"cf-muted\">Wǒmen zuò chūzūchē qù huǒchēzhàn.</span>\n<span class=\"cf-muted\">(พวกเรานั่งรถแท็กซี่ไปสถานีรถไฟ)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-12",
+      "noteType": "basic",
+      "fields": {
+        "Front": "打电话",
+        "Back": "**พินอิน:** <span class=\"cf-key\">dǎ diànhuà</span>\n\n**ชนิดของคำ:** คำกริยา (วลี)\n**ความหมาย:** <span class=\"cf-success\">โทรศัพท์</span>\n\n**ตัวอย่างประโยค:**\n他在<span class=\"cf-key\">打电话</span>呢。\n<span class=\"cf-muted\">Tā zài dǎ diànhuà ne.</span>\n<span class=\"cf-muted\">(เขากำลังโทรศัพท์อยู่)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-13",
+      "noteType": "basic",
+      "fields": {
+        "Front": "大",
+        "Back": "**พินอิน:** <span class=\"cf-key\">dà</span>\n\n**ชนิดของคำ:** คำคุณศัพท์\n**ความหมาย:** <span class=\"cf-success\">ใหญ่</span>\n\n**ตัวอย่างประโยค:**\n这个苹果很<span class=\"cf-key\">大</span>。\n<span class=\"cf-muted\">Zhège píngguǒ hěn dà.</span>\n<span class=\"cf-muted\">(แอปเปิ้ลลูกนี้ใหญ่มาก)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-14",
+      "noteType": "basic",
+      "fields": {
+        "Front": "的",
+        "Back": "**พินอิน:** <span class=\"cf-key\">de</span>\n\n**ความหมายที่ 1 — คำช่วยโครงสร้าง:** <span class=\"cf-success\">ของ</span>\n这是我<span class=\"cf-key\">的</span>书。\n<span class=\"cf-muted\">Zhè shì wǒ de shū.</span>\n<span class=\"cf-muted\">(นี่คือหนังสือของฉัน)</span>\n\n**ความหมายที่ 2 — คำช่วยโครงสร้าง:** <span class=\"cf-success\">ใช้เน้นความ</span> <span class=\"cf-muted\">(เน้นเวลา/สถานที่/วิธีการที่เกิดขึ้นแล้ว)</span>\n我是坐飞机来中国<span class=\"cf-key\">的</span>。\n<span class=\"cf-muted\">Wǒ shì zuò fēijī lái Zhōngguó de.</span>\n<span class=\"cf-muted\">(ฉันมาประเทศจีนโดยเครื่องบิน)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-15",
+      "noteType": "basic",
+      "fields": {
+        "Front": "点",
+        "Back": "**พินอิน:** <span class=\"cf-key\">diǎn</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">โมง (บอกเวลา)</span>\n\n**ตัวอย่างประโยค:**\n现在是下午3<span class=\"cf-key\">点</span>20。\n<span class=\"cf-muted\">Xiànzài shì xiàwǔ sān diǎn èrshí.</span>\n<span class=\"cf-muted\">(ตอนนี้เป็นเวลาบ่ายสามโมงยี่สิบนาที)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-16",
+      "noteType": "basic",
+      "fields": {
+        "Front": "电脑",
+        "Back": "**พินอิน:** <span class=\"cf-key\">diànnǎo</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">คอมพิวเตอร์</span>\n\n**ตัวอย่างประโยค:**\n我买了个<span class=\"cf-key\">电脑</span>。\n<span class=\"cf-muted\">Wǒ mǎi le ge diànnǎo.</span>\n<span class=\"cf-muted\">(ฉันซื้อคอมพิวเตอร์เครื่องหนึ่ง)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-17",
+      "noteType": "basic",
+      "fields": {
+        "Front": "电视",
+        "Back": "**พินอิน:** <span class=\"cf-key\">diànshì</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">โทรทัศน์</span>\n\n**ตัวอย่างประโยค:**\n妈妈在看<span class=\"cf-key\">电视</span>。\n<span class=\"cf-muted\">Māma zài kàn diànshì.</span>\n<span class=\"cf-muted\">(แม่กำลังดูโทรทัศน์)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-18",
+      "noteType": "basic",
+      "fields": {
+        "Front": "电影",
+        "Back": "**พินอิน:** <span class=\"cf-key\">diànyǐng</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ภาพยนตร์</span>\n\n**ตัวอย่างประโยค:**\n我喜欢看<span class=\"cf-key\">电影</span>。\n<span class=\"cf-muted\">Wǒ xǐhuan kàn diànyǐng.</span>\n<span class=\"cf-muted\">(ฉันชอบดูภาพยนตร์)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-19",
+      "noteType": "basic",
+      "fields": {
+        "Front": "东西",
+        "Back": "**พินอิน:** <span class=\"cf-key\">dōngxi</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">สิ่งของ</span>\n\n**ตัวอย่างประโยค:**\n我在商店买了很多<span class=\"cf-key\">东西</span>。\n<span class=\"cf-muted\">Wǒ zài shāngdiàn mǎi le hěn duō dōngxi.</span>\n<span class=\"cf-muted\">(ฉันซื้อของหลายอย่างที่ร้านค้า)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-20",
+      "noteType": "basic",
+      "fields": {
+        "Front": "都",
+        "Back": "**พินอิน:** <span class=\"cf-key\">dōu</span>\n\n**ชนิดของคำ:** คำวิเศษณ์\n**ความหมาย:** <span class=\"cf-success\">ทุกคน, ทั้งหมด, ล้วน</span>\n\n**ตัวอย่างประโยค:**\n我们<span class=\"cf-key\">都</span>来了。\n<span class=\"cf-muted\">Wǒmen dōu lái le.</span>\n<span class=\"cf-muted\">(พวกเรามากันหมดแล้ว)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-21",
+      "noteType": "basic",
+      "fields": {
+        "Front": "读",
+        "Back": "**พินอิน:** <span class=\"cf-key\">dú</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">อ่าน</span>\n\n**ตัวอย่างประโยค:**\n你会<span class=\"cf-key\">读</span>这个汉字吗？\n<span class=\"cf-muted\">Nǐ huì dú zhège Hànzì ma?</span>\n<span class=\"cf-muted\">(คุณอ่านตัวอักษรจีนตัวนี้เป็นไหม)</span>\n\n你喜欢<span class=\"cf-key\">读</span>书吗？\n<span class=\"cf-muted\">Nǐ xǐhuan dú shū ma?</span>\n<span class=\"cf-muted\">(คุณชอบอ่านหนังสือไหม)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-22",
+      "noteType": "basic",
+      "fields": {
+        "Front": "对不起",
+        "Back": "**พินอิน:** <span class=\"cf-key\">duìbuqǐ</span>\n\n**ชนิดของคำ:** สำนวน\n**ความหมาย:** <span class=\"cf-success\">ขอโทษ</span>\n\n**ตัวอย่างประโยค:**\n甲：<span class=\"cf-key\">对不起</span>。乙：没关系。\n<span class=\"cf-muted\">Jiǎ: Duìbuqǐ. Yǐ: Méi guānxi.</span>\n<span class=\"cf-muted\">(ก: ขอโทษ ข: ไม่เป็นไร)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-23",
+      "noteType": "basic",
+      "fields": {
+        "Front": "多",
+        "Back": "**พินอิน:** <span class=\"cf-key\">duō</span>\n\n**ความหมายที่ 1 — คำคุณศัพท์:** <span class=\"cf-success\">มาก</span>\n这里的人很<span class=\"cf-key\">多</span>。\n<span class=\"cf-muted\">Zhèlǐ de rén hěn duō.</span>\n<span class=\"cf-muted\">(คนที่นี่มีมาก)</span>\n\n**ความหมายที่ 2 — คำวิเศษณ์:** <span class=\"cf-success\">แค่ไหน, เท่าไหร่</span>\n你儿子<span class=\"cf-key\">多</span>大了？\n<span class=\"cf-muted\">Nǐ érzi duō dà le?</span>\n<span class=\"cf-muted\">(ลูกชายของคุณอายุเท่าไหร่แล้ว)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-24",
+      "noteType": "basic",
+      "fields": {
+        "Front": "多少",
+        "Back": "**พินอิน:** <span class=\"cf-key\">duōshao</span>\n\n**ชนิดของคำ:** คำสรรพนาม\n**ความหมาย:** <span class=\"cf-success\">เท่าไหร่</span>\n\n**ตัวอย่างประโยค:**\n你们学校有<span class=\"cf-key\">多少</span>学生？\n<span class=\"cf-muted\">Nǐmen xuéxiào yǒu duōshao xuésheng?</span>\n<span class=\"cf-muted\">(โรงเรียนของพวกคุณมีนักเรียนกี่คน)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-25",
+      "noteType": "basic",
+      "fields": {
+        "Front": "儿子",
+        "Back": "**พินอิน:** <span class=\"cf-key\">érzi</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ลูกชาย</span>\n\n**ตัวอย่างประโยค:**\n我<span class=\"cf-key\">儿子</span>三岁了。\n<span class=\"cf-muted\">Wǒ érzi sān suì le.</span>\n<span class=\"cf-muted\">(ลูกชายของฉันอายุสามขวบแล้ว)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-26",
+      "noteType": "basic",
+      "fields": {
+        "Front": "二",
+        "Back": "**พินอิน:** <span class=\"cf-key\">èr</span>\n\n**ชนิดของคำ:** ตัวเลข\n**ความหมาย:** <span class=\"cf-success\">สอง</span>\n\n**ตัวอย่างประโยค:**\n现在十<span class=\"cf-key\">二</span>点了。\n<span class=\"cf-muted\">Xiànzài shí'èr diǎn le.</span>\n<span class=\"cf-muted\">(ตอนนี้เวลาสิบสองนาฬิกาแล้ว)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-27",
+      "noteType": "basic",
+      "fields": {
+        "Front": "饭店",
+        "Back": "**พินอิน:** <span class=\"cf-key\">fàndiàn</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ร้านอาหาร, โรงแรม</span>\n\n**ตัวอย่างประโยค:**\n中午我们去<span class=\"cf-key\">饭店</span>吃吧。\n<span class=\"cf-muted\">Zhōngwǔ wǒmen qù fàndiàn chī ba.</span>\n<span class=\"cf-muted\">(ตอนเที่ยงพวกเราไปกินที่ร้านอาหารกันเถอะ)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-28",
+      "noteType": "basic",
+      "fields": {
+        "Front": "飞机",
+        "Back": "**พินอิน:** <span class=\"cf-key\">fēijī</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">เครื่องบิน</span>\n\n**ตัวอย่างประโยค:**\n我坐<span class=\"cf-key\">飞机</span>去北京。\n<span class=\"cf-muted\">Wǒ zuò fēijī qù Běijīng.</span>\n<span class=\"cf-muted\">(ฉันนั่งเครื่องบินไปปักกิ่ง)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-29",
+      "noteType": "basic",
+      "fields": {
+        "Front": "分钟",
+        "Back": "**พินอิน:** <span class=\"cf-key\">fēnzhōng</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">นาที</span>\n\n**ตัวอย่างประโยค:**\n我想休息几<span class=\"cf-key\">分钟</span>。\n<span class=\"cf-muted\">Wǒ xiǎng xiūxi jǐ fēnzhōng.</span>\n<span class=\"cf-muted\">(ฉันอยากพักสักสองสามนาที)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-30",
+      "noteType": "basic",
+      "fields": {
+        "Front": "高兴",
+        "Back": "**พินอิน:** <span class=\"cf-key\">gāoxìng</span>\n\n**ชนิดของคำ:** คำคุณศัพท์\n**ความหมาย:** <span class=\"cf-success\">ดีใจ</span>\n\n**ตัวอย่างประโยค:**\n今天我很<span class=\"cf-key\">高兴</span>。\n<span class=\"cf-muted\">Jīntiān wǒ hěn gāoxìng.</span>\n<span class=\"cf-muted\">(วันนี้ฉันดีใจมาก)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-31",
+      "noteType": "basic",
+      "fields": {
+        "Front": "个",
+        "Back": "**พินอิน:** <span class=\"cf-key\">gè</span>\n\n**ชนิดของคำ:** ลักษณนาม\n**ความหมาย:** <span class=\"cf-success\">คน, อัน</span>\n\n**ตัวอย่างประโยค:**\n我是一<span class=\"cf-key\">个</span>学生。\n<span class=\"cf-muted\">Wǒ shì yí ge xuésheng.</span>\n<span class=\"cf-muted\">(ฉันเป็นนักเรียนคนหนึ่ง)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-32",
+      "noteType": "basic",
+      "fields": {
+        "Front": "工作",
+        "Back": "**พินอิน:** <span class=\"cf-key\">gōngzuò</span>\n\n**ความหมายที่ 1 — คำนาม:** <span class=\"cf-success\">งาน</span>\n我很喜欢现在的<span class=\"cf-key\">工作</span>。\n<span class=\"cf-muted\">Wǒ hěn xǐhuan xiànzài de gōngzuò.</span>\n<span class=\"cf-muted\">(ฉันชอบงานปัจจุบันมาก)</span>\n\n**ความหมายที่ 2 — คำกริยา:** <span class=\"cf-success\">ทำงาน</span>\n我在医院<span class=\"cf-key\">工作</span>。\n<span class=\"cf-muted\">Wǒ zài yīyuàn gōngzuò.</span>\n<span class=\"cf-muted\">(ฉันทำงานที่โรงพยาบาล)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-33",
+      "noteType": "basic",
+      "fields": {
+        "Front": "汉语",
+        "Back": "**พินอิน:** <span class=\"cf-key\">Hànyǔ</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ภาษาจีน</span>\n\n**ตัวอย่างประโยค:**\n他在学习<span class=\"cf-key\">汉语</span>。\n<span class=\"cf-muted\">Tā zài xuéxí Hànyǔ.</span>\n<span class=\"cf-muted\">(เขากำลังเรียนภาษาจีนอยู่)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-34",
+      "noteType": "basic",
+      "fields": {
+        "Front": "好",
+        "Back": "**พินอิน:** <span class=\"cf-key\">hǎo</span>\n\n**ความหมายที่ 1 — คำคุณศัพท์:** <span class=\"cf-success\">ดี</span>\n今天天气很<span class=\"cf-key\">好</span>。\n<span class=\"cf-muted\">Jīntiān tiānqì hěn hǎo.</span>\n<span class=\"cf-muted\">(วันนี้อากาศดีมาก)</span>\n\n**ความหมายที่ 2 — คำแสดงการขานตอบ:** <span class=\"cf-success\">ได้, โอเค</span>\n你听我说，<span class=\"cf-key\">好</span>吗？\n<span class=\"cf-muted\">Nǐ tīng wǒ shuō, hǎo ma?</span>\n<span class=\"cf-muted\">(คุณฟังฉันพูดหน่อยได้ไหม)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-35",
+      "noteType": "basic",
+      "fields": {
+        "Front": "号",
+        "Back": "**พินอิน:** <span class=\"cf-key\">hào</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">วันที่</span>\n\n**ตัวอย่างประโยค:**\n今天是2002年1月1<span class=\"cf-key\">号</span>。\n<span class=\"cf-muted\">Jīntiān shì èr líng líng èr nián yī yuè yī hào.</span>\n<span class=\"cf-muted\">(วันนี้คือวันที่ 1 มกราคม ปี 2002)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-36",
+      "noteType": "basic",
+      "fields": {
+        "Front": "喝",
+        "Back": "**พินอิน:** <span class=\"cf-key\">hē</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">ดื่ม</span>\n\n**ตัวอย่างประโยค:**\n我想<span class=\"cf-key\">喝</span>水。\n<span class=\"cf-muted\">Wǒ xiǎng hē shuǐ.</span>\n<span class=\"cf-muted\">(ฉันอยากดื่มน้ำ)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-37",
+      "noteType": "basic",
+      "fields": {
+        "Front": "和",
+        "Back": "**พินอิน:** <span class=\"cf-key\">hé</span>\n\n**ความหมายที่ 1 — คำสันธาน:** <span class=\"cf-success\">และ</span>\n爸爸<span class=\"cf-key\">和</span>妈妈都在家。\n<span class=\"cf-muted\">Bàba hé māma dōu zài jiā.</span>\n<span class=\"cf-muted\">(พ่อและแม่อยู่บ้านกันหมด)</span>\n\n**ความหมายที่ 2 — คำบุพบท:** <span class=\"cf-success\">กับ</span>\n他<span class=\"cf-key\">和</span>王先生说话呢。\n<span class=\"cf-muted\">Tā hé Wáng xiānsheng shuōhuà ne.</span>\n<span class=\"cf-muted\">(เขากำลังพูดคุยกับคุณหวังอยู่)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-38",
+      "noteType": "basic",
+      "fields": {
+        "Front": "很",
+        "Back": "**พินอิน:** <span class=\"cf-key\">hěn</span>\n\n**ชนิดของคำ:** คำวิเศษณ์\n**ความหมาย:** <span class=\"cf-success\">มาก</span>\n\n**ตัวอย่างประโยค:**\n李小姐<span class=\"cf-key\">很</span>漂亮。\n<span class=\"cf-muted\">Lǐ xiǎojiě hěn piàoliang.</span>\n<span class=\"cf-muted\">(คุณหลี่สวยมาก)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-39",
+      "noteType": "basic",
+      "fields": {
+        "Front": "后面",
+        "Back": "**พินอิน:** <span class=\"cf-key\">hòumiàn</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ด้านหลัง</span>\n\n**ตัวอย่างประโยค:**\n商店在学校<span class=\"cf-key\">后面</span>。\n<span class=\"cf-muted\">Shāngdiàn zài xuéxiào hòumiàn.</span>\n<span class=\"cf-muted\">(ร้านค้าอยู่ด้านหลังโรงเรียน)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-40",
+      "noteType": "basic",
+      "fields": {
+        "Front": "回",
+        "Back": "**พินอิน:** <span class=\"cf-key\">huí</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">กลับ</span>\n\n**ตัวอย่างประโยค:**\n我八点<span class=\"cf-key\">回</span>家。\n<span class=\"cf-muted\">Wǒ bā diǎn huí jiā.</span>\n<span class=\"cf-muted\">(ฉันกลับบ้านตอนแปดโมง)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-41",
+      "noteType": "basic",
+      "fields": {
+        "Front": "会",
+        "Back": "**พินอิน:** <span class=\"cf-key\">huì</span>\n\n**ชนิดของคำ:** คำช่วยกริยา\n**ความหมาย:** <span class=\"cf-success\">เป็น, สามารถ</span> <span class=\"cf-muted\">(ทักษะที่ฝึกฝนมา)</span>\n\n**ตัวอย่างประโยค:**\n我<span class=\"cf-key\">会</span>开车。\n<span class=\"cf-muted\">Wǒ huì kāichē.</span>\n<span class=\"cf-muted\">(ฉันขับรถเป็น)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-42",
+      "noteType": "basic",
+      "fields": {
+        "Front": "几",
+        "Back": "**พินอิน:** <span class=\"cf-key\">jǐ</span>\n\n**ชนิดของคำ:** คำสรรพนาม\n**ความหมาย:** <span class=\"cf-success\">กี่, เท่าไหร่</span> <span class=\"cf-muted\">(ใช้ถามจำนวนที่คาดว่าไม่มาก)</span>\n\n**ตัวอย่างประโยค:**\n你有<span class=\"cf-key\">几</span>个儿子？\n<span class=\"cf-muted\">Nǐ yǒu jǐ ge érzi?</span>\n<span class=\"cf-muted\">(คุณมีลูกชายกี่คน)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-43",
+      "noteType": "basic",
+      "fields": {
+        "Front": "家",
+        "Back": "**พินอิน:** <span class=\"cf-key\">jiā</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">บ้าน, ครอบครัว</span>\n\n**ตัวอย่างประโยค:**\n我<span class=\"cf-key\">家</span>在北京。\n<span class=\"cf-muted\">Wǒ jiā zài Běijīng.</span>\n<span class=\"cf-muted\">(บ้านของฉันอยู่ที่ปักกิ่ง)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-44",
+      "noteType": "basic",
+      "fields": {
+        "Front": "叫",
+        "Back": "**พินอิน:** <span class=\"cf-key\">jiào</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">ชื่อว่า</span>\n\n**ตัวอย่างประโยค:**\n我的名字<span class=\"cf-key\">叫</span>李明。\n<span class=\"cf-muted\">Wǒ de míngzi jiào Lǐ Míng.</span>\n<span class=\"cf-muted\">(ฉันชื่อว่าหลี่หมิง)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-45",
+      "noteType": "basic",
+      "fields": {
+        "Front": "今天",
+        "Back": "**พินอิน:** <span class=\"cf-key\">jīntiān</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">วันนี้</span>\n\n**ตัวอย่างประโยค:**\n我<span class=\"cf-key\">今天</span>去北京。\n<span class=\"cf-muted\">Wǒ jīntiān qù Běijīng.</span>\n<span class=\"cf-muted\">(วันนี้ฉันไปปักกิ่ง)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-46",
+      "noteType": "basic",
+      "fields": {
+        "Front": "九",
+        "Back": "**พินอิน:** <span class=\"cf-key\">jiǔ</span>\n\n**ชนิดของคำ:** ตัวเลข\n**ความหมาย:** <span class=\"cf-success\">เก้า</span>\n\n**ตัวอย่างประโยค:**\n今天是八月<span class=\"cf-key\">九</span>日。\n<span class=\"cf-muted\">Jīntiān shì bā yuè jiǔ rì.</span>\n<span class=\"cf-muted\">(วันนี้คือวันที่เก้าเดือนสิงหาคม)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-47",
+      "noteType": "basic",
+      "fields": {
+        "Front": "开",
+        "Back": "**พินอิน:** <span class=\"cf-key\">kāi</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">ขับ (รถ)</span>\n\n**ตัวอย่างประโยค:**\n我<span class=\"cf-key\">开</span>了三年出租车了。\n<span class=\"cf-muted\">Wǒ kāi le sān nián chūzūchē le.</span>\n<span class=\"cf-muted\">(ฉันขับรถแท็กซี่มาสามปีแล้ว)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-48",
+      "noteType": "basic",
+      "fields": {
+        "Front": "看",
+        "Back": "**พินอิน:** <span class=\"cf-key\">kàn</span>\n\n**ความหมายที่ 1 — คำกริยา:** <span class=\"cf-success\">ดู, มอง</span>\n你<span class=\"cf-key\">看</span>，那本书在桌子上呢。\n<span class=\"cf-muted\">Nǐ kàn, nà běn shū zài zhuōzi shàng ne.</span>\n<span class=\"cf-muted\">(คุณดูสิ หนังสือเล่มนั้นอยู่บนโต๊ะ)</span>\n\n**ความหมายที่ 2 — คำกริยา:** <span class=\"cf-success\">อ่าน</span>\n我在<span class=\"cf-key\">看</span>书呢。\n<span class=\"cf-muted\">Wǒ zài kàn shū ne.</span>\n<span class=\"cf-muted\">(ฉันกำลังอ่านหนังสืออยู่)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-49",
+      "noteType": "basic",
+      "fields": {
+        "Front": "看见",
+        "Back": "**พินอิน:** <span class=\"cf-key\">kànjiàn</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">เห็น</span>\n\n**ตัวอย่างประโยค:**\n我没<span class=\"cf-key\">看见</span>他。\n<span class=\"cf-muted\">Wǒ méi kànjiàn tā.</span>\n<span class=\"cf-muted\">(ฉันไม่เห็นเขา)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-50",
+      "noteType": "basic",
+      "fields": {
+        "Front": "块",
+        "Back": "**พินอิน:** <span class=\"cf-key\">kuài</span>\n\n**ชนิดของคำ:** ลักษณนาม\n**ความหมาย:** <span class=\"cf-success\">หยวน (หน่วยเงิน)</span>\n\n**ตัวอย่างประโยค:**\n这本书三十<span class=\"cf-key\">块</span>钱。\n<span class=\"cf-muted\">Zhè běn shū sānshí kuài qián.</span>\n<span class=\"cf-muted\">(หนังสือเล่มนี้ราคาสามสิบหยวน)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-51",
+      "noteType": "basic",
+      "fields": {
+        "Front": "来",
+        "Back": "**พินอิน:** <span class=\"cf-key\">lái</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">มา</span>\n\n**ตัวอย่างประโยค:**\n他是昨天<span class=\"cf-key\">来</span>这儿的。\n<span class=\"cf-muted\">Tā shì zuótiān lái zhèr de.</span>\n<span class=\"cf-muted\">(เขามาที่นี่เมื่อวานนี้)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-52",
+      "noteType": "basic",
+      "fields": {
+        "Front": "老师",
+        "Back": "**พินอิน:** <span class=\"cf-key\">lǎoshī</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ครู</span>\n\n**ตัวอย่างประโยค:**\n他就是我们的汉语<span class=\"cf-key\">老师</span>。\n<span class=\"cf-muted\">Tā jiù shì wǒmen de Hànyǔ lǎoshī.</span>\n<span class=\"cf-muted\">(เขาคือครูสอนภาษาจีนของพวกเรานั่นเอง)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-53",
+      "noteType": "basic",
+      "fields": {
+        "Front": "了",
+        "Back": "**พินอิน:** <span class=\"cf-key\">le</span>\n\n**ชนิดของคำ:** คำช่วย (แสดงความสมบูรณ์ของการกระทำ)\n**ความหมาย:** <span class=\"cf-success\">แล้ว</span>\n\n**ตัวอย่างประโยค:**\n昨天下雨<span class=\"cf-key\">了</span>。\n<span class=\"cf-muted\">Zuótiān xià yǔ le.</span>\n<span class=\"cf-muted\">(เมื่อวานฝนตกแล้ว)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-54",
+      "noteType": "basic",
+      "fields": {
+        "Front": "冷",
+        "Back": "**พินอิน:** <span class=\"cf-key\">lěng</span>\n\n**ชนิดของคำ:** คำคุณศัพท์\n**ความหมาย:** <span class=\"cf-success\">หนาว</span>\n\n**ตัวอย่างประโยค:**\n今天太<span class=\"cf-key\">冷</span>了。\n<span class=\"cf-muted\">Jīntiān tài lěng le.</span>\n<span class=\"cf-muted\">(วันนี้หนาวเกินไป)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-55",
+      "noteType": "basic",
+      "fields": {
+        "Front": "里",
+        "Back": "**พินอิน:** <span class=\"cf-key\">lǐ</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ใน</span>\n\n**ตัวอย่างประโยค:**\n我们都在学校<span class=\"cf-key\">里</span>。\n<span class=\"cf-muted\">Wǒmen dōu zài xuéxiào lǐ.</span>\n<span class=\"cf-muted\">(พวกเราอยู่ในโรงเรียนกันหมด)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-56",
+      "noteType": "basic",
+      "fields": {
+        "Front": "零",
+        "Back": "**พินอิน:** <span class=\"cf-key\">líng</span>\n\n**ชนิดของคำ:** ตัวเลข\n**ความหมาย:** <span class=\"cf-success\">ศูนย์</span>\n\n**ตัวอย่างประโยค:**\n今年是二<span class=\"cf-key\">零</span>一二年。\n<span class=\"cf-muted\">Jīnnián shì èr líng yī èr nián.</span>\n<span class=\"cf-muted\">(ปีนี้คือปี 2012)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-57",
+      "noteType": "basic",
+      "fields": {
+        "Front": "六",
+        "Back": "**พินอิน:** <span class=\"cf-key\">liù</span>\n\n**ชนิดของคำ:** ตัวเลข\n**ความหมาย:** <span class=\"cf-success\">หก</span>\n\n**ตัวอย่างประโยค:**\n桌子上有<span class=\"cf-key\">六</span>个杯子。\n<span class=\"cf-muted\">Zhuōzi shàng yǒu liù ge bēizi.</span>\n<span class=\"cf-muted\">(บนโต๊ะมีแก้วหกใบ)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-58",
+      "noteType": "basic",
+      "fields": {
+        "Front": "妈妈",
+        "Back": "**พินอิน:** <span class=\"cf-key\">māma</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">แม่</span>\n\n**ตัวอย่างประโยค:**\n我<span class=\"cf-key\">妈妈</span>不在家。\n<span class=\"cf-muted\">Wǒ māma bú zài jiā.</span>\n<span class=\"cf-muted\">(แม่ของฉันไม่อยู่บ้าน)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-59",
+      "noteType": "basic",
+      "fields": {
+        "Front": "吗",
+        "Back": "**พินอิน:** <span class=\"cf-key\">ma</span>\n\n**ชนิดของคำ:** คำช่วย (ใช้ท้ายประโยคคำถาม)\n**ความหมาย:** <span class=\"cf-success\">ไหม, หรือไม่</span>\n\n**ตัวอย่างประโยค:**\n你是中国人<span class=\"cf-key\">吗</span>？\n<span class=\"cf-muted\">Nǐ shì Zhōngguórén ma?</span>\n<span class=\"cf-muted\">(คุณเป็นคนจีนใช่ไหม)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-60",
+      "noteType": "basic",
+      "fields": {
+        "Front": "买",
+        "Back": "**พินอิน:** <span class=\"cf-key\">mǎi</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">ซื้อ</span>\n\n**ตัวอย่างประโยค:**\n我<span class=\"cf-key\">买</span>了一些苹果。\n<span class=\"cf-muted\">Wǒ mǎi le yìxiē píngguǒ.</span>\n<span class=\"cf-muted\">(ฉันซื้อแอปเปิ้ลมาบ้าง)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-61",
+      "noteType": "basic",
+      "fields": {
+        "Front": "没关系",
+        "Back": "**พินอิน:** <span class=\"cf-key\">méi guānxi</span>\n\n**ชนิดของคำ:** สำนวน (ใช้ตอบรับคำขอโทษ)\n**ความหมาย:** <span class=\"cf-success\">ไม่เป็นไร</span> <span class=\"cf-muted\">(ตอบรับเมื่ออีกฝ่ายขอโทษ)</span>\n\n**ตัวอย่างประโยค:**\n甲：对不起！乙：<span class=\"cf-key\">没关系</span>。\n<span class=\"cf-muted\">Jiǎ: Duìbuqǐ! Yǐ: Méi guānxi.</span>\n<span class=\"cf-muted\">(ก: ขอโทษ! ข: ไม่เป็นไร)</span>\n\n<span class=\"cf-warning\">ข้อควรระวัง: อย่าสับสนกับ 不客气 ซึ่งใช้ตอบรับคำขอบคุณ</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-62",
+      "noteType": "basic",
+      "fields": {
+        "Front": "没有",
+        "Back": "**พินอิน:** <span class=\"cf-key\">méiyǒu</span>\n\n**ความหมายที่ 1 — คำกริยา:** <span class=\"cf-success\">ไม่มี</span>\n我家里<span class=\"cf-key\">没有</span>人。\n<span class=\"cf-muted\">Wǒ jiā lǐ méiyǒu rén.</span>\n<span class=\"cf-muted\">(ที่บ้านของฉันไม่มีคน)</span>\n\n**ความหมายที่ 2 — คำกริยา:** <span class=\"cf-success\">ไม่เท่า</span> <span class=\"cf-muted\">(ใช้เปรียบเทียบ)</span>\n我<span class=\"cf-key\">没有</span>他高。\n<span class=\"cf-muted\">Wǒ méiyǒu tā gāo.</span>\n<span class=\"cf-muted\">(ฉันไม่สูงเท่าเขา)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-63",
+      "noteType": "basic",
+      "fields": {
+        "Front": "米饭",
+        "Back": "**พินอิน:** <span class=\"cf-key\">mǐfàn</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ข้าวสวย</span>\n\n**ตัวอย่างประโยค:**\n我爱吃<span class=\"cf-key\">米饭</span>。\n<span class=\"cf-muted\">Wǒ ài chī mǐfàn.</span>\n<span class=\"cf-muted\">(ฉันชอบกินข้าวสวย)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-64",
+      "noteType": "basic",
+      "fields": {
+        "Front": "明天",
+        "Back": "**พินอิน:** <span class=\"cf-key\">míngtiān</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">พรุ่งนี้</span>\n\n**ตัวอย่างประโยค:**\n今天星期日，<span class=\"cf-key\">明天</span>是星期一。\n<span class=\"cf-muted\">Jīntiān xīngqīrì, míngtiān shì xīngqīyī.</span>\n<span class=\"cf-muted\">(วันนี้วันอาทิตย์ พรุ่งนี้เป็นวันจันทร์)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-65",
+      "noteType": "basic",
+      "fields": {
+        "Front": "名字",
+        "Back": "**พินอิน:** <span class=\"cf-key\">míngzi</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ชื่อ</span>\n\n**ตัวอย่างประโยค:**\n我的<span class=\"cf-key\">名字</span>叫李明。\n<span class=\"cf-muted\">Wǒ de míngzi jiào Lǐ Míng.</span>\n<span class=\"cf-muted\">(ชื่อของฉันคือหลี่หมิง)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-66",
+      "noteType": "basic",
+      "fields": {
+        "Front": "哪",
+        "Back": "**พินอิน:** <span class=\"cf-key\">nǎ</span>\n\n**ชนิดของคำ:** คำสรรพนาม\n**ความหมาย:** <span class=\"cf-success\">ไหน</span>\n\n**ตัวอย่างประโยค:**\n<span class=\"cf-key\">哪</span>个杯子是你的？\n<span class=\"cf-muted\">Nǎ ge bēizi shì nǐ de?</span>\n<span class=\"cf-muted\">(แก้วใบไหนเป็นของคุณ)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-67",
+      "noteType": "basic",
+      "fields": {
+        "Front": "哪儿",
+        "Back": "**พินอิน:** <span class=\"cf-key\">nǎr</span>\n\n**ชนิดของคำ:** คำสรรพนาม\n**ความหมาย:** <span class=\"cf-success\">ที่ไหน</span>\n\n**ตัวอย่างประโยค:**\n你家在<span class=\"cf-key\">哪儿</span>？\n<span class=\"cf-muted\">Nǐ jiā zài nǎr?</span>\n<span class=\"cf-muted\">(บ้านของคุณอยู่ที่ไหน)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-68",
+      "noteType": "basic",
+      "fields": {
+        "Front": "那（那儿）",
+        "Back": "**พินอิน:** <span class=\"cf-key\">nà (nàr)</span>\n\n**ความหมายที่ 1 — คำสรรพนาม:** <span class=\"cf-success\">นั่น</span>\n我不认识<span class=\"cf-key\">那</span>个人。\n<span class=\"cf-muted\">Wǒ bú rènshi nàge rén.</span>\n<span class=\"cf-muted\">(ฉันไม่รู้จักคนนั้น)</span>\n\n**ความหมายที่ 2 — คำสรรพนาม:** <span class=\"cf-success\">ที่นั่น</span>\n我们的车在<span class=\"cf-key\">那儿</span>。\n<span class=\"cf-muted\">Wǒmen de chē zài nàr.</span>\n<span class=\"cf-muted\">(รถของพวกเราอยู่ที่นั่น)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-69",
+      "noteType": "basic",
+      "fields": {
+        "Front": "呢",
+        "Back": "**พินอิน:** <span class=\"cf-key\">ne</span>\n\n**ความหมายที่ 1 — คำช่วย:** <span class=\"cf-success\">ใส่ท้ายประโยคคำถาม</span>\n你们家有几个人<span class=\"cf-key\">呢</span>？\n<span class=\"cf-muted\">Nǐmen jiā yǒu jǐ ge rén ne?</span>\n<span class=\"cf-muted\">(บ้านของพวกคุณมีกี่คนล่ะ)</span>\n\n**ความหมายที่ 2 — คำช่วย:** <span class=\"cf-success\">ใส่ท้ายประโยคเน้นการกระทำที่กำลังดำเนินอยู่</span>\n我在睡觉<span class=\"cf-key\">呢</span>。\n<span class=\"cf-muted\">Wǒ zài shuìjiào ne.</span>\n<span class=\"cf-muted\">(ฉันกำลังนอนหลับอยู่)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-70",
+      "noteType": "basic",
+      "fields": {
+        "Front": "能",
+        "Back": "**พินอิน:** <span class=\"cf-key\">néng</span>\n\n**ชนิดของคำ:** คำช่วยกริยา\n**ความหมาย:** <span class=\"cf-success\">สามารถ, ได้</span>\n\n**ตัวอย่างประโยค:**\n我<span class=\"cf-key\">能</span>坐在这儿吗？\n<span class=\"cf-muted\">Wǒ néng zuò zài zhèr ma?</span>\n<span class=\"cf-muted\">(ฉันนั่งตรงนี้ได้ไหม)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-71",
+      "noteType": "basic",
+      "fields": {
+        "Front": "你",
+        "Back": "**พินอิน:** <span class=\"cf-key\">nǐ</span>\n\n**ชนิดของคำ:** คำสรรพนาม\n**ความหมาย:** <span class=\"cf-success\">คุณ, เธอ</span>\n\n**ตัวอย่างประโยค:**\n<span class=\"cf-key\">你</span>认识这个人吗？\n<span class=\"cf-muted\">Nǐ rènshi zhège rén ma?</span>\n<span class=\"cf-muted\">(คุณรู้จักคนนี้ไหม)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-72",
+      "noteType": "basic",
+      "fields": {
+        "Front": "年",
+        "Back": "**พินอิน:** <span class=\"cf-key\">nián</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ปี</span>\n\n**ตัวอย่างประโยค:**\n我在中国住了三<span class=\"cf-key\">年</span>。\n<span class=\"cf-muted\">Wǒ zài Zhōngguó zhù le sān nián.</span>\n<span class=\"cf-muted\">(ฉันอาศัยอยู่ที่ประเทศจีนมาสามปีแล้ว)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-73",
+      "noteType": "basic",
+      "fields": {
+        "Front": "女儿",
+        "Back": "**พินอิน:** <span class=\"cf-key\">nǚ'ér</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ลูกสาว</span>\n\n**ตัวอย่างประโยค:**\n我有两个<span class=\"cf-key\">女儿</span>。\n<span class=\"cf-muted\">Wǒ yǒu liǎng ge nǚ'ér.</span>\n<span class=\"cf-muted\">(ฉันมีลูกสาวสองคน)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-74",
+      "noteType": "basic",
+      "fields": {
+        "Front": "朋友",
+        "Back": "**พินอิน:** <span class=\"cf-key\">péngyou</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">เพื่อน</span>\n\n**ตัวอย่างประโยค:**\n他是我的好<span class=\"cf-key\">朋友</span>。\n<span class=\"cf-muted\">Tā shì wǒ de hǎo péngyou.</span>\n<span class=\"cf-muted\">(เขาเป็นเพื่อนที่ดีของฉัน)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-75",
+      "noteType": "basic",
+      "fields": {
+        "Front": "漂亮",
+        "Back": "**พินอิน:** <span class=\"cf-key\">piàoliang</span>\n\n**ชนิดของคำ:** คำคุณศัพท์\n**ความหมาย:** <span class=\"cf-success\">สวย</span>\n\n**ตัวอย่างประโยค:**\n你的衣服真<span class=\"cf-key\">漂亮</span>。\n<span class=\"cf-muted\">Nǐ de yīfu zhēn piàoliang.</span>\n<span class=\"cf-muted\">(เสื้อผ้าของคุณสวยจริงๆ)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-76",
+      "noteType": "basic",
+      "fields": {
+        "Front": "苹果",
+        "Back": "**พินอิน:** <span class=\"cf-key\">píngguǒ</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">แอปเปิ้ล</span>\n\n**ตัวอย่างประโยค:**\n你想不想吃个<span class=\"cf-key\">苹果</span>？\n<span class=\"cf-muted\">Nǐ xiǎng bu xiǎng chī ge píngguǒ?</span>\n<span class=\"cf-muted\">(คุณอยากกินแอปเปิ้ลสักลูกไหม)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-77",
+      "noteType": "basic",
+      "fields": {
+        "Front": "七",
+        "Back": "**พินอิน:** <span class=\"cf-key\">qī</span>\n\n**ชนิดของคำ:** ตัวเลข\n**ความหมาย:** <span class=\"cf-success\">เจ็ด</span>\n\n**ตัวอย่างประโยค:**\n一个星期有<span class=\"cf-key\">七</span>天。\n<span class=\"cf-muted\">Yí ge xīngqī yǒu qī tiān.</span>\n<span class=\"cf-muted\">(หนึ่งสัปดาห์มีเจ็ดวัน)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-78",
+      "noteType": "basic",
+      "fields": {
+        "Front": "钱",
+        "Back": "**พินอิน:** <span class=\"cf-key\">qián</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">เงิน</span>\n\n**ตัวอย่างประโยค:**\n一个苹果三块<span class=\"cf-key\">钱</span>。\n<span class=\"cf-muted\">Yí ge píngguǒ sān kuài qián.</span>\n<span class=\"cf-muted\">(แอปเปิ้ลลูกหนึ่งราคาสามหยวน)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-79",
+      "noteType": "basic",
+      "fields": {
+        "Front": "前面",
+        "Back": "**พินอิน:** <span class=\"cf-key\">qiánmiàn</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ด้านหน้า</span>\n\n**ตัวอย่างประโยค:**\n<span class=\"cf-key\">前面</span>那个人是我的同学。\n<span class=\"cf-muted\">Qiánmiàn nàge rén shì wǒ de tóngxué.</span>\n<span class=\"cf-muted\">(คนที่อยู่ด้านหน้านั่นคือเพื่อนนักเรียนของฉัน)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-80",
+      "noteType": "basic",
+      "fields": {
+        "Front": "请",
+        "Back": "**พินอิน:** <span class=\"cf-key\">qǐng</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">เชิญ</span>\n\n**ตัวอย่างประโยค:**\n<span class=\"cf-key\">请</span>坐在椅子上。\n<span class=\"cf-muted\">Qǐng zuò zài yǐzi shàng.</span>\n<span class=\"cf-muted\">(เชิญนั่งบนเก้าอี้)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-81",
+      "noteType": "basic",
+      "fields": {
+        "Front": "去",
+        "Back": "**พินอิน:** <span class=\"cf-key\">qù</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">ไป</span>\n\n**ตัวอย่างประโยค:**\n我星期三<span class=\"cf-key\">去</span>中国。\n<span class=\"cf-muted\">Wǒ xīngqīsān qù Zhōngguó.</span>\n<span class=\"cf-muted\">(ฉันไปประเทศจีนวันพุธ)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-82",
+      "noteType": "basic",
+      "fields": {
+        "Front": "热",
+        "Back": "**พินอิน:** <span class=\"cf-key\">rè</span>\n\n**ชนิดของคำ:** คำคุณศัพท์\n**ความหมาย:** <span class=\"cf-success\">ร้อน</span>\n\n**ตัวอย่างประโยค:**\n今天很<span class=\"cf-key\">热</span>。\n<span class=\"cf-muted\">Jīntiān hěn rè.</span>\n<span class=\"cf-muted\">(วันนี้ร้อนมาก)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-83",
+      "noteType": "basic",
+      "fields": {
+        "Front": "人",
+        "Back": "**พินอิน:** <span class=\"cf-key\">rén</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">คน</span>\n\n**ตัวอย่างประโยค:**\n商店里有很多<span class=\"cf-key\">人</span>。\n<span class=\"cf-muted\">Shāngdiàn lǐ yǒu hěn duō rén.</span>\n<span class=\"cf-muted\">(ในร้านค้ามีคนมากมาย)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-84",
+      "noteType": "basic",
+      "fields": {
+        "Front": "认识",
+        "Back": "**พินอิน:** <span class=\"cf-key\">rènshi</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">รู้จัก</span>\n\n**ตัวอย่างประโยค:**\n<span class=\"cf-key\">认识</span>你很高兴。\n<span class=\"cf-muted\">Rènshi nǐ hěn gāoxìng.</span>\n<span class=\"cf-muted\">(ยินดีที่ได้รู้จักคุณ)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-85",
+      "noteType": "basic",
+      "fields": {
+        "Front": "三",
+        "Back": "**พินอิน:** <span class=\"cf-key\">sān</span>\n\n**ชนิดของคำ:** ตัวเลข\n**ความหมาย:** <span class=\"cf-success\">สาม</span>\n\n**ตัวอย่างประโยค:**\n我有<span class=\"cf-key\">三</span>本书。\n<span class=\"cf-muted\">Wǒ yǒu sān běn shū.</span>\n<span class=\"cf-muted\">(ฉันมีหนังสือสามเล่ม)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-86",
+      "noteType": "basic",
+      "fields": {
+        "Front": "商店",
+        "Back": "**พินอิน:** <span class=\"cf-key\">shāngdiàn</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ร้านค้า</span>\n\n**ตัวอย่างประโยค:**\n她去<span class=\"cf-key\">商店</span>买东西了。\n<span class=\"cf-muted\">Tā qù shāngdiàn mǎi dōngxi le.</span>\n<span class=\"cf-muted\">(เธอไปร้านค้าซื้อของ)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-87",
+      "noteType": "basic",
+      "fields": {
+        "Front": "上",
+        "Back": "**พินอิน:** <span class=\"cf-key\">shàng</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ด้านบน</span>\n\n**ตัวอย่างประโยค:**\n水果在桌子<span class=\"cf-key\">上</span>。\n<span class=\"cf-muted\">Shuǐguǒ zài zhuōzi shàng.</span>\n<span class=\"cf-muted\">(ผลไม้อยู่บนโต๊ะ)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-88",
+      "noteType": "basic",
+      "fields": {
+        "Front": "上午",
+        "Back": "**พินอิน:** <span class=\"cf-key\">shàngwǔ</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ช่วงเช้า</span>\n\n**ตัวอย่างประโยค:**\n现在是<span class=\"cf-key\">上午</span>10点。\n<span class=\"cf-muted\">Xiànzài shì shàngwǔ shí diǎn.</span>\n<span class=\"cf-muted\">(ตอนนี้เป็นเวลาสิบโมงเช้า)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-89",
+      "noteType": "basic",
+      "fields": {
+        "Front": "少",
+        "Back": "**พินอิน:** <span class=\"cf-key\">shǎo</span>\n\n**ชนิดของคำ:** คำคุณศัพท์\n**ความหมาย:** <span class=\"cf-success\">น้อย</span>\n\n**ตัวอย่างประโยค:**\n杯子里的水很<span class=\"cf-key\">少</span>。\n<span class=\"cf-muted\">Bēizi lǐ de shuǐ hěn shǎo.</span>\n<span class=\"cf-muted\">(น้ำในแก้วมีน้อยมาก)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-90",
+      "noteType": "basic",
+      "fields": {
+        "Front": "谁",
+        "Back": "**พินอิน:** <span class=\"cf-key\">shéi</span>\n\n**ชนิดของคำ:** คำสรรพนาม\n**ความหมาย:** <span class=\"cf-success\">ใคร</span>\n\n**ตัวอย่างประโยค:**\n那个人是<span class=\"cf-key\">谁</span>？\n<span class=\"cf-muted\">Nàge rén shì shéi?</span>\n<span class=\"cf-muted\">(คนนั้นคือใคร)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-91",
+      "noteType": "basic",
+      "fields": {
+        "Front": "什么",
+        "Back": "**พินอิน:** <span class=\"cf-key\">shénme</span>\n\n**ชนิดของคำ:** คำสรรพนาม\n**ความหมาย:** <span class=\"cf-success\">อะไร</span>\n\n**ตัวอย่างประโยค:**\n你看见了<span class=\"cf-key\">什么</span>？\n<span class=\"cf-muted\">Nǐ kànjiàn le shénme?</span>\n<span class=\"cf-muted\">(คุณเห็นอะไร)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-92",
+      "noteType": "basic",
+      "fields": {
+        "Front": "十",
+        "Back": "**พินอิน:** <span class=\"cf-key\">shí</span>\n\n**ชนิดของคำ:** ตัวเลข\n**ความหมาย:** <span class=\"cf-success\">สิบ</span>\n\n**ตัวอย่างประโยค:**\n现在是<span class=\"cf-key\">十</span>月。\n<span class=\"cf-muted\">Xiànzài shì shí yuè.</span>\n<span class=\"cf-muted\">(ตอนนี้เป็นเดือนตุลาคม)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-93",
+      "noteType": "basic",
+      "fields": {
+        "Front": "时候",
+        "Back": "**พินอิน:** <span class=\"cf-key\">shíhou</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ตอนที่</span>\n\n**ตัวอย่างประโยค:**\n我回家的<span class=\"cf-key\">时候</span>，他在睡觉。\n<span class=\"cf-muted\">Wǒ huí jiā de shíhou, tā zài shuìjiào.</span>\n<span class=\"cf-muted\">(ตอนที่ฉันกลับบ้าน เขากำลังนอนหลับอยู่)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-94",
+      "noteType": "basic",
+      "fields": {
+        "Front": "是",
+        "Back": "**พินอิน:** <span class=\"cf-key\">shì</span>\n\n**ความหมายที่ 1 — คำกริยา:** <span class=\"cf-success\">เป็น, คือ</span>\n他不<span class=\"cf-key\">是</span>学生。\n<span class=\"cf-muted\">Tā bú shì xuésheng.</span>\n<span class=\"cf-muted\">(เขาไม่ใช่นักเรียน)</span>\n\n**ความหมายที่ 2 — คำกริยา:** <span class=\"cf-success\">ใช่</span> <span class=\"cf-muted\">(ใช้ตอบรับแสดงการเห็นด้วย)</span>\n甲：你是中国人吗？乙：<span class=\"cf-key\">是</span>，我是中国人。\n<span class=\"cf-muted\">Jiǎ: Nǐ shì Zhōngguórén ma? Yǐ: Shì, wǒ shì Zhōngguórén.</span>\n<span class=\"cf-muted\">(ก: คุณเป็นคนจีนใช่ไหม ข: ใช่ ฉันเป็นคนจีน)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-95",
+      "noteType": "basic",
+      "fields": {
+        "Front": "书",
+        "Back": "**พินอิน:** <span class=\"cf-key\">shū</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">หนังสือ</span>\n\n**ตัวอย่างประโยค:**\n我喜欢读<span class=\"cf-key\">书</span>。\n<span class=\"cf-muted\">Wǒ xǐhuan dú shū.</span>\n<span class=\"cf-muted\">(ฉันชอบอ่านหนังสือ)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-96",
+      "noteType": "basic",
+      "fields": {
+        "Front": "水",
+        "Back": "**พินอิน:** <span class=\"cf-key\">shuǐ</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">น้ำ</span>\n\n**ตัวอย่างประโยค:**\n杯子里还有<span class=\"cf-key\">水</span>吗？\n<span class=\"cf-muted\">Bēizi lǐ hái yǒu shuǐ ma?</span>\n<span class=\"cf-muted\">(ในแก้วยังมีน้ำอยู่ไหม)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-97",
+      "noteType": "basic",
+      "fields": {
+        "Front": "水果",
+        "Back": "**พินอิน:** <span class=\"cf-key\">shuǐguǒ</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ผลไม้</span>\n\n**ตัวอย่างประโยค:**\n我想去商店买<span class=\"cf-key\">水果</span>。\n<span class=\"cf-muted\">Wǒ xiǎng qù shāngdiàn mǎi shuǐguǒ.</span>\n<span class=\"cf-muted\">(ฉันอยากไปร้านค้าซื้อผลไม้)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-98",
+      "noteType": "basic",
+      "fields": {
+        "Front": "睡觉",
+        "Back": "**พินอิน:** <span class=\"cf-key\">shuìjiào</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">นอน, หลับ</span>\n\n**ตัวอย่างประโยค:**\n儿子在<span class=\"cf-key\">睡觉</span>呢。\n<span class=\"cf-muted\">Érzi zài shuìjiào ne.</span>\n<span class=\"cf-muted\">(ลูกชายกำลังนอนหลับอยู่)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-99",
+      "noteType": "basic",
+      "fields": {
+        "Front": "说",
+        "Back": "**พินอิน:** <span class=\"cf-key\">shuō</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">พูด</span>\n\n**ตัวอย่างประโยค:**\n你在<span class=\"cf-key\">说</span>什么？\n<span class=\"cf-muted\">Nǐ zài shuō shénme?</span>\n<span class=\"cf-muted\">(คุณกำลังพูดอะไรอยู่)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-100",
+      "noteType": "basic",
+      "fields": {
+        "Front": "说话",
+        "Back": "**พินอิน:** <span class=\"cf-key\">shuōhuà</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">พูดคุย</span>\n\n**ตัวอย่างประโยค:**\n他们在<span class=\"cf-key\">说话</span>。\n<span class=\"cf-muted\">Tāmen zài shuōhuà.</span>\n<span class=\"cf-muted\">(พวกเขากำลังพูดคุยกันอยู่)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-101",
+      "noteType": "basic",
+      "fields": {
+        "Front": "四",
+        "Back": "**พินอิน:** <span class=\"cf-key\">sì</span>\n\n**ชนิดของคำ:** ตัวเลข\n**ความหมาย:** <span class=\"cf-success\">สี่</span>\n\n**ตัวอย่างประโยค:**\n我们<span class=\"cf-key\">四</span>个人去看电影。\n<span class=\"cf-muted\">Wǒmen sì ge rén qù kàn diànyǐng.</span>\n<span class=\"cf-muted\">(พวกเราสี่คนไปดูภาพยนตร์)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-102",
+      "noteType": "basic",
+      "fields": {
+        "Front": "岁",
+        "Back": "**พินอิน:** <span class=\"cf-key\">suì</span>\n\n**ชนิดของคำ:** ลักษณนาม\n**ความหมาย:** <span class=\"cf-success\">ปี (ใช้บอกอายุ)</span>\n\n**ตัวอย่างประโยค:**\n李医生今年40<span class=\"cf-key\">岁</span>。\n<span class=\"cf-muted\">Lǐ yīshēng jīnnián sìshí suì.</span>\n<span class=\"cf-muted\">(หมอหลี่ปีนี้อายุสี่สิบปี)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-103",
+      "noteType": "basic",
+      "fields": {
+        "Front": "他",
+        "Back": "**พินอิน:** <span class=\"cf-key\">tā</span>\n\n**ชนิดของคำ:** คำสรรพนาม\n**ความหมาย:** <span class=\"cf-success\">เขา (ผู้ชาย)</span>\n\n**ตัวอย่างประโยค:**\n<span class=\"cf-key\">他</span>是我们的老师。\n<span class=\"cf-muted\">Tā shì wǒmen de lǎoshī.</span>\n<span class=\"cf-muted\">(เขาคือครูของพวกเรา)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-104",
+      "noteType": "basic",
+      "fields": {
+        "Front": "她",
+        "Back": "**พินอิน:** <span class=\"cf-key\">tā</span>\n\n**ชนิดของคำ:** คำสรรพนาม\n**ความหมาย:** <span class=\"cf-success\">เขา (ผู้หญิง)</span>\n\n**ตัวอย่างประโยค:**\n我认识<span class=\"cf-key\">她</span>的妈妈。\n<span class=\"cf-muted\">Wǒ rènshi tā de māma.</span>\n<span class=\"cf-muted\">(ฉันรู้จักแม่ของเธอ)</span>\n\n<span class=\"cf-warning\">ข้อควรระวัง: 他 กับ 她 ออกเสียงเหมือนกันว่า tā แต่เขียนต่างกันตามเพศ</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-105",
+      "noteType": "basic",
+      "fields": {
+        "Front": "太",
+        "Back": "**พินอิน:** <span class=\"cf-key\">tài</span>\n\n**ชนิดของคำ:** คำวิเศษณ์\n**ความหมาย:** <span class=\"cf-success\">มากเกินไป</span>\n\n**ตัวอย่างประโยค:**\n这个学校<span class=\"cf-key\">太</span>大了。\n<span class=\"cf-muted\">Zhège xuéxiào tài dà le.</span>\n<span class=\"cf-muted\">(โรงเรียนนี้ใหญ่เกินไป)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-106",
+      "noteType": "basic",
+      "fields": {
+        "Front": "天气",
+        "Back": "**พินอิน:** <span class=\"cf-key\">tiānqì</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">อากาศ</span>\n\n**ตัวอย่างประโยค:**\n今天的<span class=\"cf-key\">天气</span>非常好。\n<span class=\"cf-muted\">Jīntiān de tiānqì fēicháng hǎo.</span>\n<span class=\"cf-muted\">(อากาศวันนี้ดีมาก)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-107",
+      "noteType": "basic",
+      "fields": {
+        "Front": "听",
+        "Back": "**พินอิน:** <span class=\"cf-key\">tīng</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">ฟัง</span>\n\n**ตัวอย่างประโยค:**\n你<span class=\"cf-key\">听</span>，谁来了？\n<span class=\"cf-muted\">Nǐ tīng, shéi lái le?</span>\n<span class=\"cf-muted\">(คุณฟังสิ ใครมาแล้ว)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-108",
+      "noteType": "basic",
+      "fields": {
+        "Front": "同学",
+        "Back": "**พินอิน:** <span class=\"cf-key\">tóngxué</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">เพื่อนนักเรียน</span>\n\n**ตัวอย่างประโยค:**\n<span class=\"cf-key\">同学</span>们，你们好！\n<span class=\"cf-muted\">Tóngxuémen, nǐmen hǎo!</span>\n<span class=\"cf-muted\">(สวัสดีทุกคน เพื่อนนักเรียนทั้งหลาย)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-109",
+      "noteType": "basic",
+      "fields": {
+        "Front": "喂",
+        "Back": "**พินอิน:** <span class=\"cf-key\">wèi</span>\n\n**ชนิดของคำ:** คำอุทาน\n**ความหมาย:** <span class=\"cf-success\">ฮัลโหล</span>\n\n**ตัวอย่างประโยค:**\n<span class=\"cf-key\">喂</span>，李老师在吗？\n<span class=\"cf-muted\">Wèi, Lǐ lǎoshī zài ma?</span>\n<span class=\"cf-muted\">(ฮัลโหล คุณครูหลี่อยู่ไหม)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-110",
+      "noteType": "basic",
+      "fields": {
+        "Front": "我",
+        "Back": "**พินอิน:** <span class=\"cf-key\">wǒ</span>\n\n**ชนิดของคำ:** คำสรรพนาม\n**ความหมาย:** <span class=\"cf-success\">ฉัน, ผม</span>\n\n**ตัวอย่างประโยค:**\n<span class=\"cf-key\">我</span>是一个学生。\n<span class=\"cf-muted\">Wǒ shì yí ge xuésheng.</span>\n<span class=\"cf-muted\">(ฉันเป็นนักเรียนคนหนึ่ง)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-111",
+      "noteType": "basic",
+      "fields": {
+        "Front": "我们",
+        "Back": "**พินอิน:** <span class=\"cf-key\">wǒmen</span>\n\n**ชนิดของคำ:** คำสรรพนาม\n**ความหมาย:** <span class=\"cf-success\">พวกเรา</span>\n\n**ตัวอย่างประโยค:**\n<span class=\"cf-key\">我们</span>都是学生。\n<span class=\"cf-muted\">Wǒmen dōu shì xuésheng.</span>\n<span class=\"cf-muted\">(พวกเราเป็นนักเรียนกันหมด)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-112",
+      "noteType": "basic",
+      "fields": {
+        "Front": "五",
+        "Back": "**พินอิน:** <span class=\"cf-key\">wǔ</span>\n\n**ชนิดของคำ:** ตัวเลข\n**ความหมาย:** <span class=\"cf-success\">ห้า</span>\n\n**ตัวอย่างประโยค:**\n今天星期<span class=\"cf-key\">五</span>。\n<span class=\"cf-muted\">Jīntiān xīngqīwǔ.</span>\n<span class=\"cf-muted\">(วันนี้วันศุกร์)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-113",
+      "noteType": "basic",
+      "fields": {
+        "Front": "喜欢",
+        "Back": "**พินอิน:** <span class=\"cf-key\">xǐhuan</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">ชอบ</span>\n\n**ตัวอย่างประโยค:**\n我<span class=\"cf-key\">喜欢</span>学汉语。\n<span class=\"cf-muted\">Wǒ xǐhuan xué Hànyǔ.</span>\n<span class=\"cf-muted\">(ฉันชอบเรียนภาษาจีน)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-114",
+      "noteType": "basic",
+      "fields": {
+        "Front": "下",
+        "Back": "**พินอิน:** <span class=\"cf-key\">xià</span>\n\n**ความหมายที่ 1 — คำนาม:** <span class=\"cf-success\">ด้านล่าง</span>\n小猫在桌子<span class=\"cf-key\">下</span>面。\n<span class=\"cf-muted\">Xiǎo māo zài zhuōzi xiàmiàn.</span>\n<span class=\"cf-muted\">(แมวตัวเล็กอยู่ใต้โต๊ะ)</span>\n\n**ความหมายที่ 2 — คำกริยา:** <span class=\"cf-success\">(หิมะ, ฝน) ตก</span>\n今天<span class=\"cf-key\">下</span>雨了。\n<span class=\"cf-muted\">Jīntiān xià yǔ le.</span>\n<span class=\"cf-muted\">(วันนี้ฝนตกแล้ว)</span>\n\n**ความหมายที่ 3 — คำนาม:** <span class=\"cf-success\">ถัดไป</span>\n我<span class=\"cf-key\">下</span>个月去北京。\n<span class=\"cf-muted\">Wǒ xià ge yuè qù Běijīng.</span>\n<span class=\"cf-muted\">(เดือนหน้าฉันจะไปปักกิ่ง)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-115",
+      "noteType": "basic",
+      "fields": {
+        "Front": "下午",
+        "Back": "**พินอิน:** <span class=\"cf-key\">xiàwǔ</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ช่วงบ่าย</span>\n\n**ตัวอย่างประโยค:**\n我今天<span class=\"cf-key\">下午</span>不去学校了。\n<span class=\"cf-muted\">Wǒ jīntiān xiàwǔ bú qù xuéxiào le.</span>\n<span class=\"cf-muted\">(บ่ายวันนี้ฉันจะไม่ไปโรงเรียน)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-116",
+      "noteType": "basic",
+      "fields": {
+        "Front": "下雨",
+        "Back": "**พินอิน:** <span class=\"cf-key\">xià yǔ</span>\n\n**ชนิดของคำ:** คำกริยา (วลี)\n**ความหมาย:** <span class=\"cf-success\">ฝนตก</span>\n\n**ตัวอย่างประโยค:**\n昨天<span class=\"cf-key\">下雨</span>了。\n<span class=\"cf-muted\">Zuótiān xià yǔ le.</span>\n<span class=\"cf-muted\">(เมื่อวานฝนตก)</span>\n\n<span class=\"cf-muted\">หมายเหตุ: 下雨 เป็นการเน้นเหตุการณ์ฝนตกโดยตรง ต่างจาก 下 ที่เป็นคำกริยาเดี่ยวซึ่งต้องตามด้วยคำนาม เช่น 雨 หรือ 雪</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-117",
+      "noteType": "basic",
+      "fields": {
+        "Front": "先生",
+        "Back": "**พินอิน:** <span class=\"cf-key\">xiānsheng</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">คุณ (ผู้ชาย)</span>\n\n**ตัวอย่างประโยค:**\n你也认识王<span class=\"cf-key\">先生</span>？\n<span class=\"cf-muted\">Nǐ yě rènshi Wáng xiānsheng?</span>\n<span class=\"cf-muted\">(คุณก็รู้จักคุณหวังด้วยหรือ)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-118",
+      "noteType": "basic",
+      "fields": {
+        "Front": "现在",
+        "Back": "**พินอิน:** <span class=\"cf-key\">xiànzài</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ตอนนี้</span>\n\n**ตัวอย่างประโยค:**\n<span class=\"cf-key\">现在</span>是12点。\n<span class=\"cf-muted\">Xiànzài shì shí'èr diǎn.</span>\n<span class=\"cf-muted\">(ตอนนี้เวลาสิบสองนาฬิกา)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-119",
+      "noteType": "basic",
+      "fields": {
+        "Front": "想",
+        "Back": "**พินอิน:** <span class=\"cf-key\">xiǎng</span>\n\n**ความหมายที่ 1 — คำช่วยกริยา:** <span class=\"cf-success\">อยาก</span>\n我<span class=\"cf-key\">想</span>星期六去北京。\n<span class=\"cf-muted\">Wǒ xiǎng xīngqīliù qù Běijīng.</span>\n<span class=\"cf-muted\">(ฉันอยากไปปักกิ่งวันเสาร์)</span>\n\n**ความหมายที่ 2 — คำกริยา:** <span class=\"cf-success\">คิด</span>\n妈妈，你在<span class=\"cf-key\">想</span>什么呢？\n<span class=\"cf-muted\">Māma, nǐ zài xiǎng shénme ne?</span>\n<span class=\"cf-muted\">(แม่ แม่กำลังคิดอะไรอยู่)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-120",
+      "noteType": "basic",
+      "fields": {
+        "Front": "小",
+        "Back": "**พินอิน:** <span class=\"cf-key\">xiǎo</span>\n\n**ชนิดของคำ:** คำคุณศัพท์\n**ความหมาย:** <span class=\"cf-success\">เล็ก</span>\n\n**ตัวอย่างประโยค:**\n这个苹果太<span class=\"cf-key\">小</span>了。\n<span class=\"cf-muted\">Zhège píngguǒ tài xiǎo le.</span>\n<span class=\"cf-muted\">(แอปเปิ้ลลูกนี้เล็กเกินไป)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-121",
+      "noteType": "basic",
+      "fields": {
+        "Front": "小姐",
+        "Back": "**พินอิน:** <span class=\"cf-key\">xiǎojiě</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">คุณ (ผู้หญิง)</span>\n\n**ตัวอย่างประโยค:**\n<span class=\"cf-key\">小姐</span>，你叫什么名字？\n<span class=\"cf-muted\">Xiǎojiě, nǐ jiào shénme míngzi?</span>\n<span class=\"cf-muted\">(คุณผู้หญิง คุณชื่ออะไร)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-122",
+      "noteType": "basic",
+      "fields": {
+        "Front": "些",
+        "Back": "**พินอิน:** <span class=\"cf-key\">xiē</span>\n\n**ชนิดของคำ:** ลักษณนาม\n**ความหมาย:** <span class=\"cf-success\">เล็กน้อย, บ้าง</span>\n\n**ตัวอย่างประโยค:**\n我买了<span class=\"cf-key\">些</span>苹果。\n<span class=\"cf-muted\">Wǒ mǎi le xiē píngguǒ.</span>\n<span class=\"cf-muted\">(ฉันซื้อแอปเปิ้ลมาบ้าง)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-123",
+      "noteType": "basic",
+      "fields": {
+        "Front": "写",
+        "Back": "**พินอิน:** <span class=\"cf-key\">xiě</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">เขียน</span>\n\n**ตัวอย่างประโยค:**\n你<span class=\"cf-key\">写</span>的字很漂亮。\n<span class=\"cf-muted\">Nǐ xiě de zì hěn piàoliang.</span>\n<span class=\"cf-muted\">(ตัวอักษรที่คุณเขียนสวยมาก)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-124",
+      "noteType": "basic",
+      "fields": {
+        "Front": "谢谢",
+        "Back": "**พินอิน:** <span class=\"cf-key\">xièxie</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">ขอบคุณ, ขอบใจ</span>\n\n**ตัวอย่างประโยค:**\n甲：<span class=\"cf-key\">谢谢</span>你。乙：不客气！\n<span class=\"cf-muted\">Jiǎ: Xièxie nǐ. Yǐ: Bú kèqi!</span>\n<span class=\"cf-muted\">(ก: ขอบคุณ ข: ไม่เป็นไร)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-125",
+      "noteType": "basic",
+      "fields": {
+        "Front": "星期",
+        "Back": "**พินอิน:** <span class=\"cf-key\">xīngqī</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">สัปดาห์</span>\n\n**ตัวอย่างประโยค:**\n一个<span class=\"cf-key\">星期</span>有七天。\n<span class=\"cf-muted\">Yí ge xīngqī yǒu qī tiān.</span>\n<span class=\"cf-muted\">(หนึ่งสัปดาห์มีเจ็ดวัน)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-126",
+      "noteType": "basic",
+      "fields": {
+        "Front": "学生",
+        "Back": "**พินอิน:** <span class=\"cf-key\">xuésheng</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">น��กเรียน</span>\n\n**ตัวอย่างประโยค:**\n我们学校里的<span class=\"cf-key\">学生</span>很多。\n<span class=\"cf-muted\">Wǒmen xuéxiào lǐ de xuésheng hěn duō.</span>\n<span class=\"cf-muted\">(ในโรงเรียนของพวกเรามีนักเรียนมาก)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-127",
+      "noteType": "basic",
+      "fields": {
+        "Front": "学习",
+        "Back": "**พินอิน:** <span class=\"cf-key\">xuéxí</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">เรียน</span>\n\n**ตัวอย่างประโยค:**\n你喜欢<span class=\"cf-key\">学习</span>汉语吗？\n<span class=\"cf-muted\">Nǐ xǐhuan xuéxí Hànyǔ ma?</span>\n<span class=\"cf-muted\">(คุณชอบเรียนภาษาจีนไหม)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-128",
+      "noteType": "basic",
+      "fields": {
+        "Front": "学校",
+        "Back": "**พินอิน:** <span class=\"cf-key\">xuéxiào</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">โรงเรียน</span>\n\n**ตัวอย่างประโยค:**\n我们<span class=\"cf-key\">学校</span>很大。\n<span class=\"cf-muted\">Wǒmen xuéxiào hěn dà.</span>\n<span class=\"cf-muted\">(โรงเรียนของพวกเราใหญ่มาก)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-129",
+      "noteType": "basic",
+      "fields": {
+        "Front": "一",
+        "Back": "**พินอิน:** <span class=\"cf-key\">yī</span>\n\n**ชนิดของคำ:** ตัวเลข\n**ความหมาย:** <span class=\"cf-success\">หนึ่ง</span>\n\n**ตัวอย่างประโยค:**\n这儿<span class=\"cf-key\">一</span>个人都没有。\n<span class=\"cf-muted\">Zhèr yí ge rén dōu méiyǒu.</span>\n<span class=\"cf-muted\">(ที่นี่ไม่มีคนสักคนเดียว)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-130",
+      "noteType": "basic",
+      "fields": {
+        "Front": "一点儿",
+        "Back": "**พินอิน:** <span class=\"cf-key\">yìdiǎnr</span>\n\n**ชนิดของคำ:** ลักษณนาม\n**ความหมาย:** <span class=\"cf-success\">เล็กน้อย</span>\n\n**ตัวอย่างประโยค:**\n我只有<span class=\"cf-key\">一点儿</span>钱。\n<span class=\"cf-muted\">Wǒ zhǐ yǒu yìdiǎnr qián.</span>\n<span class=\"cf-muted\">(ฉันมีเงินแค่นิดหน่อยเท่านั้น)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-131",
+      "noteType": "basic",
+      "fields": {
+        "Front": "衣服",
+        "Back": "**พินอิน:** <span class=\"cf-key\">yīfu</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">เสื้อผ้า</span>\n\n**ตัวอย่างประโยค:**\n我在商店买了很多<span class=\"cf-key\">衣服</span>。\n<span class=\"cf-muted\">Wǒ zài shāngdiàn mǎi le hěn duō yīfu.</span>\n<span class=\"cf-muted\">(ฉันซื้อเสื้อผ้ามากมายที่ร้านค้า)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-132",
+      "noteType": "basic",
+      "fields": {
+        "Front": "医生",
+        "Back": "**พินอิน:** <span class=\"cf-key\">yīshēng</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">หมอ</span>\n\n**ตัวอย่างประโยค:**\n他是这个医院里的<span class=\"cf-key\">医生</span>。\n<span class=\"cf-muted\">Tā shì zhège yīyuàn lǐ de yīshēng.</span>\n<span class=\"cf-muted\">(เขาเป็นหมอในโรงพยาบาลแห่งนี้)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-133",
+      "noteType": "basic",
+      "fields": {
+        "Front": "医院",
+        "Back": "**พินอิน:** <span class=\"cf-key\">yīyuàn</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">โรงพยาบาล</span>\n\n**ตัวอย่างประโยค:**\n这是一个大<span class=\"cf-key\">医院</span>。\n<span class=\"cf-muted\">Zhè shì yí ge dà yīyuàn.</span>\n<span class=\"cf-muted\">(นี่คือโรงพยาบาลขนาดใหญ่แห่งหนึ่ง)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-134",
+      "noteType": "basic",
+      "fields": {
+        "Front": "椅子",
+        "Back": "**พินอิน:** <span class=\"cf-key\">yǐzi</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">เก้าอี้</span>\n\n**ตัวอย่างประโยค:**\n小狗在<span class=\"cf-key\">椅子</span>下面呢。\n<span class=\"cf-muted\">Xiǎo gǒu zài yǐzi xiàmiàn ne.</span>\n<span class=\"cf-muted\">(หมาตัวเล็กอยู่ใต้เก้าอี้)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-135",
+      "noteType": "basic",
+      "fields": {
+        "Front": "有",
+        "Back": "**พินอิน:** <span class=\"cf-key\">yǒu</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">มี</span>\n\n**ตัวอย่างประโยค:**\n我<span class=\"cf-key\">有</span>一个女儿。\n<span class=\"cf-muted\">Wǒ yǒu yí ge nǚ'ér.</span>\n<span class=\"cf-muted\">(ฉันมีลูกสาวคนหนึ่ง)</span>\n\n桌子上<span class=\"cf-key\">有</span>本书。\n<span class=\"cf-muted\">Zhuōzi shàng yǒu běn shū.</span>\n<span class=\"cf-muted\">(บนโต๊ะมีหนังสือเล่มหนึ่ง)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-136",
+      "noteType": "basic",
+      "fields": {
+        "Front": "月",
+        "Back": "**พินอิน:** <span class=\"cf-key\">yuè</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">เดือน</span>\n\n**ตัวอย่างประโยค:**\n一年有12个<span class=\"cf-key\">月</span>。\n<span class=\"cf-muted\">Yì nián yǒu shí'èr ge yuè.</span>\n<span class=\"cf-muted\">(หนึ่งปีมีสิบสองเดือน)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-137",
+      "noteType": "basic",
+      "fields": {
+        "Front": "再见",
+        "Back": "**พินอิน:** <span class=\"cf-key\">zàijiàn</span>\n\n**ชนิดของคำ:** สำนวน\n**ความหมาย:** <span class=\"cf-success\">ลาก่อน</span>\n\n**ตัวอย่างประโยค:**\n妈妈，我去学校了，<span class=\"cf-key\">再见</span>。\n<span class=\"cf-muted\">Māma, wǒ qù xuéxiào le, zàijiàn.</span>\n<span class=\"cf-muted\">(แม่ ฉันไปโรงเรียนแล้วนะ ลาก่อน)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-138",
+      "noteType": "basic",
+      "fields": {
+        "Front": "在",
+        "Back": "**พินอิน:** <span class=\"cf-key\">zài</span>\n\n**ความหมายที่ 1 — คำกริยา:** <span class=\"cf-success\">อยู่ที่</span>\n书<span class=\"cf-key\">在</span>桌子上。\n<span class=\"cf-muted\">Shū zài zhuōzi shàng.</span>\n<span class=\"cf-muted\">(หนังสืออยู่บนโต๊ะ)</span>\n\n**ความหมายที่ 2 — คำวิเศษณ์:** <span class=\"cf-success\">กำลัง</span>\n我<span class=\"cf-key\">在</span>吃饭呢。\n<span class=\"cf-muted\">Wǒ zài chīfàn ne.</span>\n<span class=\"cf-muted\">(ฉันกำลังกินข้าวอยู่)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-139",
+      "noteType": "basic",
+      "fields": {
+        "Front": "怎么",
+        "Back": "**พินอิน:** <span class=\"cf-key\">zěnme</span>\n\n**ชนิดของคำ:** คำสรรพนาม\n**ความหมาย:** <span class=\"cf-success\">อย่างไร</span>\n\n**ตัวอย่างประโยค:**\n你<span class=\"cf-key\">怎么</span>去北京？\n<span class=\"cf-muted\">Nǐ zěnme qù Běijīng?</span>\n<span class=\"cf-muted\">(คุณไปปักกิ่งอย่างไร)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-140",
+      "noteType": "basic",
+      "fields": {
+        "Front": "怎么样",
+        "Back": "**พินอิน:** <span class=\"cf-key\">zěnmeyàng</span>\n\n**ชนิดของคำ:** คำสรรพนาม\n**ความหมาย:** <span class=\"cf-success\">เป็นอย่างไร</span>\n\n**ตัวอย่างประโยค:**\n我们去看电影，<span class=\"cf-key\">怎么样</span>？\n<span class=\"cf-muted\">Wǒmen qù kàn diànyǐng, zěnmeyàng?</span>\n<span class=\"cf-muted\">(พวกเราไปดูภาพยนตร์กัน เป็นอย่างไรบ้าง)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-141",
+      "noteType": "basic",
+      "fields": {
+        "Front": "这（这儿）",
+        "Back": "**พินอิน:** <span class=\"cf-key\">zhè (zhèr)</span>\n\n**ความหมายที่ 1 — คำสรรพนาม:** <span class=\"cf-success\">นี่, นี้</span>\n<span class=\"cf-key\">这</span>个人是我的同学。\n<span class=\"cf-muted\">Zhège rén shì wǒ de tóngxué.</span>\n<span class=\"cf-muted\">(คนนี้คือเพื่อนนักเรียนของฉัน)</span>\n\n**ความหมายที่ 2 — คำสรรพนาม:** <span class=\"cf-success\">ที่นี่</span>\n我能坐在<span class=\"cf-key\">这</span>儿吗？\n<span class=\"cf-muted\">Wǒ néng zuò zài zhèr ma?</span>\n<span class=\"cf-muted\">(ฉันนั่งตรงนี้ได้ไหม)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-142",
+      "noteType": "basic",
+      "fields": {
+        "Front": "中国",
+        "Back": "**พินอิน:** <span class=\"cf-key\">Zhōngguó</span>\n\n**ชนิดของคำ:** คำนาม (ชื่อเฉพาะ)\n**ความหมาย:** <span class=\"cf-success\">ประเทศจีน</span>\n\n**ตัวอย่างประโยค:**\n我在<span class=\"cf-key\">中国</span>学汉语。\n<span class=\"cf-muted\">Wǒ zài Zhōngguó xué Hànyǔ.</span>\n<span class=\"cf-muted\">(ฉันเรียนภาษาจีนที่ประเทศจีน)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-143",
+      "noteType": "basic",
+      "fields": {
+        "Front": "中午",
+        "Back": "**พินอิน:** <span class=\"cf-key\">zhōngwǔ</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ตอนกลางวัน</span>\n\n**ตัวอย่างประโยค:**\n我今天<span class=\"cf-key\">中午</span>去火车站。\n<span class=\"cf-muted\">Wǒ jīntiān zhōngwǔ qù huǒchēzhàn.</span>\n<span class=\"cf-muted\">(วันนี้ตอนกลางวันฉันไปสถานีรถไฟ)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-144",
+      "noteType": "basic",
+      "fields": {
+        "Front": "住",
+        "Back": "**พินอิน:** <span class=\"cf-key\">zhù</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">อยู่, อาศัย</span>\n\n**ตัวอย่างประโยค:**\n他在北京<span class=\"cf-key\">住</span>了很多年。\n<span class=\"cf-muted\">Tā zài Běijīng zhù le hěn duō nián.</span>\n<span class=\"cf-muted\">(เขาอาศัยอยู่ที่ปักกิ่งมาหลายปีแล้ว)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-145",
+      "noteType": "basic",
+      "fields": {
+        "Front": "桌子",
+        "Back": "**พินอิน:** <span class=\"cf-key\">zhuōzi</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">โต๊ะ</span>\n\n**ตัวอย่างประโยค:**\n电脑在<span class=\"cf-key\">桌子</span>上。\n<span class=\"cf-muted\">Diànnǎo zài zhuōzi shàng.</span>\n<span class=\"cf-muted\">(คอมพิวเตอร์อยู่บนโต๊ะ)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-146",
+      "noteType": "basic",
+      "fields": {
+        "Front": "字",
+        "Back": "**พินอิน:** <span class=\"cf-key\">zì</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ตัวอักษร</span>\n\n**ตัวอย่างประโยค:**\n这个<span class=\"cf-key\">字</span>你认识吗？\n<span class=\"cf-muted\">Zhège zì nǐ rènshi ma?</span>\n<span class=\"cf-muted\">(ตัวอักษรนี้คุณรู้จักไหม)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-147",
+      "noteType": "basic",
+      "fields": {
+        "Front": "昨天",
+        "Back": "**พินอิน:** <span class=\"cf-key\">zuótiān</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">เมื่อวาน</span>\n\n**ตัวอย่างประโยค:**\n他<span class=\"cf-key\">昨天</span>没去学校。\n<span class=\"cf-muted\">Tā zuótiān méi qù xuéxiào.</span>\n<span class=\"cf-muted\">(เมื่อวานเขาไม่ได้ไปโรงเรียน)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-148",
+      "noteType": "basic",
+      "fields": {
+        "Front": "坐",
+        "Back": "**พินอิน:** <span class=\"cf-key\">zuò</span>\n\n**ความหมายที่ 1 — คำกริยา:** <span class=\"cf-success\">นั่ง</span>\n他一个下午都<span class=\"cf-key\">坐</span>在电视前。\n<span class=\"cf-muted\">Tā yí ge xiàwǔ dōu zuò zài diànshì qián.</span>\n<span class=\"cf-muted\">(เขานั่งอยู่หน้าโทรทัศน์ทั้งบ่าย)</span>\n\n**ความหมายที่ 2 — คำกริยา:** <span class=\"cf-success\">โดยสาร, นั่ง (พาหนะ)</span>\n我<span class=\"cf-key\">坐</span>飞机去中国。\n<span class=\"cf-muted\">Wǒ zuò fēijī qù Zhōngguó.</span>\n<span class=\"cf-muted\">(ฉันนั่งเครื่องบินไปประเทศจีน)</span>"
+      },
+      "tags": [],
+      "source": {}
+    },
+    {
+      "id": "note-deck-1782919036352-tro5ny-149",
+      "noteType": "basic",
+      "fields": {
+        "Front": "做",
+        "Back": "**พินอิน:** <span class=\"cf-key\">zuò</span>\n\n**ความหมายที่ 1 — คำกริยา:** <span class=\"cf-success\">ทำ</span>\n今天妈妈<span class=\"cf-key\">做</span>了很多菜。\n<span class=\"cf-muted\">Jīntiān māma zuò le hěn duō cài.</span>\n<span class=\"cf-muted\">(วันนี้แม่ทำกับข้าวไว้มากมาย)</span>\n\n**ความหมายที่ 2 — คำกริยา:** <span class=\"cf-success\">ประกอบอาชีพ, ทำงานเป็น...</span>\n你是<span class=\"cf-key\">做</span>什么工作的？\n<span class=\"cf-muted\">Nǐ shì zuò shénme gōngzuò de?</span>\n<span class=\"cf-muted\">(คุณทำงานอะไร)</span>\n\n<span class=\"cf-warning\">ข้อควรระวัง: 坐 (zuò นั่ง) กับ 做 (zuò ทำ) ออกเสียงเหมือนกันแต่ตัวอักษรและความหมายต่างกัน</span>"
+      },
+      "tags": [],
+      "source": {}
+    }
+  ]
+}

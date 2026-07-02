@@ -3,7 +3,8 @@ import React, { useCallback, useState } from 'react'
 import { Alert, Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
 import Screen from '../../src/components/Screen'
 import { exportDeckPackage } from '../../src/services/backup'
-import { getDeck, getStats, listDecks, updateDeck } from '../../src/db/repositories'
+import { deleteDeck, getDeck, getDeckOptions, getStats, listDecks, resetDeckLearningProgress, shuffleDeck, updateDeck, updateDeckOptions } from '../../src/db/repositories'
+import { getWidgetDeckId, setWidgetDeckId } from '../../src/services/widgetSync'
 import { colors, fonts, radius, spacing } from '../../src/styles/theme'
 
 function CountPill ({ tone, count, label }: {
@@ -47,9 +48,13 @@ export default function DeckScreen () {
   const [deck, setDeck] = useState<any>(null)
   const [counts, setCounts] = useState<any>(null)
   const [reviewsToday, setReviewsToday] = useState(0)
+  const [deckOptions, setDeckOptions] = useState<any>(null)
   const [editing, setEditing] = useState(false)
   const [editName, setEditName] = useState('')
   const [editDesc, setEditDesc] = useState('')
+  const [editDailyNewLimit, setEditDailyNewLimit] = useState('')
+  const [editDailyReviewLimit, setEditDailyReviewLimit] = useState('')
+  const [widgetDeckId, setWidgetDeckIdState] = useState<string | null>(null)
 
   const load = useCallback(async () => {
     if (!deckId) return
@@ -61,18 +66,76 @@ export default function DeckScreen () {
       const purposeText = desc && typeof desc === 'object' && !Array.isArray(desc) ? (desc as any).purpose ?? '' : typeof desc === 'string' ? desc : ''
       setEditDesc(purposeText)
     }
-    const [allDecks, stats] = await Promise.all([listDecks(), getStats(deckId)])
+    const [allDecks, stats, options, currentWidgetDeckId] = await Promise.all([listDecks(), getStats(deckId), getDeckOptions(deckId), getWidgetDeckId()])
     setCounts(allDecks.find(item => item.id === deckId))
     setReviewsToday(stats.reviewsToday)
+    setDeckOptions(options)
+    setEditDailyNewLimit(String(options.dailyNewLimit))
+    setEditDailyReviewLimit(String(options.dailyReviewLimit))
+    setWidgetDeckIdState(currentWidgetDeckId)
   }, [deckId])
+
+  const handleToggleWidgetDeck = async () => {
+    const nextId = widgetDeckId === deckId ? null : deckId
+    await setWidgetDeckId(nextId)
+    setWidgetDeckIdState(nextId)
+  }
 
   useFocusEffect(useCallback(() => { load() }, [load]))
 
   const handleSave = async () => {
     if (!editName.trim()) { Alert.alert('Name required', 'Deck name cannot be empty.'); return }
+    const dailyNewLimit = parseInt(editDailyNewLimit, 10)
+    const dailyReviewLimit = parseInt(editDailyReviewLimit, 10)
+    if (!Number.isFinite(dailyNewLimit) || dailyNewLimit < 0 || !Number.isFinite(dailyReviewLimit) || dailyReviewLimit < 0) {
+      Alert.alert('Invalid limits', 'Daily new cards and daily review limit must be numbers of 0 or more.')
+      return
+    }
     await updateDeck(deckId, editName, editDesc || undefined)
+    await updateDeckOptions(deckId, { dailyNewLimit, dailyReviewLimit })
     await load()
     setEditing(false)
+  }
+
+  const handleShuffle = async () => {
+    await shuffleDeck(deckId)
+    Alert.alert('Shuffled', 'New cards will now appear in a random order.')
+  }
+
+  const handleResetLearning = () => {
+    Alert.alert(
+      'Reset learning?',
+      `This resets every card in "${deck.displayName}" back to new and permanently deletes its review history. This can't be undone.`,
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Reset',
+          style: 'destructive',
+          onPress: async () => {
+            await resetDeckLearningProgress(deckId)
+            await load()
+          }
+        }
+      ]
+    )
+  }
+
+  const handleDelete = () => {
+    Alert.alert(
+      'Delete deck?',
+      `This permanently deletes "${deck.displayName}" and all its cards. This can't be undone.`,
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: async () => {
+            await deleteDeck(deckId)
+            router.replace('/')
+          }
+        }
+      ]
+    )
   }
 
   if (!deck) return (
@@ -80,8 +143,8 @@ export default function DeckScreen () {
   )
 
   const total = (counts?.newCount ?? 0) + (counts?.learningCount ?? 0) + (counts?.reviewCount ?? 0)
-  const goalTotal = 20
-  const goalDone = Math.min(reviewsToday, goalTotal)
+  const goalTotal = deckOptions?.dailyNewLimit ?? 20
+  const goalDone = reviewsToday
 
   return (
     <>
@@ -108,11 +171,43 @@ export default function DeckScreen () {
               placeholderTextColor={colors.mutedLight}
               multiline
             />
+            <Text style={styles.editFieldLabel}>DAILY NEW CARDS</Text>
+            <TextInput
+              style={styles.editInput}
+              value={editDailyNewLimit}
+              onChangeText={setEditDailyNewLimit}
+              placeholder="20"
+              placeholderTextColor={colors.mutedLight}
+              keyboardType="number-pad"
+            />
+            <Text style={styles.editFieldLabel}>DAILY REVIEW LIMIT</Text>
+            <TextInput
+              style={styles.editInput}
+              value={editDailyReviewLimit}
+              onChangeText={setEditDailyReviewLimit}
+              placeholder="200"
+              placeholderTextColor={colors.mutedLight}
+              keyboardType="number-pad"
+            />
             <Pressable
               style={({ pressed }) => [styles.saveBtn, pressed && styles.saveBtnPressed]}
               onPress={handleSave}
             >
               <Text style={styles.saveBtnText}>Save Changes</Text>
+            </Pressable>
+
+            <Pressable
+              style={({ pressed }) => [styles.secondaryBtn, pressed && styles.secondaryPressed]}
+              onPress={handleShuffle}
+            >
+              <Text style={styles.secondaryBtnText}>Shuffle Deck</Text>
+            </Pressable>
+
+            <Pressable
+              style={({ pressed }) => [styles.secondaryBtn, styles.resetBtn, pressed && styles.secondaryPressed]}
+              onPress={handleResetLearning}
+            >
+              <Text style={[styles.secondaryBtnText, styles.resetBtnText]}>Reset Learning</Text>
             </Pressable>
           </View>
         )}
@@ -150,7 +245,7 @@ export default function DeckScreen () {
                 <Text style={styles.goalLabel}>TODAY'S GOAL</Text>
                 <Text style={styles.goalCount}>{goalDone} / {goalTotal}</Text>
               </View>
-              <ProgressBar value={(goalDone / goalTotal) * 100} />
+              <ProgressBar value={goalTotal > 0 ? (goalDone / goalTotal) * 100 : 100} />
             </View>
 
             {/* Primary: Study */}
@@ -165,16 +260,17 @@ export default function DeckScreen () {
 
             {/* Secondary actions */}
             <Pressable
+              style={({ pressed }) => [styles.secondaryBtn, styles.statsBtn, pressed && styles.secondaryPressed]}
+              onPress={() => router.push(`/stats/${deckId}`)}
+            >
+              <Text style={[styles.secondaryBtnText, styles.statsBtnText]}>Stats</Text>
+            </Pressable>
+
+            <Pressable
               style={({ pressed }) => [styles.secondaryBtn, pressed && styles.secondaryPressed]}
               onPress={() => router.push(`/browse/${deckId}`)}
             >
               <Text style={styles.secondaryBtnText}>Browse &amp; Edit</Text>
-            </Pressable>
-            <Pressable
-              style={({ pressed }) => [styles.secondaryBtn, pressed && styles.secondaryPressed]}
-              onPress={() => router.push(`/stats/${deckId}`)}
-            >
-              <Text style={styles.secondaryBtnText}>Stats</Text>
             </Pressable>
 
             <Pressable
@@ -185,6 +281,19 @@ export default function DeckScreen () {
             </Pressable>
 
             <Pressable
+              style={({ pressed }) => [
+                styles.secondaryBtn,
+                widgetDeckId === deckId && styles.widgetBtnActive,
+                pressed && styles.secondaryPressed
+              ]}
+              onPress={handleToggleWidgetDeck}
+            >
+              <Text style={[styles.secondaryBtnText, widgetDeckId === deckId && styles.widgetBtnActiveText]}>
+                {widgetDeckId === deckId ? '✓ Lock Screen Widget Deck' : 'Use as Lock Screen Widget'}
+              </Text>
+            </Pressable>
+
+            <Pressable
               style={({ pressed }) => [styles.secondaryBtn, pressed && styles.secondaryPressed]}
               onPress={async () => {
                 try { await exportDeckPackage(deckId) }
@@ -192,6 +301,13 @@ export default function DeckScreen () {
               }}
             >
               <Text style={styles.secondaryBtnText}>Export</Text>
+            </Pressable>
+
+            <Pressable
+              style={({ pressed }) => [styles.secondaryBtn, styles.deleteBtn, pressed && styles.secondaryPressed]}
+              onPress={handleDelete}
+            >
+              <Text style={[styles.secondaryBtnText, styles.deleteBtnText]}>Delete Deck</Text>
             </Pressable>
           </>
         )}
@@ -369,5 +485,31 @@ const styles = StyleSheet.create({
     color: colors.textBody,
     fontWeight: '700',
     fontSize: 15,
+  },
+  statsBtn: {
+    borderColor: colors.stateNewFg,
+    backgroundColor: colors.stateNewBg,
+  },
+  statsBtnText: {
+    color: colors.stateNewFg,
+  },
+  widgetBtnActive: {
+    borderColor: colors.primary,
+    backgroundColor: colors.primaryTint,
+  },
+  widgetBtnActiveText: {
+    color: colors.primaryPress,
+  },
+  resetBtn: {
+    borderColor: colors.stateLearningFg,
+  },
+  resetBtnText: {
+    color: colors.stateLearningFg,
+  },
+  deleteBtn: {
+    borderColor: colors.accent,
+  },
+  deleteBtnText: {
+    color: colors.danger,
   },
 })

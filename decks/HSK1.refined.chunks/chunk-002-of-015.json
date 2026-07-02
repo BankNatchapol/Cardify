@@ -1,0 +1,88 @@
+{
+  "chunkNumber": 2,
+  "chunkCount": 15,
+  "cardIndexes": [
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19
+  ],
+  "cards": [
+    {
+      "index": 10,
+      "type": "basic",
+      "front": "吃",
+      "back": "**พินอิน:** <span class=\"cf-key\">chī</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">กิน</span>\n\n**ตัวอย่างประโยค:**\n请<span class=\"cf-key\">吃</span>点儿米饭。\n<span class=\"cf-muted\">Qǐng chī diǎnr mǐfàn.</span>\n<span class=\"cf-muted\">(เชิญกินข้าวสวยสักหน่อย)</span>",
+      "changed": true
+    },
+    {
+      "index": 11,
+      "type": "basic",
+      "front": "出租车",
+      "back": "**พินอิน:** <span class=\"cf-key\">chūzūchē</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">รถแท็กซี่</span>\n\n**ตัวอย่างประโยค:**\n我们坐<span class=\"cf-key\">出租车</span>去火车站。\n<span class=\"cf-muted\">Wǒmen zuò chūzūchē qù huǒchēzhàn.</span>\n<span class=\"cf-muted\">(พวกเรานั่งรถแท็กซี่ไปสถานีรถไฟ)</span>",
+      "changed": true
+    },
+    {
+      "index": 12,
+      "type": "basic",
+      "front": "打电话",
+      "back": "**พินอิน:** <span class=\"cf-key\">dǎ diànhuà</span>\n\n**ชนิดของคำ:** คำกริยา (วลี)\n**ความหมาย:** <span class=\"cf-success\">โทรศัพท์</span>\n\n**ตัวอย่างประโยค:**\n他在<span class=\"cf-key\">打电话</span>呢。\n<span class=\"cf-muted\">Tā zài dǎ diànhuà ne.</span>\n<span class=\"cf-muted\">(เขากำลังโทรศัพท์อยู่)</span>",
+      "changed": true
+    },
+    {
+      "index": 13,
+      "type": "basic",
+      "front": "大",
+      "back": "**พินอิน:** <span class=\"cf-key\">dà</span>\n\n**ชนิดของคำ:** คำคุณศัพท์\n**ความหมาย:** <span class=\"cf-success\">ใหญ่</span>\n\n**ตัวอย่างประโยค:**\n这个苹果很<span class=\"cf-key\">大</span>。\n<span class=\"cf-muted\">Zhège píngguǒ hěn dà.</span>\n<span class=\"cf-muted\">(แอปเปิ้ลลูกนี้ใหญ่มาก)</span>",
+      "changed": true
+    },
+    {
+      "index": 14,
+      "type": "basic",
+      "front": "的",
+      "back": "**พินอิน:** <span class=\"cf-key\">de</span>\n\n**ความหมายที่ 1 — คำช่วยโครงสร้าง:** <span class=\"cf-success\">ของ</span>\n这是我<span class=\"cf-key\">的</span>书。\n<span class=\"cf-muted\">Zhè shì wǒ de shū.</span>\n<span class=\"cf-muted\">(นี่คือหนังสือของฉัน)</span>\n\n**ความหมายที่ 2 — คำช่วยโครงสร้าง:** <span class=\"cf-success\">ใช้เน้นย้ำ</span> <span class=\"cf-muted\">(เน้นเวลา สถานที่ หรือวิธีการที่เกิดขึ้นแล้ว)</span>\n我是坐飞机来中国<span class=\"cf-key\">的</span>。\n<span class=\"cf-muted\">Wǒ shì zuò fēijī lái Zhōngguó de.</span>\n<span class=\"cf-muted\">(ฉันมาประเทศจีนโดยเครื่องบิน)</span>",
+      "changed": true
+    },
+    {
+      "index": 15,
+      "type": "basic",
+      "front": "点",
+      "back": "**พินอิน:** <span class=\"cf-key\">diǎn</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">โมง (บอกเวลา)</span>\n\n**ตัวอย่างประโยค:**\n现在是下午3<span class=\"cf-key\">点</span>20。\n<span class=\"cf-muted\">Xiànzài shì xiàwǔ sān diǎn èrshí.</span>\n<span class=\"cf-muted\">(ตอนนี้เป็นเวลาบ่ายสามโมงยี่สิบนาที)</span>",
+      "changed": true
+    },
+    {
+      "index": 16,
+      "type": "basic",
+      "front": "电脑",
+      "back": "**พินอิน:** <span class=\"cf-key\">diànnǎo</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">คอมพิวเตอร์</span>\n\n**ตัวอย่างประโยค:**\n我买了个<span class=\"cf-key\">电脑</span>。\n<span class=\"cf-muted\">Wǒ mǎi le ge diànnǎo.</span>\n<span class=\"cf-muted\">(ฉันซื้อคอมพิวเตอร์หนึ่งเครื่อง)</span>",
+      "changed": true
+    },
+    {
+      "index": 17,
+      "type": "basic",
+      "front": "电视",
+      "back": "**พินอิน:** <span class=\"cf-key\">diànshì</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">โทรทัศน์</span>\n\n**ตัวอย่างประโยค:**\n妈妈在看<span class=\"cf-key\">电视</span>。\n<span class=\"cf-muted\">Māma zài kàn diànshì.</span>\n<span class=\"cf-muted\">(แม่กำลังดูโทรทัศน์)</span>",
+      "changed": true
+    },
+    {
+      "index": 18,
+      "type": "basic",
+      "front": "电影",
+      "back": "**พินอิน:** <span class=\"cf-key\">diànyǐng</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ภาพยนตร์</span>\n\n**ตัวอย่างประโยค:**\n我喜欢看<span class=\"cf-key\">电影</span>。\n<span class=\"cf-muted\">Wǒ xǐhuan kàn diànyǐng.</span>\n<span class=\"cf-muted\">(ฉันชอบดูภาพยนตร์)</span>",
+      "changed": true
+    },
+    {
+      "index": 19,
+      "type": "basic",
+      "front": "东西",
+      "back": "**พินอิน:** <span class=\"cf-key\">dōngxi</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">สิ่งของ</span>\n\n**ตัวอย่างประโยค:**\n我在商店买了很多<span class=\"cf-key\">东西</span>。\n<span class=\"cf-muted\">Wǒ zài shāngdiàn mǎi le hěn duō dōngxi.</span>\n<span class=\"cf-muted\">(ฉันซื้อของหลายอย่างที่ร้านค้า)</span>",
+      "changed": true
+    }
+  ]
+}

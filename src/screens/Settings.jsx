@@ -181,7 +181,7 @@ export default function Settings ({ generationSettings: initialGenerationSetting
 
   const codeReady = Boolean(claudeCodeStatus?.loggedIn)
   const keyAvailable = Boolean(keyStatus.available)
-  const maximumFlashcards = generationSettings.batchSize * generationSettings.maxBatches
+  const generationLimit = generationSettings.batchSize * generationSettings.maxBatches
   const hasLoadedModelOptions = modelOptions.length > 0
   const modelSelectOptions = keyAvailable && hasLoadedModelOptions
     ? getModelSelectOptions(modelOptions, generationSettings.claudeCodeModel)
@@ -295,9 +295,9 @@ export default function Settings ({ generationSettings: initialGenerationSetting
               />
             </label>
           </div>
-          <section className="settings-calculation" aria-label="Maximum flashcards">
-            <span>Maximum flashcards</span>
-            <strong>{maximumFlashcards}</strong>
+          <section className="settings-calculation" aria-label="Generation limit">
+            <span>Generation limit</span>
+            <strong>{generationLimit}</strong>
           </section>
           <div className="settings-actions">
             <button

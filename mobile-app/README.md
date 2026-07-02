@@ -28,8 +28,8 @@ npx expo start
 
 ```bash
 cd mobile-app
-npx expo prebuild --platform ios
-npx expo run:ios
+npm run prebuild:ios
+npm run ios
 ```
 
 For later internal distribution:
@@ -37,6 +37,17 @@ For later internal distribution:
 ```bash
 npx eas build --platform ios
 ```
+
+## App Icon
+
+Put the source logo at `assets/icon.png`. It can be larger than 1024x1024. Before native iOS builds, Cardify resizes it to `assets/app-icon.png` and updates the iOS asset catalog.
+
+```bash
+cd mobile-app
+npm run prepare-icon
+```
+
+The generated icon is a 1024x1024 PNG used by Expo through `app.json`.
 
 ## Manual Test Checklist
 

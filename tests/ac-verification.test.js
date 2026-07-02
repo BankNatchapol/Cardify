@@ -132,6 +132,11 @@ describe('AC2 — file type validation (renderer-side logic mirrors parser)', ()
     expect(ALLOWED_EXTENSIONS.includes(ext)).toBe(false)
   })
 
+  it('rejects .json extension because project JSON imports live in Projects', () => {
+    const ext = getExtension('deck.cardify.json')
+    expect(ALLOWED_EXTENSIONS.includes(ext)).toBe(false)
+  })
+
   it('rejects .jpg extension', () => {
     const ext = getExtension('photo.jpg')
     expect(ALLOWED_EXTENSIONS.includes(ext)).toBe(false)

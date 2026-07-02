@@ -60,4 +60,37 @@ describe('renderCardMarkdown', () => {
     const html = renderCardMarkdown('The capital is **{{c1::Paris}}**.', { target: 'anki' })
     expect(html).toContain('<strong>{{c1::Paris}}</strong>')
   })
+
+  test('hides unresolved semantic audio tags', () => {
+    const html = renderCardMarkdown('爱 {{audio:front}}')
+    expect(html).toBe('<p>爱 </p>')
+    expect(html).not.toContain('{{audio:front}}')
+  })
+
+  test('renders resolved semantic audio tags as compact preview controls', () => {
+    const html = renderCardMarkdown('爱 {{audio:front}}', {
+      resolveAudioTag: slot => ({
+        slot,
+        fileName: 'note-0001-front.mp3',
+        filePath: '/tmp/note-0001-front.mp3',
+        fileUrl: 'file:///tmp/note-0001-front.mp3'
+      })
+    })
+
+    expect(html).toContain('class="audio-tag-button"')
+    expect(html).toContain('data-audio-src="file:///tmp/note-0001-front.mp3"')
+    expect(html).toContain('data-audio-path="/tmp/note-0001-front.mp3"')
+    expect(html).toContain('class="audio-tag-icon"')
+    expect(html).not.toContain('audio-tag-speaker')
+    expect(html).not.toContain('>Play</button>')
+  })
+
+  test('converts resolved semantic audio tags to Anki sound references', () => {
+    const html = renderCardMarkdown('爱 {{audio:front}}', {
+      target: 'anki',
+      resolveAudioTag: () => ({ fileName: 'note-0001-front.mp3' })
+    })
+
+    expect(html).toBe('<p>爱 [sound:note-0001-front.mp3]</p>')
+  })
 })

@@ -7,10 +7,18 @@
     "postinstall": "node node_modules/electron/install.js",
     "dev": "unset ELECTRON_RUN_AS_NODE; NODE_ENV=development concurrently \"vite\" \"electron .\"",
     "build": "vite build && electron-builder",
-    "test": "node --experimental-vm-modules node_modules/.bin/jest"
+    "test": "node --experimental-vm-modules node_modules/.bin/jest",
+    "refine:thai": "node scripts/refine-thai.js",
+    "audio:elevenlabs": "node scripts/generate-elevenlabs-audio.js",
+    "audio:tag": "node scripts/tag-audio.js",
+    "tts:setup": "tools/omnivoice-lab/setup.sh",
+    "tts:ui": "tools/omnivoice-lab/run-ui.sh",
+    "tts:smoke": "cd tools/omnivoice-lab && . .venv/bin/activate && python smoke_test.py"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.27.0",
+    "@google/genai": "^2.10.0",
+    "fflate": "^0.8.3",
     "pdf-parse": "^1.1.1"
   },
   "devDependencies": {

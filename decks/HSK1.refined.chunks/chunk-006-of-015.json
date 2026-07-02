@@ -1,0 +1,88 @@
+{
+  "chunkNumber": 6,
+  "chunkCount": 15,
+  "cardIndexes": [
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59
+  ],
+  "cards": [
+    {
+      "index": 50,
+      "type": "basic",
+      "front": "块",
+      "back": "**พินอิน:** <span class=\"cf-key\">kuài</span>\n\n**ชนิดของคำ:** ลักษณนาม\n**ความหมาย:** <span class=\"cf-success\">หยวน (หน่วยเงิน)</span>\n\n**ตัวอย่างประโยค:**\n这本书三十<span class=\"cf-key\">块</span>钱。\n<span class=\"cf-muted\">Zhè běn shū sānshí kuài qián.</span>\n<span class=\"cf-muted\">(หนังสือเล่มนี้ราคาสามสิบหยวน)</span>",
+      "changed": true
+    },
+    {
+      "index": 51,
+      "type": "basic",
+      "front": "来",
+      "back": "**พินอิน:** <span class=\"cf-key\">lái</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">มา</span>\n\n**ตัวอย่างประโยค:**\n他是昨天<span class=\"cf-key\">来</span>这儿的。\n<span class=\"cf-muted\">Tā shì zuótiān lái zhèr de.</span>\n<span class=\"cf-muted\">(เขามาที่นี่เมื่อวานนี้)</span>",
+      "changed": true
+    },
+    {
+      "index": 52,
+      "type": "basic",
+      "front": "老师",
+      "back": "**พินอิน:** <span class=\"cf-key\">lǎoshī</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ครู</span>\n\n**ตัวอย่างประโยค:**\n他就是我们的汉语<span class=\"cf-key\">老师</span>。\n<span class=\"cf-muted\">Tā jiù shì wǒmen de Hànyǔ lǎoshī.</span>\n<span class=\"cf-muted\">(เขาคือครูสอนภาษาจีนของพวกเรา)</span>",
+      "changed": true
+    },
+    {
+      "index": 53,
+      "type": "basic",
+      "front": "了",
+      "back": "**พินอิน:** <span class=\"cf-key\">le</span>\n\n**ชนิดของคำ:** คำช่วย\n**ความหมาย:** <span class=\"cf-success\">แล้ว (แสดงการเปลี่ยนแปลงหรือความสมบูรณ์ของการกระทำ)</span>\n\n**ตัวอย่างประโยค:**\n昨天下雨<span class=\"cf-key\">了</span>。\n<span class=\"cf-muted\">Zuótiān xià yǔ le.</span>\n<span class=\"cf-muted\">(เมื่อวานฝนตกแล้ว)</span>",
+      "changed": true
+    },
+    {
+      "index": 54,
+      "type": "basic",
+      "front": "冷",
+      "back": "**พินอิน:** <span class=\"cf-key\">lěng</span>\n\n**ชนิดของคำ:** คำคุณศัพท์\n**ความหมาย:** <span class=\"cf-success\">หนาว</span>\n\n**ตัวอย่างประโยค:**\n今天太<span class=\"cf-key\">冷</span>了。\n<span class=\"cf-muted\">Jīntiān tài lěng le.</span>\n<span class=\"cf-muted\">(วันนี้หนาวเกินไป)</span>",
+      "changed": true
+    },
+    {
+      "index": 55,
+      "type": "basic",
+      "front": "里",
+      "back": "**พินอิน:** <span class=\"cf-key\">lǐ</span>\n\n**ชนิดของคำ:** คำนาม (คำบอกตำแหน่ง)\n**ความหมาย:** <span class=\"cf-success\">ใน</span>\n\n**ตัวอย่างประโยค:**\n我们都在学校<span class=\"cf-key\">里</span>。\n<span class=\"cf-muted\">Wǒmen dōu zài xuéxiào lǐ.</span>\n<span class=\"cf-muted\">(พวกเราอยู่ในโรงเรียนกันหมด)</span>",
+      "changed": true
+    },
+    {
+      "index": 56,
+      "type": "basic",
+      "front": "零",
+      "back": "**พินอิน:** <span class=\"cf-key\">líng</span>\n\n**ชนิดของคำ:** ตัวเลข\n**ความหมาย:** <span class=\"cf-success\">ศูนย์</span>\n\n**ตัวอย่างประโยค:**\n今年是二<span class=\"cf-key\">零</span>一二年。\n<span class=\"cf-muted\">Jīnnián shì èr líng yī èr nián.</span>\n<span class=\"cf-muted\">(ปีนี้คือปี 2012)</span>",
+      "changed": true
+    },
+    {
+      "index": 57,
+      "type": "basic",
+      "front": "六",
+      "back": "**พินอิน:** <span class=\"cf-key\">liù</span>\n\n**ชนิดของคำ:** ตัวเลข\n**ความหมาย:** <span class=\"cf-success\">หก</span>\n\n**ตัวอย่างประโยค:**\n桌子上有<span class=\"cf-key\">六</span>个杯子。\n<span class=\"cf-muted\">Zhuōzi shàng yǒu liù ge bēizi.</span>\n<span class=\"cf-muted\">(บนโต๊ะมีแก้วหกใบ)</span>",
+      "changed": true
+    },
+    {
+      "index": 58,
+      "type": "basic",
+      "front": "妈妈",
+      "back": "**พินอิน:** <span class=\"cf-key\">māma</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">แม่</span>\n\n**ตัวอย่างประโยค:**\n我<span class=\"cf-key\">妈妈</span>不在家。\n<span class=\"cf-muted\">Wǒ māma bú zài jiā.</span>\n<span class=\"cf-muted\">(แม่ของฉันไม่อยู่บ้าน)</span>",
+      "changed": true
+    },
+    {
+      "index": 59,
+      "type": "basic",
+      "front": "吗",
+      "back": "**พินอิน:** <span class=\"cf-key\">ma</span>\n\n**ชนิดของคำ:** คำช่วย\n**ความหมาย:** <span class=\"cf-success\">ไหม, หรือไม่ (ใช้ท้ายประโยคเพื่อแสดงคำถาม)</span>\n\n**ตัวอย่างประโยค:**\n你是中国人<span class=\"cf-key\">吗</span>？\n<span class=\"cf-muted\">Nǐ shì Zhōngguórén ma?</span>\n<span class=\"cf-muted\">(คุณเป็นคนจีนใช่ไหม)</span>",
+      "changed": true
+    }
+  ]
+}

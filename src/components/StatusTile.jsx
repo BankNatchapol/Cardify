@@ -6,6 +6,8 @@ const STATUS_META = {
   failed: { label: 'Failed', tone: 'danger' },
   stopped: { label: 'Stopped', tone: 'danger' },
   capped: { label: 'Capped', tone: 'warning' },
+  shortfall: { label: 'Shortfall', tone: 'warning' },
+  repairing_shortfall: { label: 'Repairing shortfall', tone: 'info', spin: true },
   idle: { label: 'Idle', tone: 'muted' }
 }
 

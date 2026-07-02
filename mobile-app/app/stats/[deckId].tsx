@@ -89,7 +89,8 @@ export default function StatsScreen () {
 
       {/* Card state breakdown */}
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Card states</Text>
+        <Text style={styles.sectionTitle}>All cards by state</Text>
+        <Text style={styles.sectionHint}>Every card in the deck, regardless of when it's next due — this can be higher than the counts on the deck screen, which only show what's due right now.</Text>
         <View style={styles.stateList}>
           {stats.stateCounts.map((row: any, idx: number) => {
             const p = STATE_PALETTE[row.state] ?? { bg: colors.surfaceSecondary, fg: colors.muted }
@@ -125,6 +126,12 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '800',
     color: colors.text,
+  },
+  sectionHint: {
+    fontFamily: fonts.sans,
+    fontSize: 12,
+    color: colors.muted,
+    lineHeight: 17,
   },
 
   stateList: {

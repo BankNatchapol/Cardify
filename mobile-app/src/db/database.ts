@@ -52,6 +52,7 @@ async function migrate (db: CardifyDatabase) {
       reps INTEGER DEFAULT 0,
       lapses INTEGER DEFAULT 0,
       suspended INTEGER DEFAULT 0,
+      study_order INTEGER NOT NULL DEFAULT 0,
       created_at TEXT NOT NULL,
       updated_at TEXT NOT NULL,
       FOREIGN KEY(note_id) REFERENCES notes(id) ON DELETE CASCADE,
@@ -88,7 +89,29 @@ async function migrate (db: CardifyDatabase) {
       FOREIGN KEY(deck_id) REFERENCES decks(id) ON DELETE CASCADE
     );
 
+    CREATE TABLE IF NOT EXISTS audio_files (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      deck_id TEXT NOT NULL,
+      note_id TEXT NOT NULL,
+      slot TEXT NOT NULL,
+      file_uri TEXT NOT NULL,
+      created_at TEXT NOT NULL,
+      FOREIGN KEY(deck_id) REFERENCES decks(id) ON DELETE CASCADE,
+      FOREIGN KEY(note_id) REFERENCES notes(id) ON DELETE CASCADE,
+      UNIQUE(note_id, slot)
+    );
+
     CREATE INDEX IF NOT EXISTS idx_cards_deck_state_due ON cards(deck_id, state, due_at);
     CREATE INDEX IF NOT EXISTS idx_review_logs_deck_reviewed ON review_logs(deck_id, reviewed_at);
+    CREATE INDEX IF NOT EXISTS idx_audio_files_note ON audio_files(note_id);
   `)
+
+  // study_order was added after the initial cards table shipped — back-fill it
+  // for installs whose cards table predates this column.
+  const cardColumns = await db.getAllAsync<{ name: string }>('PRAGMA table_info(cards)')
+  if (!cardColumns.some(c => c.name === 'study_order')) {
+    await db.execAsync('ALTER TABLE cards ADD COLUMN study_order INTEGER NOT NULL DEFAULT 0')
+  }
+
+  await db.execAsync('CREATE INDEX IF NOT EXISTS idx_cards_deck_study_order ON cards(deck_id, study_order);')
 }

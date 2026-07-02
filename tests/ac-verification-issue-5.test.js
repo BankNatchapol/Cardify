@@ -110,7 +110,7 @@ describe('AC2 — IPC handler calls createDeck before addNotes', () => {
     expect(mainSrc).toContain("ipcMain.handle('push-to-anki'")
     // Verify createDeck is called before addNotes in the handler
     const createDeckPos = mainSrc.indexOf('createDeck(deckName)')
-    const addNotesPos = mainSrc.indexOf('addNotes(deckName, cards)')
+    const addNotesPos = mainSrc.indexOf('addNotes(deckName, cards')
     expect(createDeckPos).toBeGreaterThan(-1)
     expect(addNotesPos).toBeGreaterThan(-1)
     expect(createDeckPos).toBeLessThan(addNotesPos)

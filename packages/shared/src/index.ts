@@ -13,6 +13,12 @@ const NoteSchema = z.object({
   source: z.unknown().optional()
 })
 
+const AudioMappingSchema = z.object({
+  noteId: z.string(),
+  slot: z.string(),
+  file: z.string()
+})
+
 const DeckPackageSchema = z.object({
   packageId: z.string(),
   deck: z.object({
@@ -20,7 +26,8 @@ const DeckPackageSchema = z.object({
     name: z.string(),
     description: z.unknown().optional()
   }),
-  notes: z.array(NoteSchema)
+  notes: z.array(NoteSchema),
+  audio: z.array(AudioMappingSchema).optional()
 })
 
 export type DeckPackage = z.infer<typeof DeckPackageSchema>

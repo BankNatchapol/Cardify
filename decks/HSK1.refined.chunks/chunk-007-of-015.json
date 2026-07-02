@@ -1,0 +1,88 @@
+{
+  "chunkNumber": 7,
+  "chunkCount": 15,
+  "cardIndexes": [
+    60,
+    61,
+    62,
+    63,
+    64,
+    65,
+    66,
+    67,
+    68,
+    69
+  ],
+  "cards": [
+    {
+      "index": 60,
+      "type": "basic",
+      "front": "买",
+      "back": "**พินอิน:** <span class=\"cf-key\">mǎi</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">ซื้อ</span>\n\n**ตัวอย่างประโยค:**\n我<span class=\"cf-key\">买</span>了一些苹果。\n<span class=\"cf-muted\">Wǒ mǎi le yìxiē píngguǒ.</span>\n<span class=\"cf-muted\">(ฉันซื้อแอปเปิ้ลมาจำนวนหนึ่ง)</span>",
+      "changed": true
+    },
+    {
+      "index": 61,
+      "type": "basic",
+      "front": "没关系",
+      "back": "**พินอิน:** <span class=\"cf-key\">méi guānxi</span>\n\n**ชนิดของคำ:** สำนวน (ใช้ตอบรับคำขอโทษ)\n**ความหมาย:** <span class=\"cf-success\">ไม่เป็นไร</span> <span class=\"cf-muted\">(ตอบรับเมื่ออีกฝ่ายกล่าวขอโทษ)</span>\n\n**ตัวอย่างประโยค:**\n甲：对不起！乙：<span class=\"cf-key\">没关系</span>。\n<span class=\"cf-muted\">Jiǎ: Duìbuqǐ! Yǐ: Méi guānxi.</span>\n<span class=\"cf-muted\">(ก: ขอโทษ! ข: ไม่เป็นไร)</span>\n\n<span class=\"cf-warning\">ข้อควรระวัง: อย่าสับสนกับ 不客气 ซึ่งใช้ตอบรับคำขอบคุณ</span>",
+      "changed": true
+    },
+    {
+      "index": 62,
+      "type": "basic",
+      "front": "没有",
+      "back": "**พินอิน:** <span class=\"cf-key\">méiyǒu</span>\n\n**ความหมายที่ 1 — คำกริยา:** <span class=\"cf-success\">ไม่มี</span>\n我家里<span class=\"cf-key\">没有</span>人。\n<span class=\"cf-muted\">Wǒ jiā lǐ méiyǒu rén.</span>\n<span class=\"cf-muted\">(ที่บ้านของฉันไม่มีคนอยู่)</span>\n\n**ความหมายที่ 2 — คำกริยา:** <span class=\"cf-success\">ไม่เท่ากับ</span> <span class=\"cf-muted\">(ใช้เปรียบเทียบ)</span>\n我<span class=\"cf-key\">没有</span>他高。\n<span class=\"cf-muted\">Wǒ méiyǒu tā gāo.</span>\n<span class=\"cf-muted\">(ฉันสูงไม่เท่าเขา)</span>",
+      "changed": true
+    },
+    {
+      "index": 63,
+      "type": "basic",
+      "front": "米饭",
+      "back": "**พินอิน:** <span class=\"cf-key\">mǐfàn</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ข้าวสวย</span>\n\n**ตัวอย่างประโยค:**\n我爱吃<span class=\"cf-key\">米饭</span>。\n<span class=\"cf-muted\">Wǒ ài chī mǐfàn.</span>\n<span class=\"cf-muted\">(ฉันชอบกินข้าวสวย)</span>",
+      "changed": true
+    },
+    {
+      "index": 64,
+      "type": "basic",
+      "front": "明天",
+      "back": "**พินอิน:** <span class=\"cf-key\">míngtiān</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">พรุ่งนี้</span>\n\n**ตัวอย่างประโยค:**\n今天星期日，<span class=\"cf-key\">明天</span>是星期一。\n<span class=\"cf-muted\">Jīntiān xīngqīrì, míngtiān shì xīngqīyī.</span>\n<span class=\"cf-muted\">(วันนี้วันอาทิตย์ พรุ่งนี้เป็นวันจันทร์)</span>",
+      "changed": true
+    },
+    {
+      "index": 65,
+      "type": "basic",
+      "front": "名字",
+      "back": "**พินอิน:** <span class=\"cf-key\">míngzi</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ชื่อ</span>\n\n**ตัวอย่างประโยค:**\n我的<span class=\"cf-key\">名字</span>叫李明。\n<span class=\"cf-muted\">Wǒ de míngzi jiào Lǐ Míng.</span>\n<span class=\"cf-muted\">(ชื่อของฉันคือหลี่หมิง)</span>",
+      "changed": true
+    },
+    {
+      "index": 66,
+      "type": "basic",
+      "front": "哪",
+      "back": "**พินอิน:** <span class=\"cf-key\">nǎ</span>\n\n**ชนิดของคำ:** คำสรรพนาม\n**ความหมาย:** <span class=\"cf-success\">ไหน</span>\n\n**ตัวอย่างประโยค:**\n<span class=\"cf-key\">哪</span>个杯子是你的？\n<span class=\"cf-muted\">Nǎ ge bēizi shì nǐ de?</span>\n<span class=\"cf-muted\">(แก้วใบไหนเป็นของคุณ)</span>",
+      "changed": true
+    },
+    {
+      "index": 67,
+      "type": "basic",
+      "front": "哪儿",
+      "back": "**พินอิน:** <span class=\"cf-key\">nǎr</span>\n\n**ชนิดของคำ:** คำสรรพนาม\n**ความหมาย:** <span class=\"cf-success\">ที่ไหน</span>\n\n**ตัวอย่างประโยค:**\n你家在<span class=\"cf-key\">哪儿</span>？\n<span class=\"cf-muted\">Nǐ jiā zài nǎr?</span>\n<span class=\"cf-muted\">(บ้านของคุณอยู่ที่ไหน)</span>",
+      "changed": true
+    },
+    {
+      "index": 68,
+      "type": "basic",
+      "front": "那（那儿）",
+      "back": "**พินอิน:** <span class=\"cf-key\">nà (nàr)</span>\n\n**ความหมายที่ 1 — คำสรรพนาม:** <span class=\"cf-success\">นั่น</span>\n我不认识<span class=\"cf-key\">那</span>个人。\n<span class=\"cf-muted\">Wǒ bú rènshi nàge rén.</span>\n<span class=\"cf-muted\">(ฉันไม่รู้จักคนคนนั้น)</span>\n\n**ความหมายที่ 2 — คำสรรพนาม:** <span class=\"cf-success\">ที่นั่น</span>\n我们的车在<span class=\"cf-key\">那儿</span>。\n<span class=\"cf-muted\">Wǒmen de chē zài nàr.</span>\n<span class=\"cf-muted\">(รถของพวกเราอยู่ที่นั่น)</span>",
+      "changed": true
+    },
+    {
+      "index": 69,
+      "type": "basic",
+      "front": "呢",
+      "back": "**พินอิน:** <span class=\"cf-key\">ne</span>\n\n**ความหมายที่ 1 — คำช่วย:** <span class=\"cf-success\">ใช้ท้ายประโยคเพื่อถามย้อนกลับ</span>\n你们家有几个人<span class=\"cf-key\">呢</span>？\n<span class=\"cf-muted\">Nǐmen jiā yǒu jǐ ge rén ne?</span>\n<span class=\"cf-muted\">(บ้านของพวกคุณมีกี่คนล่ะ)</span>\n\n**ความหมายที่ 2 — คำช่วย:** <span class=\"cf-success\">ใช้ท้ายประโยคเพื่อเน้นว่าเหตุการณ์กำลังดำเนินอยู่</span>\n我在睡觉<span class=\"cf-key\">呢</span>。\n<span class=\"cf-muted\">Wǒ zài shuìjiào ne.</span>\n<span class=\"cf-muted\">(ฉันกำลังนอนหลับอยู่)</span>",
+      "changed": true
+    }
+  ]
+}

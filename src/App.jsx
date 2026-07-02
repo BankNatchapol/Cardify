@@ -26,6 +26,12 @@ import Upload from './screens/Upload'
 import Settings from './screens/Settings'
 import Review from './screens/Review'
 import Projects from './screens/Projects'
+import {
+  detectGenerationGoal,
+  extractGenerationGoalFromClarifications,
+  generationGoalStats,
+  normalizeGenerationGoal
+} from './lib/generationGoal'
 
 function defaultDescription () {
   return {
@@ -106,6 +112,7 @@ function defaultWizardState () {
     sampleFeedback: '',
     sampleFeedbackHistory: [],
     previousSampleCards: [],
+    generationGoal: normalizeGenerationGoal(),
     generationProgress: null,
     latestCoverage: null
   }
@@ -176,7 +183,9 @@ function defaultIterativeProgress ({ clarifiedContext = '', sampleFeedback = '',
     clarifiedContext,
     sampleFeedback,
     acceptedSampleCards,
-    duplicateKeys: acceptedSampleCards.map(cardDuplicateKey).filter(Boolean)
+    duplicateKeys: acceptedSampleCards.map(cardDuplicateKey).filter(Boolean),
+    currentCardCount: acceptedSampleCards.length,
+    generationGoal: normalizeGenerationGoal()
   }
 }
 
@@ -434,10 +443,11 @@ export default function App () {
         }))
         setScreen('review')
       } else {
+        const running = ['in_progress', 'repairing_shortfall'].includes(payload.status)
         setGenerationState(prev => ({
           ...prev,
-          generating: payload.status === 'in_progress',
-          stage: payload.status === 'in_progress'
+          generating: running,
+          stage: running
             ? `Generated batch ${payload.batchNumber} of ${payload.maxBatches}`
             : `Generation ${payload.status}`,
           error: null,
@@ -711,14 +721,15 @@ export default function App () {
           ...prev,
           step: 'clarifying',
           clarificationQuestions: result.questions || [],
-          clarificationAnswers: {}
+          clarificationAnswers: {},
+          generationGoal: normalizeGenerationGoal(result.generationGoal)
         }))
         setGenerationState(prev => ({ ...prev, generating: false, stage: 'Clarification needed', error: null }))
         return
       }
 
       const clarifiedContext = result.clarifiedContext || state.contextPrompt
-      setWizardState(prev => ({ ...prev, clarifiedContext, step: 'sampling' }))
+      setWizardState(prev => ({ ...prev, clarifiedContext, generationGoal: normalizeGenerationGoal(result.generationGoal), step: 'sampling' }))
       await handleGenerateSampleCards(state, { parsedText, clarifiedContext })
     } catch (err) {
       setGenerationState(prev => ({
@@ -750,7 +761,8 @@ export default function App () {
 
     if (history.length >= 5) {
       const clarifiedContext = clarificationContextFromHistory(state.contextPrompt, history)
-      setWizardState(prev => ({ ...prev, clarificationHistory: history, clarifiedContext, step: 'sampling' }))
+      const generationGoal = extractGenerationGoalFromClarifications(history)
+      setWizardState(prev => ({ ...prev, clarificationHistory: history, clarifiedContext, generationGoal, step: 'sampling' }))
       await handleGenerateSampleCards(state, { clarifiedContext })
       return
     }
@@ -789,14 +801,16 @@ export default function App () {
           step: 'clarifying',
           clarificationHistory: history,
           clarificationQuestions: result.questions || [],
-          clarificationAnswers: {}
+          clarificationAnswers: {},
+          generationGoal: normalizeGenerationGoal(result.generationGoal)
         }))
         setGenerationState(prev => ({ ...prev, generating: false, stage: 'Clarification needed', error: null }))
         return
       }
 
       const clarifiedContext = result.clarifiedContext || clarificationContextFromHistory(state.contextPrompt, history)
-      setWizardState(prev => ({ ...prev, clarificationHistory: history, clarifiedContext, step: 'sampling' }))
+      const generationGoal = normalizeGenerationGoal(result.generationGoal?.targetCardCount ? result.generationGoal : extractGenerationGoalFromClarifications(history))
+      setWizardState(prev => ({ ...prev, clarificationHistory: history, clarifiedContext, generationGoal, step: 'sampling' }))
       await handleGenerateSampleCards(state, { parsedText, clarifiedContext })
     } catch (err) {
       setWizardState(prev => ({ ...prev, step: 'clarifying' }))
@@ -926,6 +940,18 @@ export default function App () {
           logs: [...prev.logs, `${new Date().toLocaleTimeString()} Reached batch cap`],
           error: null
         }))
+      } else if (result?.status === 'shortfall') {
+        const finalProgress = result?.generationProgress || progress
+        const stats = generationGoalStats(finalProgress, cardsRef.current.length)
+        setGenerationState(prev => ({
+          ...prev,
+          generating: false,
+          stage: 'Generation shortfall',
+          logs: [...prev.logs, `${new Date().toLocaleTimeString()} Generation ended at ${stats.currentCardCount} / ${stats.targetCardCount || 'unknown'} cards`],
+          error: stats.targetCardCount
+            ? `Generation ended below target: ${stats.currentCardCount} / ${stats.targetCardCount} cards.`
+            : 'Generation ended below the requested target.'
+        }))
       } else if (result?.status === 'failed') {
         setGenerationState(prev => ({
           ...prev,
@@ -964,6 +990,12 @@ export default function App () {
       sampleFeedback: sampleFeedbackHistory.join('\n'),
       acceptedSampleCards
     })
+    progress.currentCardCount = acceptedSampleCards.length
+    progress.generationGoal = normalizeGenerationGoal(
+      wizardState.generationGoal?.targetCardCount
+        ? wizardState.generationGoal
+        : extractGenerationGoalFromClarifications(wizardState.clarificationHistory)
+    )
     progress.batchSize = generationSettings.batchSize
     progress.maxBatches = generationSettings.maxBatches
     progress.claudeCodeModel = generationSettings.claudeCodeModel
@@ -974,14 +1006,44 @@ export default function App () {
       acceptedSampleCards
     })
     let overviewDescription = initialDescription
-    let generationStatePatch = {
+    let generationStateLogs = [`${new Date().toLocaleTimeString()} Preparing full deck generation`]
+
+    cardsRef.current = acceptedSampleCards
+    descriptionRef.current = overviewDescription
+    setCards(acceptedSampleCards)
+    setDescription(overviewDescription)
+    setGenerationState({
       generating: true,
       stage: 'Generating deck overview',
-      logs: [`${new Date().toLocaleTimeString()} Generating deck overview`],
+      logs: generationStateLogs,
       error: null
-    }
+    })
+    setWizardState(prev => ({
+      ...prev,
+      acceptedSampleCards,
+      sampleFeedbackHistory,
+      step: 'generating_full',
+      generationProgress: progress
+    }))
+    setScreen('review')
+
     try {
       const { parsedText, charCount } = await resolveGenerationSource(state)
+      if (!progress.generationGoal.targetCardCount) {
+        progress.generationGoal = detectGenerationGoal({
+          contextPrompt: state.contextPrompt,
+          parsedText
+        })
+      }
+      setWizardState(prev => ({
+        ...prev,
+        generationProgress: progress
+      }))
+      generationStateLogs = [...generationStateLogs, `${new Date().toLocaleTimeString()} Generating deck overview`]
+      setGenerationState(prev => ({
+        ...prev,
+        logs: generationStateLogs
+      }))
       const overview = await window.ipc.invoke('generate-deck-overview', {
         filePath: state.filePath,
         parsedText,
@@ -993,30 +1055,22 @@ export default function App () {
       })
       if (overview?.description) {
         overviewDescription = normalizeDescription(overview.description, initialDescription.title)
-        generationStatePatch = {
-          ...generationStatePatch,
-          logs: [...generationStatePatch.logs, `${new Date().toLocaleTimeString()} Generated deck overview`]
-        }
+        descriptionRef.current = overviewDescription
+        setDescription(overviewDescription)
+        generationStateLogs = [...generationStateLogs, `${new Date().toLocaleTimeString()} Generated deck overview`]
+        setGenerationState(prev => ({
+          ...prev,
+          logs: generationStateLogs
+        }))
       }
       state = { ...state, parsedText, charCount }
     } catch (err) {
-      generationStatePatch = {
-        ...generationStatePatch,
-        logs: [...generationStatePatch.logs, `${new Date().toLocaleTimeString()} Deck overview fallback: ${err.message}`]
-      }
+      generationStateLogs = [...generationStateLogs, `${new Date().toLocaleTimeString()} Deck overview fallback: ${err.message}`]
+      setGenerationState(prev => ({
+        ...prev,
+        logs: generationStateLogs
+      }))
     }
-    cardsRef.current = acceptedSampleCards
-    descriptionRef.current = overviewDescription
-    setCards(acceptedSampleCards)
-    setDescription(overviewDescription)
-    setGenerationState(generationStatePatch)
-    setWizardState(prev => ({
-      ...prev,
-      acceptedSampleCards,
-      sampleFeedbackHistory,
-      step: 'generating_full',
-      generationProgress: progress
-    }))
     await startIterativeGeneration(state, progress, { targetScreen: 'review' })
   }, [generationSettings, resolveGenerationSource, startIterativeGeneration, wizardState])
 
@@ -1026,7 +1080,8 @@ export default function App () {
     const progress = {
       ...current,
       status: 'in_progress',
-      duplicateKeys: mergeCardsUnique(cardsRef.current).map(cardDuplicateKey).filter(Boolean)
+      duplicateKeys: mergeCardsUnique(cardsRef.current).map(cardDuplicateKey).filter(Boolean),
+      currentCardCount: mergeCardsUnique(cardsRef.current).length
     }
     await startIterativeGeneration(state, progress, options)
   }, [startIterativeGeneration, wizardState.generationProgress])
@@ -1060,10 +1115,27 @@ export default function App () {
     if (state.description) {
       setDescription(normalizeDescription(state.description, state.fileName || ''))
     }
+    setUploadState(prev => ({
+      ...prev,
+      filePath: state.filePath || null,
+      fileName: state.fileName || '',
+      parsedText: state.parsedText || null,
+      charCount: state.charCount || null,
+      contextPrompt: state.contextPrompt || '',
+      cardFormat: state.cardFormat || 'basic'
+    }))
     const name = state.fileName || (state.filePath
       ? state.filePath.split('/').pop().split('\\').pop()
       : '')
     setFileName(name)
+    setProject(null)
+    setWizardState(defaultWizardState())
+    setGenerationState({
+      generating: false,
+      stage: Array.isArray(state.cards) ? `Imported ${state.cards.length} cards` : '',
+      logs: Array.isArray(state.cards) ? [`${new Date().toLocaleTimeString()} Imported JSON deck`] : [],
+      error: null
+    })
     setScreen('review')
   }
 
@@ -1137,6 +1209,37 @@ export default function App () {
       error: null
     })
     setScreen('review')
+  }, [loadProject])
+
+  const handleImportProject = useCallback(async (filePath, fileName) => {
+    const imported = await window.ipc.invoke('import-cardify-json', filePath)
+    const importedCards = Array.isArray(imported.cards) ? imported.cards : []
+    const importedFileName = fileName || imported.fileName || (filePath
+      ? filePath.split('/').pop().split('\\').pop()
+      : '')
+    const importedDescription = normalizeDescription(imported.description, importedFileName)
+    const savedProject = await window.ipc.invoke('save-project', {
+      title: importedDescription.title || importedFileName || 'Imported Cardify Project',
+      description: importedDescription,
+      filePath,
+      fileName: importedFileName,
+      parsedText: null,
+      charCount: null,
+      contextPrompt: '',
+      cardFormat: imported.cardFormat || 'basic',
+      cards: importedCards,
+      generationProgress: null
+    })
+
+    loadProject(savedProject)
+    setGenerationState({
+      generating: false,
+      stage: `Imported ${importedCards.length} ${importedCards.length === 1 ? 'card' : 'cards'}`,
+      logs: [`${new Date().toLocaleTimeString()} Imported JSON project`],
+      error: null
+    })
+    setScreen('review')
+    return savedProject
   }, [loadProject])
 
   const handleNewProject = useCallback(() => {
@@ -1235,6 +1338,7 @@ export default function App () {
           } : null}
           onOpenProject={handleOpenProject}
           onNewProject={handleNewProject}
+          onImportProject={handleImportProject}
         />
       )}
       {screen === 'settings' && (
@@ -1248,6 +1352,7 @@ export default function App () {
           cards={cards}
           description={description}
           fileName={fileName}
+          sourceFilePath={uploadState.filePath}
           onProjectChange={handleProjectChange}
           generationProgress={wizardState.generationProgress || project?.generationProgress || null}
           continuingGeneration={generationState.generating}

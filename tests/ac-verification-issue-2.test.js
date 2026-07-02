@@ -73,10 +73,10 @@ describe('AC2 — Settings has password input, Save button, and saved-state indi
 })
 
 describe('Generation settings — batch limits', () => {
-  it('Settings.jsx renders batch size, max batches, and calculated maximum flashcards', () => {
+  it('Settings.jsx renders batch size, max batches, and calculated generation limit', () => {
     expect(settingsJsx).toMatch(/Batch size/)
     expect(settingsJsx).toMatch(/Max batches/)
-    expect(settingsJsx).toMatch(/Maximum flashcards/)
+    expect(settingsJsx).toMatch(/Generation limit/)
     expect(settingsJsx).toMatch(/Claude model/)
     expect(settingsJsx).toMatch(/getModelSelectOptions/)
     expect(settingsJsx).toMatch(/Save API key to load models/)
@@ -85,7 +85,7 @@ describe('Generation settings — batch limits', () => {
     expect(settingsJsx).toMatch(/Refresh Models/)
     expect(settingsJsx).not.toMatch(/ANTHROPIC_API_KEY/)
     expect(settingsJsx).toMatch(/<select/)
-    expect(settingsJsx).toMatch(/batchSize \* generationSettings\.maxBatches/)
+    expect(settingsJsx).toMatch(/generationSettings\.batchSize \* generationSettings\.maxBatches/)
   })
 
   it('Settings.jsx saves generation settings through IPC', () => {

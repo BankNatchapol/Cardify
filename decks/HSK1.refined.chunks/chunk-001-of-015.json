@@ -1,0 +1,88 @@
+{
+  "chunkNumber": 1,
+  "chunkCount": 15,
+  "cardIndexes": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "cards": [
+    {
+      "index": 0,
+      "type": "basic",
+      "front": "爸爸",
+      "back": "**พินอิน:** <span class=\"cf-key\">bàba</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">พ่อ</span>\n\n**ตัวอย่างประโยค:**\n我<span class=\"cf-key\">爸爸</span>是医生。\n<span class=\"cf-muted\">Wǒ bàba shì yīshēng.</span>\n<span class=\"cf-muted\">(พ่อของฉันเป็นหมอ)</span>",
+      "changed": false
+    },
+    {
+      "index": 1,
+      "type": "basic",
+      "front": "爱",
+      "back": "**พินอิน:** <span class=\"cf-key\">ài</span>\n\n**ความหมายที่ 1 — คำกริยา:** <span class=\"cf-success\">รัก</span>\n妈妈，我<span class=\"cf-key\">爱</span>你。\n<span class=\"cf-muted\">Māma, wǒ ài nǐ.</span>\n<span class=\"cf-muted\">(แม่ ฉันรักแม่)</span>\n\n**ความหมายที่ 2 — คำกริยา:** <span class=\"cf-success\">ชอบ</span>\n我<span class=\"cf-key\">爱</span>吃米饭。\n<span class=\"cf-muted\">Wǒ ài chī mǐfàn.</span>\n<span class=\"cf-muted\">(ฉันชอบกินข้าวสวย)</span>",
+      "changed": false
+    },
+    {
+      "index": 2,
+      "type": "basic",
+      "front": "不客气",
+      "back": "**พินอิน:** <span class=\"cf-key\">bú kèqi</span>\n\n**ชนิดของคำ:** สำนวน (ใช้ตอบรับคำขอบคุณ)\n**ความหมาย:** <span class=\"cf-success\">ไม่เป็นไร</span> <span class=\"cf-muted\">(ตอบรับเมื่ออีกฝ่ายขอบคุณ)</span>\n\n**ตัวอย่างประโยค:**\n甲：谢谢你！ 乙：<span class=\"cf-key\">不客气</span>。\n<span class=\"cf-muted\">Jiǎ: Xièxie nǐ! Yǐ: Bú kèqi.</span>\n<span class=\"cf-muted\">(ก: ขอบคุณ! ข: ไม่เป็นไร)</span>",
+      "changed": true
+    },
+    {
+      "index": 3,
+      "type": "basic",
+      "front": "八",
+      "back": "**พินอิน:** <span class=\"cf-key\">bā</span>\n\n**ชนิดของคำ:** ตัวเลข\n**ความหมาย:** <span class=\"cf-success\">แปด</span>\n\n**ตัวอย่างประโยค:**\n他儿子今年<span class=\"cf-key\">八</span>岁了。\n<span class=\"cf-muted\">Tā érzi jīnnián bā suì le.</span>\n<span class=\"cf-muted\">(ลูกชายของเขาปีนี้อายุแปดขวบแล้ว)</span>",
+      "changed": false
+    },
+    {
+      "index": 4,
+      "type": "basic",
+      "front": "杯子",
+      "back": "**พินอิน:** <span class=\"cf-key\">bēizi</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ถ้วย, แก้ว</span>\n\n**ตัวอย่างประโยค:**\n<span class=\"cf-key\">杯子</span>里有茶。\n<span class=\"cf-muted\">Bēizi lǐ yǒu chá.</span>\n<span class=\"cf-muted\">(ในแก้วมีชา)</span>",
+      "changed": false
+    },
+    {
+      "index": 5,
+      "type": "basic",
+      "front": "北京",
+      "back": "**พินอิน:** <span class=\"cf-key\">Běijīng</span>\n\n**ชนิดของคำ:** คำนาม (ชื่อเฉพาะ)\n**ความหมาย:** <span class=\"cf-success\">ปักกิ่ง</span>\n\n**ตัวอย่างประโยค:**\n我住在<span class=\"cf-key\">北京</span>。\n<span class=\"cf-muted\">Wǒ zhù zài Běijīng.</span>\n<span class=\"cf-muted\">(ฉันอาศัยอยู่ที่ปักกิ่ง)</span>",
+      "changed": false
+    },
+    {
+      "index": 6,
+      "type": "basic",
+      "front": "本",
+      "back": "**พินอิน:** <span class=\"cf-key\">běn</span>\n\n**ชนิดของคำ:** ลักษณนาม\n**ความหมาย:** <span class=\"cf-success\">เล่ม</span>\n\n**ตัวอย่างประโยค:**\n桌子上有一<span class=\"cf-key\">本</span>书。\n<span class=\"cf-muted\">Zhuōzi shàng yǒu yì běn shū.</span>\n<span class=\"cf-muted\">(บนโต๊ะมีหนังสือหนึ่งเล่ม)</span>",
+      "changed": false
+    },
+    {
+      "index": 7,
+      "type": "basic",
+      "front": "不",
+      "back": "**พินอิน:** <span class=\"cf-key\">bù</span>\n\n**ชนิดของคำ:** คำวิเศษณ์\n**ความหมาย:** <span class=\"cf-success\">ไม่</span>\n\n**ตัวอย่างประโยค:**\n我<span class=\"cf-key\">不</span>是学生。\n<span class=\"cf-muted\">Wǒ bú shì xuésheng.</span>\n<span class=\"cf-muted\">(ฉันไม่ใช่นักเรียน)</span>\n\n<span class=\"cf-warning\">ข้อควรระวัง: เมื่ออยู่หน้าคำที่ออกเสียงวรรณยุกต์ที่ 4 ให้ออกเสียง 不 เป็น bú (เสียงที่ 2)</span>",
+      "changed": true
+    },
+    {
+      "index": 8,
+      "type": "basic",
+      "front": "菜",
+      "back": "**พินอิน:** <span class=\"cf-key\">cài</span>\n\n**ความหมายที่ 1 — คำนาม:** <span class=\"cf-success\">ผัก</span>\n我去超市买点儿<span class=\"cf-key\">菜</span>。\n<span class=\"cf-muted\">Wǒ qù chāoshì mǎi diǎnr cài.</span>\n<span class=\"cf-muted\">(ฉันไปซูเปอร์มาร์เก็ตซื้อผักหน่อยหนึ่ง)</span>\n\n**ความหมายที่ 2 — คำนาม:** <span class=\"cf-success\">กับข้าว, อาหาร</span>\n今天我做了三个<span class=\"cf-key\">菜</span>。\n<span class=\"cf-muted\">Jīntiān wǒ zuò le sān ge cài.</span>\n<span class=\"cf-muted\">(วันนี้ฉันทำกับข้าวสามอย่าง)</span>",
+      "changed": false
+    },
+    {
+      "index": 9,
+      "type": "basic",
+      "front": "茶",
+      "back": "**พินอิน:** <span class=\"cf-key\">chá</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">น้ำชา, ใบชา</span>\n\n**ตัวอย่างประโยค:**\n请喝杯<span class=\"cf-key\">茶</span>吧。\n<span class=\"cf-muted\">Qǐng hē bēi chá ba.</span>\n<span class=\"cf-muted\">(เชิญดื่มชาสักแก้วเถอะ)</span>",
+      "changed": false
+    }
+  ]
+}

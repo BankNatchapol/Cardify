@@ -1,0 +1,88 @@
+{
+  "chunkNumber": 13,
+  "chunkCount": 15,
+  "cardIndexes": [
+    120,
+    121,
+    122,
+    123,
+    124,
+    125,
+    126,
+    127,
+    128,
+    129
+  ],
+  "cards": [
+    {
+      "index": 120,
+      "type": "basic",
+      "front": "小",
+      "back": "**พินอิน:** <span class=\"cf-key\">xiǎo</span>\n\n**ชนิดของคำ:** คำคุณศัพท์\n**ความหมาย:** <span class=\"cf-success\">เล็ก</span>\n\n**ตัวอย่างประโยค:**\n这个苹果太<span class=\"cf-key\">小</span>了。\n<span class=\"cf-muted\">Zhège píngguǒ tài xiǎo le.</span>\n<span class=\"cf-muted\">(แอปเปิ้ลลูกนี้เล็กเกินไป)</span>",
+      "changed": true
+    },
+    {
+      "index": 121,
+      "type": "basic",
+      "front": "小姐",
+      "back": "**พินอิน:** <span class=\"cf-key\">xiǎojiě</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">คุณ (ผู้หญิง)</span>\n\n**ตัวอย่างประโยค:**\n<span class=\"cf-key\">小姐</span>，你叫什么名字？\n<span class=\"cf-muted\">Xiǎojiě, nǐ jiào shénme míngzi?</span>\n<span class=\"cf-muted\">(คุณผู้หญิง คุณชื่ออะไร)</span>",
+      "changed": true
+    },
+    {
+      "index": 122,
+      "type": "basic",
+      "front": "些",
+      "back": "**พินอิน:** <span class=\"cf-key\">xiē</span>\n\n**ชนิดของคำ:** ลักษณนาม\n**ความหมาย:** <span class=\"cf-success\">เล็กน้อย, บ้าง</span>\n\n**ตัวอย่างประโยค:**\n我买了<span class=\"cf-key\">些</span>苹果。\n<span class=\"cf-muted\">Wǒ mǎi le xiē píngguǒ.</span>\n<span class=\"cf-muted\">(ฉันซื้อแอปเปิ้ลมาบ้าง)</span>",
+      "changed": true
+    },
+    {
+      "index": 123,
+      "type": "basic",
+      "front": "写",
+      "back": "**พินอิน:** <span class=\"cf-key\">xiě</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">เขียน</span>\n\n**ตัวอย่างประโยค:**\n你<span class=\"cf-key\">写</span>的字很漂亮。\n<span class=\"cf-muted\">Nǐ xiě de zì hěn piàoliang.</span>\n<span class=\"cf-muted\">(ตัวอักษรที่คุณเขียนสวยมาก)</span>",
+      "changed": true
+    },
+    {
+      "index": 124,
+      "type": "basic",
+      "front": "谢谢",
+      "back": "**พินอิน:** <span class=\"cf-key\">xièxie</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">ขอบคุณ, ขอบใจ</span>\n\n**ตัวอย่างประโยค:**\n甲：<span class=\"cf-key\">谢谢</span>你。乙：不客气！\n<span class=\"cf-muted\">Jiǎ: Xièxie nǐ. Yǐ: Bú kèqi!</span>\n<span class=\"cf-muted\">(ก: ขอบคุณ ข: ไม่เป็นไร)</span>",
+      "changed": true
+    },
+    {
+      "index": 125,
+      "type": "basic",
+      "front": "星期",
+      "back": "**พินอิน:** <span class=\"cf-key\">xīngqī</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">สัปดาห์</span>\n\n**ตัวอย่างประโยค:**\n一个<span class=\"cf-key\">星期</span>有七天。\n<span class=\"cf-muted\">Yí ge xīngqī yǒu qī tiān.</span>\n<span class=\"cf-muted\">(หนึ่งสัปดาห์มีเจ็ดวัน)</span>",
+      "changed": true
+    },
+    {
+      "index": 126,
+      "type": "basic",
+      "front": "学生",
+      "back": "**พินอิน:** <span class=\"cf-key\">xuésheng</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">นักเรียน</span>\n\n**ตัวอย่างประโยค:**\n我们学校里的<span class=\"cf-key\">学生</span>很多。\n<span class=\"cf-muted\">Wǒmen xuéxiào lǐ de xuésheng hěn duō.</span>\n<span class=\"cf-muted\">(ในโรงเรียนของพวกเรามีนักเรียนมาก)</span>",
+      "changed": true
+    },
+    {
+      "index": 127,
+      "type": "basic",
+      "front": "学习",
+      "back": "**พินอิน:** <span class=\"cf-key\">xuéxí</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">เรียน</span>\n\n**ตัวอย่างประโยค:**\n你喜欢<span class=\"cf-key\">学习</span>汉语吗？\n<span class=\"cf-muted\">Nǐ xǐhuan xuéxí Hànyǔ ma?</span>\n<span class=\"cf-muted\">(คุณชอบเรียนภาษาจีนไหม)</span>",
+      "changed": true
+    },
+    {
+      "index": 128,
+      "type": "basic",
+      "front": "学校",
+      "back": "**พินอิน:** <span class=\"cf-key\">xuéxiào</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">โรงเรียน</span>\n\n**ตัวอย่างประโยค:**\n我们<span class=\"cf-key\">学校</span>很大。\n<span class=\"cf-muted\">Wǒmen xuéxiào hěn dà.</span>\n<span class=\"cf-muted\">(โรงเรียนของพวกเราใหญ่มาก)</span>",
+      "changed": true
+    },
+    {
+      "index": 129,
+      "type": "basic",
+      "front": "一",
+      "back": "**พินอิน:** <span class=\"cf-key\">yī</span>\n\n**ชนิดของคำ:** ตัวเลข\n**ความหมาย:** <span class=\"cf-success\">หนึ่ง</span>\n\n**ตัวอย่างประโยค:**\n这儿<span class=\"cf-key\">一</span>个人都没有。\n<span class=\"cf-muted\">Zhèr yí ge rén dōu méiyǒu.</span>\n<span class=\"cf-muted\">(ที่นี่ไม่มีคนสักคนเดียว)</span>",
+      "changed": true
+    }
+  ]
+}

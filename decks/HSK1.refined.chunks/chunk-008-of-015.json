@@ -1,0 +1,88 @@
+{
+  "chunkNumber": 8,
+  "chunkCount": 15,
+  "cardIndexes": [
+    70,
+    71,
+    72,
+    73,
+    74,
+    75,
+    76,
+    77,
+    78,
+    79
+  ],
+  "cards": [
+    {
+      "index": 70,
+      "type": "basic",
+      "front": "能",
+      "back": "**พินอิน:** <span class=\"cf-key\">néng</span>\n\n**ชนิดของคำ:** คำช่วยกริยา\n**ความหมาย:** <span class=\"cf-success\">สามารถ, ได้</span>\n\n**ตัวอย่างประโยค:**\n我<span class=\"cf-key\">能</span>坐在这儿吗？\n<span class=\"cf-muted\">Wǒ néng zuò zài zhèr ma?</span>\n<span class=\"cf-muted\">(ฉันนั่งตรงนี้ได้ไหม)</span>",
+      "changed": true
+    },
+    {
+      "index": 71,
+      "type": "basic",
+      "front": "你",
+      "back": "**พินอิน:** <span class=\"cf-key\">nǐ</span>\n\n**ชนิดของคำ:** คำสรรพนาม\n**ความหมาย:** <span class=\"cf-success\">คุณ, เธอ</span>\n\n**ตัวอย่างประโยค:**\n<span class=\"cf-key\">你</span>认识这个人吗？\n<span class=\"cf-muted\">Nǐ rènshi zhège rén ma?</span>\n<span class=\"cf-muted\">(คุณรู้จักคนคนนี้ไหม)</span>",
+      "changed": true
+    },
+    {
+      "index": 72,
+      "type": "basic",
+      "front": "年",
+      "back": "**พินอิน:** <span class=\"cf-key\">nián</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ปี</span>\n\n**ตัวอย่างประโยค:**\n我在中国住了三<span class=\"cf-key\">年</span>。\n<span class=\"cf-muted\">Wǒ zài Zhōngguó zhù le sān nián.</span>\n<span class=\"cf-muted\">(ฉันอาศัยอยู่ที่ประเทศจีนมาสามปีแล้ว)</span>",
+      "changed": true
+    },
+    {
+      "index": 73,
+      "type": "basic",
+      "front": "女儿",
+      "back": "**พินอิน:** <span class=\"cf-key\">nǚ'ér</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ลูกสาว</span>\n\n**ตัวอย่างประโยค:**\n我有两个<span class=\"cf-key\">女儿</span>。\n<span class=\"cf-muted\">Wǒ yǒu liǎng ge nǚ'ér.</span>\n<span class=\"cf-muted\">(ฉันมีลูกสาวสองคน)</span>",
+      "changed": true
+    },
+    {
+      "index": 74,
+      "type": "basic",
+      "front": "朋友",
+      "back": "**พินอิน:** <span class=\"cf-key\">péngyou</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">เพื่อน</span>\n\n**ตัวอย่างประโยค:**\n他是我的好<span class=\"cf-key\">朋友</span>。\n<span class=\"cf-muted\">Tā shì wǒ de hǎo péngyou.</span>\n<span class=\"cf-muted\">(เขาเป็นเพื่อนที่ดีของฉัน)</span>",
+      "changed": true
+    },
+    {
+      "index": 75,
+      "type": "basic",
+      "front": "漂亮",
+      "back": "**พินอิน:** <span class=\"cf-key\">piàoliang</span>\n\n**ชนิดของคำ:** คำคุณศัพท์\n**ความหมาย:** <span class=\"cf-success\">สวย</span>\n\n**ตัวอย่างประโยค:**\n你的衣服真<span class=\"cf-key\">漂亮</span>。\n<span class=\"cf-muted\">Nǐ de yīfu zhēn piàoliang.</span>\n<span class=\"cf-muted\">(เสื้อผ้าของคุณสวยจริงๆ)</span>",
+      "changed": true
+    },
+    {
+      "index": 76,
+      "type": "basic",
+      "front": "苹果",
+      "back": "**พินอิน:** <span class=\"cf-key\">píngguǒ</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">แอปเปิ้ล</span>\n\n**ตัวอย่างประโยค:**\n你想不想吃个<span class=\"cf-key\">苹果</span>？\n<span class=\"cf-muted\">Nǐ xiǎng bu xiǎng chī ge píngguǒ?</span>\n<span class=\"cf-muted\">(คุณอยากกินแอปเปิ้ลสักลูกไหม)</span>",
+      "changed": true
+    },
+    {
+      "index": 77,
+      "type": "basic",
+      "front": "七",
+      "back": "**พินอิน:** <span class=\"cf-key\">qī</span>\n\n**ชนิดของคำ:** ตัวเลข\n**ความหมาย:** <span class=\"cf-success\">เจ็ด</span>\n\n**ตัวอย่างประโยค:**\n一个星期有<span class=\"cf-key\">七</span>天。\n<span class=\"cf-muted\">Yí ge xīngqī yǒu qī tiān.</span>\n<span class=\"cf-muted\">(หนึ่งสัปดาห์มีเจ็ดวัน)</span>",
+      "changed": true
+    },
+    {
+      "index": 78,
+      "type": "basic",
+      "front": "钱",
+      "back": "**พินอิน:** <span class=\"cf-key\">qián</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">เงิน</span>\n\n**ตัวอย่างประโยค:**\n一个苹果三块<span class=\"cf-key\">钱</span>。\n<span class=\"cf-muted\">Yí ge píngguǒ sān kuài qián.</span>\n<span class=\"cf-muted\">(แอปเปิ้ลลูกหนึ่งราคาสามหยวน)</span>",
+      "changed": true
+    },
+    {
+      "index": 79,
+      "type": "basic",
+      "front": "前面",
+      "back": "**พินอิน:** <span class=\"cf-key\">qiánmiàn</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ด้านหน้า</span>\n\n**ตัวอย่างประโยค:**\n<span class=\"cf-key\">前面</span>那个人是我的同学。\n<span class=\"cf-muted\">Qiánmiàn nàge rén shì wǒ de tóngxué.</span>\n<span class=\"cf-muted\">(คนที่อยู่ด้านหน้านั่นคือเพื่อนนักเรียนของฉัน)</span>",
+      "changed": true
+    }
+  ]
+}

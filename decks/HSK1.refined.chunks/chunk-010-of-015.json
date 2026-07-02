@@ -1,0 +1,88 @@
+{
+  "chunkNumber": 10,
+  "chunkCount": 15,
+  "cardIndexes": [
+    90,
+    91,
+    92,
+    93,
+    94,
+    95,
+    96,
+    97,
+    98,
+    99
+  ],
+  "cards": [
+    {
+      "index": 90,
+      "type": "basic",
+      "front": "谁",
+      "back": "**พินอิน:** <span class=\"cf-key\">shéi</span>\n\n**ชนิดของคำ:** คำสรรพนาม\n**ความหมาย:** <span class=\"cf-success\">ใคร</span>\n\n**ตัวอย่างประโยค:**\n那个人是<span class=\"cf-key\">谁</span>？\n<span class=\"cf-muted\">Nàge rén shì shéi?</span>\n<span class=\"cf-muted\">(คนคนนั้นคือใคร)</span>",
+      "changed": true
+    },
+    {
+      "index": 91,
+      "type": "basic",
+      "front": "什么",
+      "back": "**พินอิน:** <span class=\"cf-key\">shénme</span>\n\n**ชนิดของคำ:** คำสรรพนาม\n**ความหมาย:** <span class=\"cf-success\">อะไร</span>\n\n**ตัวอย่างประโยค:**\n你看见了<span class=\"cf-key\">什么</span>？\n<span class=\"cf-muted\">Nǐ kànjiàn le shénme?</span>\n<span class=\"cf-muted\">(คุณเห็นอะไร)</span>",
+      "changed": false
+    },
+    {
+      "index": 92,
+      "type": "basic",
+      "front": "十",
+      "back": "**พินอิน:** <span class=\"cf-key\">shí</span>\n\n**ชนิดของคำ:** ตัวเลข\n**ความหมาย:** <span class=\"cf-success\">สิบ</span>\n\n**ตัวอย่างประโยค:**\n现在是<span class=\"cf-key\">十</span>月。\n<span class=\"cf-muted\">Xiànzài shì shí yuè.</span>\n<span class=\"cf-muted\">(ตอนนี้เป็นเดือนตุลาคม)</span>",
+      "changed": false
+    },
+    {
+      "index": 93,
+      "type": "basic",
+      "front": "时候",
+      "back": "**พินอิน:** <span class=\"cf-key\">shíhou</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ตอนที่, เวลาที่</span>\n\n**ตัวอย่างประโยค:**\n我回家的<span class=\"cf-key\">时候</span>，他在睡觉。\n<span class=\"cf-muted\">Wǒ huí jiā de shíhou, tā zài shuìjiào.</span>\n<span class=\"cf-muted\">(ตอนที่ฉันกลับถึงบ้าน เขากำลังนอนหลับอยู่)</span>",
+      "changed": true
+    },
+    {
+      "index": 94,
+      "type": "basic",
+      "front": "是",
+      "back": "**พินอิน:** <span class=\"cf-key\">shì</span>\n\n**ความหมายที่ 1 — คำกริยา:** <span class=\"cf-success\">เป็น, คือ</span>\n他不<span class=\"cf-key\">是</span>学生。\n<span class=\"cf-muted\">Tā bú shì xuésheng.</span>\n<span class=\"cf-muted\">(เขาไม่ใช่นักเรียน)</span>\n\n**ความหมายที่ 2 — คำกริยา:** <span class=\"cf-success\">ใช่</span> <span class=\"cf-muted\">(ใช้ตอบรับแสดงการเห็นด้วย)</span>\n甲：你是中国人吗？乙：<span class=\"cf-key\">是</span>，我是中国人。\n<span class=\"cf-muted\">Jiǎ: Nǐ shì Zhōngguórén ma? Yǐ: Shì, wǒ shì Zhōngguórén.</span>\n<span class=\"cf-muted\">(ก: คุณเป็นคนจีนใช่ไหม ข: ใช่ ฉันเป็นคนจีน)</span>",
+      "changed": false
+    },
+    {
+      "index": 95,
+      "type": "basic",
+      "front": "书",
+      "back": "**พินอิน:** <span class=\"cf-key\">shū</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">หนังสือ</span>\n\n**ตัวอย่างประโยค:**\n我喜欢读<span class=\"cf-key\">书</span>。\n<span class=\"cf-muted\">Wǒ xǐhuan dú shū.</span>\n<span class=\"cf-muted\">(ฉันชอบอ่านหนังสือ)</span>",
+      "changed": false
+    },
+    {
+      "index": 96,
+      "type": "basic",
+      "front": "水",
+      "back": "**พินอิน:** <span class=\"cf-key\">shuǐ</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">น้ำ</span>\n\n**ตัวอย่างประโยค:**\n杯子里还有<span class=\"cf-key\">水</span>吗？\n<span class=\"cf-muted\">Bēizi lǐ hái yǒu shuǐ ma?</span>\n<span class=\"cf-muted\">(ในแก้วยังมีน้ำอยู่ไหม)</span>",
+      "changed": false
+    },
+    {
+      "index": 97,
+      "type": "basic",
+      "front": "水果",
+      "back": "**พินอิน:** <span class=\"cf-key\">shuǐguǒ</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ผลไม้</span>\n\n**ตัวอย่างประโยค:**\n我想去商店买<span class=\"cf-key\">水果</span>。\n<span class=\"cf-muted\">Wǒ xiǎng qù shāngdiàn mǎi shuǐguǒ.</span>\n<span class=\"cf-muted\">(ฉันอยากไปร้านค้าเพื่อซื้อผลไม้)</span>",
+      "changed": true
+    },
+    {
+      "index": 98,
+      "type": "basic",
+      "front": "睡觉",
+      "back": "**พินอิน:** <span class=\"cf-key\">shuìjiào</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">นอนหลับ</span>\n\n**ตัวอย่างประโยค:**\n儿子在<span class=\"cf-key\">睡觉</span>呢。\n<span class=\"cf-muted\">Érzi zài shuìjiào ne.</span>\n<span class=\"cf-muted\">(ลูกชายกำลังนอนหลับอยู่)</span>",
+      "changed": true
+    },
+    {
+      "index": 99,
+      "type": "basic",
+      "front": "说",
+      "back": "**พินอิน:** <span class=\"cf-key\">shuō</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">พูด</span>\n\n**ตัวอย่างประโยค:**\n你在<span class=\"cf-key\">说</span>什么？\n<span class=\"cf-muted\">Nǐ zài shuō shénme?</span>\n<span class=\"cf-muted\">(คุณกำลังพูดอะไรอยู่)</span>",
+      "changed": false
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "chunkNumber": 15,
+  "chunkCount": 15,
+  "cardIndexes": [
+    140,
+    141,
+    142,
+    143,
+    144,
+    145,
+    146,
+    147,
+    148,
+    149
+  ],
+  "cards": [
+    {
+      "index": 140,
+      "type": "basic",
+      "front": "怎么样",
+      "back": "**พินอิน:** <span class=\"cf-key\">zěnmeyàng</span>\n\n**ชนิดของคำ:** คำสรรพนาม\n**ความหมาย:** <span class=\"cf-success\">เป็นอย่างไร</span>\n\n**ตัวอย่างประโยค:**\n我们去看电影，<span class=\"cf-key\">怎么样</span>？\n<span class=\"cf-muted\">Wǒmen qù kàn diànyǐng, zěnmeyàng?</span>\n<span class=\"cf-muted\">(พวกเราไปดูภาพยนตร์กัน เป็นอย่างไรบ้าง)</span>",
+      "changed": true
+    },
+    {
+      "index": 141,
+      "type": "basic",
+      "front": "这（这儿）",
+      "back": "**พินอิน:** <span class=\"cf-key\">zhè (zhèr)</span>\n\n**ความหมายที่ 1 — คำสรรพนาม:** <span class=\"cf-success\">นี่, นี้</span>\n<span class=\"cf-key\">这</span>个人是我的同学。\n<span class=\"cf-muted\">Zhège rén shì wǒ de tóngxué.</span>\n<span class=\"cf-muted\">(คนนี้คือเพื่อนนักเรียนของฉัน)</span>\n\n**ความหมายที่ 2 — คำสรรพนาม:** <span class=\"cf-success\">ที่นี่</span>\n我能坐在<span class=\"cf-key\">这</span>儿吗？\n<span class=\"cf-muted\">Wǒ néng zuò zài zhèr ma?</span>\n<span class=\"cf-muted\">(ฉันนั่งตรงนี้ได้ไหม)</span>",
+      "changed": true
+    },
+    {
+      "index": 142,
+      "type": "basic",
+      "front": "中国",
+      "back": "**พินอิน:** <span class=\"cf-key\">Zhōngguó</span>\n\n**ชนิดของคำ:** คำนาม (ชื่อเฉพาะ)\n**ความหมาย:** <span class=\"cf-success\">ประเทศจีน</span>\n\n**ตัวอย่างประโยค:**\n我在<span class=\"cf-key\">中国</span>学汉语。\n<span class=\"cf-muted\">Wǒ zài Zhōngguó xué Hànyǔ.</span>\n<span class=\"cf-muted\">(ฉันเรียนภาษาจีนที่ประเทศจีน)</span>",
+      "changed": true
+    },
+    {
+      "index": 143,
+      "type": "basic",
+      "front": "中午",
+      "back": "**พินอิน:** <span class=\"cf-key\">zhōngwǔ</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ตอนกลางวัน</span>\n\n**ตัวอย่างประโยค:**\n我今天<span class=\"cf-key\">中午</span>去火车站。\n<span class=\"cf-muted\">Wǒ jīntiān zhōngwǔ qù huǒchēzhàn.</span>\n<span class=\"cf-muted\">(วันนี้ตอนกลางวันฉันไปสถานีรถไฟ)</span>",
+      "changed": true
+    },
+    {
+      "index": 144,
+      "type": "basic",
+      "front": "住",
+      "back": "**พินอิน:** <span class=\"cf-key\">zhù</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">อยู่, อาศัย</span>\n\n**ตัวอย่างประโยค:**\n他在北京<span class=\"cf-key\">住</span>了很多年。\n<span class=\"cf-muted\">Tā zài Běijīng zhù le hěn duō nián.</span>\n<span class=\"cf-muted\">(เขาอาศัยอยู่ที่ปักกิ่งมาหลายปีแล้ว)</span>",
+      "changed": true
+    },
+    {
+      "index": 145,
+      "type": "basic",
+      "front": "桌子",
+      "back": "**พินอิน:** <span class=\"cf-key\">zhuōzi</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">โต๊ะ</span>\n\n**ตัวอย่างประโยค:**\n电脑在<span class=\"cf-key\">桌子</span>上。\n<span class=\"cf-muted\">Diànnǎo zài zhuōzi shàng.</span>\n<span class=\"cf-muted\">(คอมพิวเตอร์อยู่บนโต๊ะ)</span>",
+      "changed": true
+    },
+    {
+      "index": 146,
+      "type": "basic",
+      "front": "字",
+      "back": "**พินอิน:** <span class=\"cf-key\">zì</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ตัวอักษร</span>\n\n**ตัวอย่างประโยค:**\n这个<span class=\"cf-key\">字</span>你认识吗？\n<span class=\"cf-muted\">Zhège zì nǐ rènshi ma?</span>\n<span class=\"cf-muted\">(ตัวอักษรนี้คุณรู้จักไหม)</span>",
+      "changed": true
+    },
+    {
+      "index": 147,
+      "type": "basic",
+      "front": "昨天",
+      "back": "**พินอิน:** <span class=\"cf-key\">zuótiān</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">เมื่อวาน</span>\n\n**ตัวอย่างประโยค:**\n他<span class=\"cf-key\">昨天</span>没去学校。\n<span class=\"cf-muted\">Tā zuótiān méi qù xuéxiào.</span>\n<span class=\"cf-muted\">(เมื่อวานเขาไม่ได้ไปโรงเรียน)</span>",
+      "changed": true
+    },
+    {
+      "index": 148,
+      "type": "basic",
+      "front": "坐",
+      "back": "**พินอิน:** <span class=\"cf-key\">zuò</span>\n\n**ความหมายที่ 1 — คำกริยา:** <span class=\"cf-success\">นั่ง</span>\n他一个下午都<span class=\"cf-key\">坐</span>在电视前。\n<span class=\"cf-muted\">Tā yí ge xiàwǔ dōu zuò zài diànshì qián.</span>\n<span class=\"cf-muted\">(เขานั่งอยู่หน้าโทรทัศน์ทั้งบ่าย)</span>\n\n**ความหมายที่ 2 — คำกริยา:** <span class=\"cf-success\">โดยสาร, นั่ง (พาหนะ)</span>\n我<span class=\"cf-key\">坐</span>飞机去中国。\n<span class=\"cf-muted\">Wǒ zuò fēijī qù Zhōngguó.</span>\n<span class=\"cf-muted\">(ฉันนั่งเครื่องบินไปประเทศจีน)</span>",
+      "changed": true
+    },
+    {
+      "index": 149,
+      "type": "basic",
+      "front": "做",
+      "back": "**พินอิน:** <span class=\"cf-key\">zuò</span>\n\n**ความหมายที่ 1 — คำกริยา:** <span class=\"cf-success\">ทำ</span>\n今天妈妈<span class=\"cf-key\">做</span>了很多菜。\n<span class=\"cf-muted\">Jīntiān māma zuò le hěn duō cài.</span>\n<span class=\"cf-muted\">(วันนี้แม่ทำกับข้าวไว้มากมาย)</span>\n\n**ความหมายที่ 2 — คำกริยา:** <span class=\"cf-success\">ประกอบอาชีพ, ทำงานเป็น...</span>\n你是<span class=\"cf-key\">做</span>什么工作的？\n<span class=\"cf-muted\">Nǐ shì zuò shénme gōngzuò de?</span>\n<span class=\"cf-muted\">(คุณทำงานอะไร)</span>\n\n<span class=\"cf-warning\">ข้อควรระวัง: 坐 (zuò นั่ง) กับ 做 (zuò ทำ) ออกเสียงเหมือนกันแต่ตัวอักษรและความหมายต่างกัน</span>",
+      "changed": true
+    }
+  ]
+}

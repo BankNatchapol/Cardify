@@ -25,6 +25,12 @@ describe('Claude API fallback prompt', () => {
     expect(prompt.system).toContain('When color would improve scanning or retention')
     expect(prompt.system).toContain('highlight the target word or phrase where it appears')
     expect(prompt.system).toContain('Prefer a small number of meaningful highlights over decorating the whole card')
+    expect(prompt.system).toContain('Add semantic audio placeholders for Chinese speech where useful')
+    expect(prompt.system).toContain('do not put audio tags on the front')
+    expect(prompt.system).toContain('near the pinyin/pronunciation line')
+    expect(prompt.system).toContain('{{audio:front}}')
+    expect(prompt.system).toContain('{{audio:example_1}}')
+    expect(prompt.system).toContain('Do not use [sound:...] filenames')
     expect(prompt.system).toContain('Return ONLY a JSON object')
     expect(prompt.messages[0].content).toContain('biology exam')
     expect(prompt.messages[0].content).toContain('source text')
@@ -69,6 +75,9 @@ describe('Claude API fallback prompt', () => {
     expect(prompt.system).toContain('Hard cap: 5 total clarification questions')
     expect(prompt.system).toContain('Clarify rubric')
     expect(prompt.system).toContain('output language for cards/explanations when unclear')
+    expect(prompt.system).toContain('audio placement for spoken study content')
+    expect(prompt.system).toContain('{{audio:front}}')
+    expect(prompt.system).toContain('{{audio:example_1}}')
     expect(prompt.system).toContain('ask what language or mix of languages to use')
     expect(prompt.system).toContain('audience/level')
     expect(prompt.system).toContain('Avoid asking about details already obvious')
@@ -85,6 +94,10 @@ describe('Claude API fallback prompt', () => {
 
     expect(prompt.system).toContain('Generate exactly 3 basic sample flashcards')
     expect(prompt.system).toContain('accepted sample cards as style guidance')
+    expect(prompt.system).toContain('Add semantic audio placeholders for Chinese speech where useful')
+    expect(prompt.system).toContain('do not put audio tags on the front')
+    expect(prompt.system).toContain('{{audio:front}}')
+    expect(prompt.system).toContain('{{audio:example_1}}')
     expect(prompt.messages[0].content).toContain('Highlight target words')
     expect(prompt.messages[0].content).toContain('Accumulated user feedback')
     expect(prompt.messages[0].content).toContain('Use Chinese-only fronts')
@@ -102,18 +115,40 @@ describe('Claude API fallback prompt', () => {
       sampleFeedback: 'Highlight target terms',
       acceptedSampleCards: [{ type: 'basic', front: '电影', back: '**movie**' }],
       coverageHistory: [{ batchSummary: 'covered nouns' }],
-      duplicateKeys: ['basic:电影\n**movie**']
+      duplicateKeys: ['basic:电影\n**movie**'],
+      generationGoal: { targetCardCount: 150, source: 'detected' }
     })
 
     expect(prompt.system).toContain('Generate exactly 10 new basic flashcards for batch 5 of 20')
+    expect(prompt.system).toContain('Generation goal: target 150 unique cards, current 1, remaining 149')
+    expect(prompt.system).toContain('Do not set coverage.done to true unless the target card count is met')
     expect(prompt.system).toContain('do not blindly slice')
     expect(prompt.system).toContain('"coverage"')
     expect(prompt.system).toContain('Do not return deck title or deck description')
+    expect(prompt.system).toContain('Coverage text must be user-facing')
+    expect(prompt.system).toContain('duplicate-safety')
+    expect(prompt.system).toContain('Add semantic audio placeholders for Chinese speech where useful')
+    expect(prompt.system).toContain('{{audio:example_2}}')
     expect(prompt.system).not.toContain('"description"')
     expect(prompt.messages[0].content).toContain('Thai explanations')
     expect(prompt.messages[0].content).toContain('Highlight target terms')
     expect(prompt.messages[0].content).toContain('covered nouns')
     expect(prompt.messages[0].content).toContain('basic:电影')
+  })
+
+  test('builds repair shortfall prompt requesting the missing count', () => {
+    const prompt = buildIterativeBatchPrompt('basic', 'HSK learner', 'source text', {
+      batchSize: 10,
+      maxBatches: 20,
+      completedBatches: 13,
+      status: 'repairing_shortfall',
+      duplicateKeys: Array.from({ length: 130 }, (_item, index) => `card-${index}`),
+      generationGoal: { targetCardCount: 150, source: 'detected', shortfallRepairAttempted: true }
+    })
+
+    expect(prompt.system).toContain('Repair a generation shortfall')
+    expect(prompt.system).toContain('Generate exactly 20 missing basic flashcards')
+    expect(prompt.messages[0].content).toContain('"repairShortfall": true')
   })
 
   test('builds a deck overview prompt without cards or coverage', () => {

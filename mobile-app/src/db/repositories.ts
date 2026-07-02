@@ -1,3 +1,4 @@
+import * as FileSystem from 'expo-file-system'
 import { getDatabase } from './database'
 import { buildReviewQueue, flattenReviewQueue, review, reviewWithFsrs } from '../../../packages/scheduler/src'
 import type { CardState, ReviewRating } from '../../../packages/shared/src/types'
@@ -87,6 +88,49 @@ export async function updateDeck (deckId: string, name: string, description?: st
   )
 }
 
+export async function deleteDeck (deckId: string) {
+  const db = await getDatabase()
+  await db.runAsync('DELETE FROM decks WHERE id = ?', [deckId])
+  const audioDir = `${FileSystem.documentDirectory}audio/${deckId}/`
+  await FileSystem.deleteAsync(audioDir, { idempotent: true })
+}
+
+export async function updateDeckOptions (deckId: string, options: { dailyNewLimit: number; dailyReviewLimit: number }) {
+  const db = await getDatabase()
+  await db.runAsync(
+    `INSERT INTO deck_options (deck_id, daily_new_limit, daily_review_limit) VALUES (?, ?, ?)
+     ON CONFLICT(deck_id) DO UPDATE SET daily_new_limit = excluded.daily_new_limit, daily_review_limit = excluded.daily_review_limit`,
+    [deckId, options.dailyNewLimit, options.dailyReviewLimit]
+  )
+}
+
+export async function resetDeckLearningProgress (deckId: string) {
+  const db = await getDatabase()
+  const now = new Date().toISOString()
+  await db.withTransactionAsync(async () => {
+    await db.runAsync(
+      `UPDATE cards SET state = 'new', due_at = NULL, interval_days = 0, stability = NULL, difficulty = NULL, reps = 0, lapses = 0, updated_at = ? WHERE deck_id = ?`,
+      [now, deckId]
+    )
+    await db.runAsync('DELETE FROM review_logs WHERE deck_id = ?', [deckId])
+  })
+}
+
+export async function shuffleDeck (deckId: string) {
+  const db = await getDatabase()
+  const rows = await db.getAllAsync<{ id: string }>("SELECT id FROM cards WHERE deck_id = ? AND state = 'new'", [deckId])
+  const ids = rows.map(r => r.id)
+  for (let i = ids.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[ids[i], ids[j]] = [ids[j], ids[i]]
+  }
+  await db.withTransactionAsync(async () => {
+    for (let i = 0; i < ids.length; i++) {
+      await db.runAsync('UPDATE cards SET study_order = ? WHERE id = ?', [i, ids[i]])
+    }
+  })
+}
+
 export async function listCards (deckId: string, query = ''): Promise<MobileCard[]> {
   const db = await getDatabase()
   const like = `%${query.trim()}%`
@@ -99,10 +143,40 @@ export async function listCards (deckId: string, query = ''): Promise<MobileCard
 export async function getNextStudyCard (deckId: string): Promise<MobileCard | null> {
   const db = await getDatabase()
   const options = await getDeckOptions(deckId)
-  const rows = await db.getAllAsync<any>('SELECT * FROM cards WHERE deck_id = ?', [deckId])
+  const rows = await db.getAllAsync<any>('SELECT * FROM cards WHERE deck_id = ? ORDER BY study_order ASC, rowid ASC', [deckId])
   const queue = buildReviewQueue(rows.map(rowToSchedulerCard), new Date(), options)
   const [next] = flattenReviewQueue(queue)
   return next ? rowToCard(rows.find(row => row.id === next.id)) : null
+}
+
+// Used to open Study directly on a specific card (e.g. tapping the Lock
+// Screen widget, which shows one particular card) instead of whatever the
+// normal due-order queue would pick first. Rating it afterward goes through
+// the same rateCard()/scheduler path as any other card — showing it first
+// is purely a selection choice, it doesn't change how it's scheduled.
+export async function getCardById (cardId: string): Promise<MobileCard | null> {
+  const db = await getDatabase()
+  const row = await db.getFirstAsync<any>('SELECT * FROM cards WHERE id = ?', [cardId])
+  return row ? rowToCard(row) : null
+}
+
+// Cards for the Lock Screen widget: cards the user isn't good at yet
+// (learning/relearning) take priority; if there are none, fall back to a
+// genuinely random sample of the deck rather than a lapses-sorted list, so
+// a mastered deck doesn't always surface the same "hardest" cards.
+export async function getWidgetCandidateCards (deckId: string, limit = 20): Promise<MobileCard[]> {
+  const db = await getDatabase()
+  const priority = await db.getAllAsync<any>(
+    `SELECT * FROM cards WHERE deck_id = ? AND suspended = 0 AND state IN ('learning', 'relearning')
+     ORDER BY lapses DESC, due_at ASC LIMIT ?`,
+    [deckId, limit]
+  )
+  if (priority.length > 0) return priority.map(rowToCard)
+  const random = await db.getAllAsync<any>(
+    'SELECT * FROM cards WHERE deck_id = ? AND suspended = 0 ORDER BY RANDOM() LIMIT ?',
+    [deckId, limit]
+  )
+  return random.map(rowToCard)
 }
 
 export async function rateCard (card: MobileCard, rating: ReviewRating, elapsedMs?: number) {
@@ -187,6 +261,19 @@ export async function setCardSuspended (cardId: string, suspended: boolean) {
 export async function deleteCard (cardId: string) {
   const db = await getDatabase()
   await db.runAsync('DELETE FROM cards WHERE id = ?', [cardId])
+}
+
+export async function getCardAudio (noteId: string): Promise<Record<string, string>> {
+  const db = await getDatabase()
+  const rows = await db.getAllAsync<{ slot: string; file_uri: string }>(
+    'SELECT slot, file_uri FROM audio_files WHERE note_id = ?',
+    [noteId]
+  )
+  // file_uri is stored relative to documentDirectory (not an absolute
+  // file:// URI) — iOS doesn't guarantee the app's sandbox container path
+  // stays the same across relaunches/rebuilds, so we re-resolve against
+  // the CURRENT documentDirectory here rather than trusting a stored one.
+  return Object.fromEntries(rows.map(r => [r.slot, `${FileSystem.documentDirectory}${r.file_uri}`]))
 }
 
 export async function getStats (deckId: string) {

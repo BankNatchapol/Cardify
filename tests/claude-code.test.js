@@ -135,6 +135,12 @@ describe('buildClaudeCodePrompt', () => {
     expect(prompt).toContain('When color would improve scanning or retention')
     expect(prompt).toContain('highlight the target word or phrase where it appears')
     expect(prompt).toContain('Prefer a small number of meaningful highlights over decorating the whole card')
+    expect(prompt).toContain('Add semantic audio placeholders for Chinese speech where useful')
+    expect(prompt).toContain('do not put audio tags on the front')
+    expect(prompt).toContain('near the pinyin/pronunciation line')
+    expect(prompt).toContain('{{audio:front}}')
+    expect(prompt).toContain('{{audio:example_1}}')
+    expect(prompt).toContain('Do not use [sound:...] filenames')
     expect(prompt).not.toContain('chunk 1 of')
   })
 
@@ -194,10 +200,13 @@ describe('Claude Code iterative generation', () => {
       sampleFeedback: 'Highlight target words',
       acceptedSampleCards: [{ type: 'basic', front: '爱', back: '**รัก**' }],
       coverageHistory: [{ batchSummary: 'covered greetings' }],
-      duplicateKeys: ['basic:爱\n**รัก**']
+      duplicateKeys: ['basic:爱\n**รัก**'],
+      generationGoal: { targetCardCount: 150, source: 'detected' }
     })
 
     expect(prompt).toContain('Generate exactly 10 new basic flashcards for batch 3 of 20')
+    expect(prompt).toContain('Generation goal: target 150 unique cards, current 1, remaining 149')
+    expect(prompt).toContain('Do not set coverage.done to true unless the target card count is met')
     expect(prompt).toContain('do not blindly slice')
     expect(prompt).toContain('Thai explanations')
     expect(prompt).toContain('Highlight target words')
@@ -205,7 +214,26 @@ describe('Claude Code iterative generation', () => {
     expect(prompt).toContain('basic:爱')
     expect(prompt).toContain('"coverage"')
     expect(prompt).toContain('Do not return deck title or deck description')
+    expect(prompt).toContain('Coverage text must be user-facing')
+    expect(prompt).toContain('duplicate-safety')
+    expect(prompt).toContain('Add semantic audio placeholders for Chinese speech where useful')
+    expect(prompt).toContain('{{audio:example_2}}')
     expect(prompt).not.toContain('"description"')
+  })
+
+  it('builds a repair shortfall prompt with the missing count', () => {
+    const prompt = buildClaudeCodeIterativeBatchPrompt('basic', 'HSK learner', 'source text', {
+      batchSize: 10,
+      maxBatches: 20,
+      completedBatches: 13,
+      status: 'repairing_shortfall',
+      duplicateKeys: Array.from({ length: 130 }, (_item, index) => `card-${index}`),
+      generationGoal: { targetCardCount: 150, source: 'detected', shortfallRepairAttempted: true }
+    })
+
+    expect(prompt).toContain('Repair a generation shortfall')
+    expect(prompt).toContain('Generate exactly 20 missing basic flashcards')
+    expect(prompt).toContain('"repairShortfall": true')
   })
 
   it('parses iterative batch output with coverage', () => {
@@ -260,6 +288,7 @@ describe('Claude Code parse recovery', () => {
     expect(prompt).toContain('Markdown is allowed only inside JSON string values')
     expect(prompt).toContain('<span class="cf-key">')
     expect(prompt).toContain('When color would improve scanning or retention')
+    expect(prompt).toContain('{{audio:front}}')
   })
 
   it('marks multi-chunk recovery prompts as chunk-local work', () => {
@@ -334,6 +363,9 @@ describe('Claude Code clarify and sample prompts', () => {
     expect(prompt).toContain('Hard cap: 5 total clarification questions')
     expect(prompt).toContain('Clarify rubric')
     expect(prompt).toContain('output language for cards/explanations when unclear')
+    expect(prompt).toContain('audio placement for spoken study content')
+    expect(prompt).toContain('{{audio:front}}')
+    expect(prompt).toContain('{{audio:example_1}}')
     expect(prompt).toContain('ask what language or mix of languages to use')
     expect(prompt).toContain('audience/level')
     expect(prompt).toContain('Avoid asking about details already obvious')
@@ -375,6 +407,10 @@ describe('Claude Code clarify and sample prompts', () => {
     })
     expect(prompt).toContain('Generate exactly 3 basic sample flashcards')
     expect(prompt).toContain('accepted sample cards as style guidance')
+    expect(prompt).toContain('Add semantic audio placeholders for Chinese speech where useful')
+    expect(prompt).toContain('do not put audio tags on the front')
+    expect(prompt).toContain('{{audio:front}}')
+    expect(prompt).toContain('{{audio:example_1}}')
     expect(prompt).toContain('Use Thai meanings')
     expect(prompt).toContain('Accumulated user feedback')
     expect(prompt).toContain('Chinese-only fronts')

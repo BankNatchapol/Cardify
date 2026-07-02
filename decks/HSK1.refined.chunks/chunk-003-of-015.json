@@ -1,0 +1,88 @@
+{
+  "chunkNumber": 3,
+  "chunkCount": 15,
+  "cardIndexes": [
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29
+  ],
+  "cards": [
+    {
+      "index": 20,
+      "type": "basic",
+      "front": "都",
+      "back": "**พินอิน:** <span class=\"cf-key\">dōu</span>\n\n**ชนิดของคำ:** คำวิเศษณ์\n**ความหมาย:** <span class=\"cf-success\">ทุกคน, ทั้งหมด, ล้วน</span>\n\n**ตัวอย่างประโยค:**\n我们<span class=\"cf-key\">都</span>来了。\n<span class=\"cf-muted\">Wǒmen dōu lái le.</span>\n<span class=\"cf-muted\">(พวกเรามากันครบทุกคนแล้ว)</span>",
+      "changed": true
+    },
+    {
+      "index": 21,
+      "type": "basic",
+      "front": "读",
+      "back": "**พินอิน:** <span class=\"cf-key\">dú</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">อ่าน</span>\n\n**ตัวอย่างประโยค:**\n你会<span class=\"cf-key\">读</span>这个汉字吗？\n<span class=\"cf-muted\">Nǐ huì dú zhège Hànzì ma?</span>\n<span class=\"cf-muted\">(คุณอ่านตัวอักษรจีนตัวนี้ออกไหม)</span>\n\n你喜欢<span class=\"cf-key\">读</span>书吗？\n<span class=\"cf-muted\">Nǐ xǐhuan dú shū ma?</span>\n<span class=\"cf-muted\">(คุณชอบอ่านหนังสือไหม)</span>",
+      "changed": true
+    },
+    {
+      "index": 22,
+      "type": "basic",
+      "front": "对不起",
+      "back": "**พินอิน:** <span class=\"cf-key\">duìbuqǐ</span>\n\n**ชนิดของคำ:** สำนวน\n**ความหมาย:** <span class=\"cf-success\">ขอโทษ</span>\n\n**ตัวอย่างประโยค:**\n甲：<span class=\"cf-key\">对不起</span>。乙：没关系。\n<span class=\"cf-muted\">Jiǎ: Duìbuqǐ. Yǐ: Méi guānxi.</span>\n<span class=\"cf-muted\">(ก: ขอโทษครับ/ค่ะ ข: ไม่เป็นไร)</span>",
+      "changed": true
+    },
+    {
+      "index": 23,
+      "type": "basic",
+      "front": "多",
+      "back": "**พินอิน:** <span class=\"cf-key\">duō</span>\n\n**ความหมายที่ 1 — คำคุณศัพท์:** <span class=\"cf-success\">มาก</span>\n这里的人很<span class=\"cf-key\">多</span>。\n<span class=\"cf-muted\">Zhèlǐ de rén hěn duō.</span>\n<span class=\"cf-muted\">(คนที่นี่มีจำนวนมาก)</span>\n\n**ความหมายที่ 2 — คำวิเศษณ์:** <span class=\"cf-success\">แค่ไหน, เท่าไหร่</span>\n你儿子<span class=\"cf-key\">多</span>大了？\n<span class=\"cf-muted\">Nǐ érzi duō dà le?</span>\n<span class=\"cf-muted\">(ลูกชายของคุณอายุเท่าไหร่แล้ว)</span>",
+      "changed": true
+    },
+    {
+      "index": 24,
+      "type": "basic",
+      "front": "多少",
+      "back": "**พินอิน:** <span class=\"cf-key\">duōshao</span>\n\n**ชนิดของคำ:** คำสรรพนาม\n**ความหมาย:** <span class=\"cf-success\">เท่าไหร่</span>\n\n**ตัวอย่างประโยค:**\n你们学校有<span class=\"cf-key\">多少</span>学生？\n<span class=\"cf-muted\">Nǐmen xuéxiào yǒu duōshao xuésheng?</span>\n<span class=\"cf-muted\">(โรงเรียนของพวกคุณมีนักเรียนกี่คน)</span>",
+      "changed": true
+    },
+    {
+      "index": 25,
+      "type": "basic",
+      "front": "儿子",
+      "back": "**พินอิน:** <span class=\"cf-key\">érzi</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ลูกชาย</span>\n\n**ตัวอย่างประโยค:**\n我<span class=\"cf-key\">儿子</span>三岁了。\n<span class=\"cf-muted\">Wǒ érzi sān suì le.</span>\n<span class=\"cf-muted\">(ลูกชายของฉันอายุสามขวบแล้ว)</span>",
+      "changed": true
+    },
+    {
+      "index": 26,
+      "type": "basic",
+      "front": "二",
+      "back": "**พินอิน:** <span class=\"cf-key\">èr</span>\n\n**ชนิดของคำ:** ตัวเลข\n**ความหมาย:** <span class=\"cf-success\">สอง</span>\n\n**ตัวอย่างประโยค:**\n现在十<span class=\"cf-key\">二</span>点了。\n<span class=\"cf-muted\">Xiànzài shí'èr diǎn le.</span>\n<span class=\"cf-muted\">(ตอนนี้เวลาสิบสองนาฬิกาแล้ว)</span>",
+      "changed": true
+    },
+    {
+      "index": 27,
+      "type": "basic",
+      "front": "饭店",
+      "back": "**พินอิน:** <span class=\"cf-key\">fàndiàn</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ร้านอาหาร, โรงแรม</span>\n\n**ตัวอย่างประโยค:**\n中午我们去<span class=\"cf-key\">饭店</span>吃吧。\n<span class=\"cf-muted\">Zhōngwǔ wǒmen qù fàndiàn chī ba.</span>\n<span class=\"cf-muted\">(ตอนเที่ยงพวกเราไปกินข้าวที่ร้านอาหารกันเถอะ)</span>",
+      "changed": true
+    },
+    {
+      "index": 28,
+      "type": "basic",
+      "front": "飞机",
+      "back": "**พินอิน:** <span class=\"cf-key\">fēijī</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">เครื่องบิน</span>\n\n**ตัวอย่างประโยค:**\n我坐<span class=\"cf-key\">飞机</span>去北京。\n<span class=\"cf-muted\">Wǒ zuò fēijī qù Běijīng.</span>\n<span class=\"cf-muted\">(ฉันนั่งเครื่องบินไปปักกิ่ง)</span>",
+      "changed": true
+    },
+    {
+      "index": 29,
+      "type": "basic",
+      "front": "分钟",
+      "back": "**พินอิน:** <span class=\"cf-key\">fēnzhōng</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">นาที</span>\n\n**ตัวอย่างประโยค:**\n我想休息几<span class=\"cf-key\">分钟</span>。\n<span class=\"cf-muted\">Wǒ xiǎng xiūxi jǐ fēnzhōng.</span>\n<span class=\"cf-muted\">(ฉันอยากพักสักสองสามนาที)</span>",
+      "changed": true
+    }
+  ]
+}

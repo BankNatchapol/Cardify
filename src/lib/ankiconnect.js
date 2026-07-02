@@ -19,6 +19,7 @@ const ANKI_URL = 'http://localhost:8765'
 const ANKI_VERSION = 6
 const CONNECTION_TIMEOUT_MS = 2000
 const { renderCardMarkdown } = require('./cardMarkdown.cjs')
+const { buildAudioResolver } = require('./audioTags.cjs')
 
 // ─── Low-level HTTP helper ────────────────────────────────────────────────────
 /**
@@ -97,13 +98,18 @@ async function createDeck (deckName) {
  * @param {Array<{front?:string, back?:string, text?:string, type:string}>} cards
  * @returns {Array<object>} AnkiConnect-formatted notes
  */
-function buildNotes (deckName, cards) {
-  return cards.map(card => {
+function buildNotes (deckName, cards, options = {}) {
+  const audioResolver = options.audioManifest ? buildAudioResolver(options.audioManifest) : null
+  return cards.map((card, index) => {
+    const renderOptions = {
+      target: 'anki',
+      resolveAudioTag: slot => audioResolver?.(index, slot)
+    }
     if (card.type === 'cloze') {
       return {
         deckName,
         modelName: 'Cloze',
-        fields: { Text: renderCardMarkdown(card.text ?? '', { target: 'anki' }) },
+        fields: { Text: renderCardMarkdown(card.text ?? '', renderOptions) },
         options: { allowDuplicate: false },
         tags: []
       }
@@ -113,8 +119,8 @@ function buildNotes (deckName, cards) {
       deckName,
       modelName: 'Basic',
       fields: {
-        Front: renderCardMarkdown(card.front ?? '', { target: 'anki' }),
-        Back: renderCardMarkdown(card.back ?? '', { target: 'anki' })
+        Front: renderCardMarkdown(card.front ?? '', renderOptions),
+        Back: renderCardMarkdown(card.back ?? '', renderOptions)
       },
       options: { allowDuplicate: false },
       tags: []
@@ -131,8 +137,8 @@ function buildNotes (deckName, cards) {
  * @param {Array} cards
  * @returns {Promise<{ added: number, errors: string[] }>}
  */
-async function addNotes (deckName, cards) {
-  const notes = buildNotes(deckName, cards)
+async function addNotes (deckName, cards, options = {}) {
+  const notes = buildNotes(deckName, cards, options)
   const result = await ankiRequest('addNotes', { notes })
 
   // result is an array of note IDs (numbers) or null for duplicates / errors

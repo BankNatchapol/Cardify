@@ -1,0 +1,88 @@
+{
+  "chunkNumber": 4,
+  "chunkCount": 15,
+  "cardIndexes": [
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39
+  ],
+  "cards": [
+    {
+      "index": 30,
+      "type": "basic",
+      "front": "高兴",
+      "back": "**พินอิน:** <span class=\"cf-key\">gāoxìng</span>\n\n**ชนิดของคำ:** คำคุณศัพท์\n**ความหมาย:** <span class=\"cf-success\">ดีใจ, มีความสุข</span>\n\n**ตัวอย่างประโยค:**\n今天我很<span class=\"cf-key\">高兴</span>。\n<span class=\"cf-muted\">Jīntiān wǒ hěn gāoxìng.</span>\n<span class=\"cf-muted\">(วันนี้ฉันดีใจมาก)</span>",
+      "changed": true
+    },
+    {
+      "index": 31,
+      "type": "basic",
+      "front": "个",
+      "back": "**พินอิน:** <span class=\"cf-key\">gè</span>\n\n**ชนิดของคำ:** ลักษณนาม\n**ความหมาย:** <span class=\"cf-success\">คน, อัน, ชิ้น (ลักษณนามทั่วไป)</span>\n\n**ตัวอย่างประโยค:**\n我是一<span class=\"cf-key\">个</span>学生。\n<span class=\"cf-muted\">Wǒ shì yí ge xuésheng.</span>\n<span class=\"cf-muted\">(ฉันเป็นนักเรียนคนหนึ่ง)</span>",
+      "changed": true
+    },
+    {
+      "index": 32,
+      "type": "basic",
+      "front": "工作",
+      "back": "**พินอิน:** <span class=\"cf-key\">gōngzuò</span>\n\n**ความหมายที่ 1 — คำนาม:** <span class=\"cf-success\">งาน</span>\n我很喜欢现在的<span class=\"cf-key\">工作</span>。\n<span class=\"cf-muted\">Wǒ hěn xǐhuan xiànzài de gōngzuò.</span>\n<span class=\"cf-muted\">(ฉันชอบงานปัจจุบันมาก)</span>\n\n**ความหมายที่ 2 — คำกริยา:** <span class=\"cf-success\">ทำงาน</span>\n我在医院<span class=\"cf-key\">工作</span>。\n<span class=\"cf-muted\">Wǒ zài yīyuàn gōngzuò.</span>\n<span class=\"cf-muted\">(ฉันทำงานที่โรงพยาบาล)</span>",
+      "changed": true
+    },
+    {
+      "index": 33,
+      "type": "basic",
+      "front": "汉语",
+      "back": "**พินอิน:** <span class=\"cf-key\">Hànyǔ</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ภาษาจีน</span>\n\n**ตัวอย่างประโยค:**\n他在学习<span class=\"cf-key\">汉语</span>。\n<span class=\"cf-muted\">Tā zài xuéxí Hànyǔ.</span>\n<span class=\"cf-muted\">(เขากำลังเรียนภาษาจีนอยู่)</span>",
+      "changed": true
+    },
+    {
+      "index": 34,
+      "type": "basic",
+      "front": "好",
+      "back": "**พินอิน:** <span class=\"cf-key\">hǎo</span>\n\n**ความหมายที่ 1 — คำคุณศัพท์:** <span class=\"cf-success\">ดี</span>\n今天天气很<span class=\"cf-key\">好</span>。\n<span class=\"cf-muted\">Jīntiān tiānqì hěn hǎo.</span>\n<span class=\"cf-muted\">(วันนี้อากาศดีมาก)</span>\n\n**ความหมายที่ 2 — คำแสดงการขานตอบ:** <span class=\"cf-success\">ได้, ตกลง</span>\n你听我说，<span class=\"cf-key\">好</span>吗？\n<span class=\"cf-muted\">Nǐ tīng wǒ shuō, hǎo ma?</span>\n<span class=\"cf-muted\">(คุณฟังฉันพูดหน่อยได้ไหม)</span>",
+      "changed": true
+    },
+    {
+      "index": 35,
+      "type": "basic",
+      "front": "号",
+      "back": "**พินอิน:** <span class=\"cf-key\">hào</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">วันที่ (ใช้กับวันในปฏิทิน)</span>\n\n**ตัวอย่างประโยค:**\n今天是2002年1月1<span class=\"cf-key\">号</span>。\n<span class=\"cf-muted\">Jīntiān shì èr líng líng èr nián yī yuè yī hào.</span>\n<span class=\"cf-muted\">(วันนี้คือวันที่ 1 มกราคม ปี 2002)</span>",
+      "changed": true
+    },
+    {
+      "index": 36,
+      "type": "basic",
+      "front": "喝",
+      "back": "**พินอิน:** <span class=\"cf-key\">hē</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">ดื่ม</span>\n\n**ตัวอย่างประโยค:**\n我想<span class=\"cf-key\">喝</span>水。\n<span class=\"cf-muted\">Wǒ xiǎng hē shuǐ.</span>\n<span class=\"cf-muted\">(ฉันอยากดื่มน้ำ)</span>",
+      "changed": true
+    },
+    {
+      "index": 37,
+      "type": "basic",
+      "front": "和",
+      "back": "**พินอิน:** <span class=\"cf-key\">hé</span>\n\n**ความหมายที่ 1 — คำสันธาน:** <span class=\"cf-success\">และ</span>\n爸爸<span class=\"cf-key\">和</span>妈妈都在家。\n<span class=\"cf-muted\">Bàba hé māma dōu zài jiā.</span>\n<span class=\"cf-muted\">(พ่อและแม่อยู่บ้านกันหมด)</span>\n\n**ความหมายที่ 2 — คำบุพบท:** <span class=\"cf-success\">กับ</span>\n他<span class=\"cf-key\">和</span>王先生说话呢。\n<span class=\"cf-muted\">Tā hé Wáng xiānsheng shuōhuà ne.</span>\n<span class=\"cf-muted\">(เขากำลังพูดคุยกับคุณหวังอยู่)</span>",
+      "changed": true
+    },
+    {
+      "index": 38,
+      "type": "basic",
+      "front": "很",
+      "back": "**พินอิน:** <span class=\"cf-key\">hěn</span>\n\n**ชนิดของคำ:** คำวิเศษณ์\n**ความหมาย:** <span class=\"cf-success\">มาก</span>\n\n**ตัวอย่างประโยค:**\n李小姐<span class=\"cf-key\">很</span>漂亮。\n<span class=\"cf-muted\">Lǐ xiǎojiě hěn piàoliang.</span>\n<span class=\"cf-muted\">(คุณหลี่สวยมาก)</span>",
+      "changed": true
+    },
+    {
+      "index": 39,
+      "type": "basic",
+      "front": "后面",
+      "back": "**พินอิน:** <span class=\"cf-key\">hòumiàn</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ด้านหลัง</span>\n\n**ตัวอย่างประโยค:**\n商店在学校<span class=\"cf-key\">后面</span>。\n<span class=\"cf-muted\">Shāngdiàn zài xuéxiào hòumiàn.</span>\n<span class=\"cf-muted\">(ร้านค้าอยู่ด้านหลังโรงเรียน)</span>",
+      "changed": true
+    }
+  ]
+}

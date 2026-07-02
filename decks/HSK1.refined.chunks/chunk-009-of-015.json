@@ -1,0 +1,88 @@
+{
+  "chunkNumber": 9,
+  "chunkCount": 15,
+  "cardIndexes": [
+    80,
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89
+  ],
+  "cards": [
+    {
+      "index": 80,
+      "type": "basic",
+      "front": "请",
+      "back": "**พินอิน:** <span class=\"cf-key\">qǐng</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">เชิญ</span>\n\n**ตัวอย่างประโยค:**\n<span class=\"cf-key\">请</span>坐在椅子上。\n<span class=\"cf-muted\">Qǐng zuò zài yǐzi shàng.</span>\n<span class=\"cf-muted\">(เชิญนั่งลงบนเก้าอี้)</span>",
+      "changed": true
+    },
+    {
+      "index": 81,
+      "type": "basic",
+      "front": "去",
+      "back": "**พินอิน:** <span class=\"cf-key\">qù</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">ไป</span>\n\n**ตัวอย่างประโยค:**\n我星期三<span class=\"cf-key\">去</span>中国。\n<span class=\"cf-muted\">Wǒ xīngqīsān qù Zhōngguó.</span>\n<span class=\"cf-muted\">(ฉันไปประเทศจีนในวันพุธ)</span>",
+      "changed": true
+    },
+    {
+      "index": 82,
+      "type": "basic",
+      "front": "热",
+      "back": "**พินอิน:** <span class=\"cf-key\">rè</span>\n\n**ชนิดของคำ:** คำคุณศัพท์\n**ความหมาย:** <span class=\"cf-success\">ร้อน</span>\n\n**ตัวอย่างประโยค:**\n今天很<span class=\"cf-key\">热</span>。\n<span class=\"cf-muted\">Jīntiān hěn rè.</span>\n<span class=\"cf-muted\">(วันนี้อากาศร้อนมาก)</span>",
+      "changed": true
+    },
+    {
+      "index": 83,
+      "type": "basic",
+      "front": "人",
+      "back": "**พินอิน:** <span class=\"cf-key\">rén</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">คน</span>\n\n**ตัวอย่างประโยค:**\n商店里有很多<span class=\"cf-key\">人</span>。\n<span class=\"cf-muted\">Shāngdiàn lǐ yǒu hěn duō rén.</span>\n<span class=\"cf-muted\">(ในร้านค้ามีคนอยู่มากมาย)</span>",
+      "changed": true
+    },
+    {
+      "index": 84,
+      "type": "basic",
+      "front": "认识",
+      "back": "**พินอิน:** <span class=\"cf-key\">rènshi</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">รู้จัก</span>\n\n**ตัวอย่างประโยค:**\n<span class=\"cf-key\">认识</span>你很高兴。\n<span class=\"cf-muted\">Rènshi nǐ hěn gāoxìng.</span>\n<span class=\"cf-muted\">(ยินดีที่ได้รู้จักคุณ)</span>",
+      "changed": true
+    },
+    {
+      "index": 85,
+      "type": "basic",
+      "front": "三",
+      "back": "**พินอิน:** <span class=\"cf-key\">sān</span>\n\n**ชนิดของคำ:** ตัวเลข\n**ความหมาย:** <span class=\"cf-success\">สาม</span>\n\n**ตัวอย่างประโยค:**\n我有<span class=\"cf-key\">三</span>本书。\n<span class=\"cf-muted\">Wǒ yǒu sān běn shū.</span>\n<span class=\"cf-muted\">(ฉันมีหนังสือสามเล่ม)</span>",
+      "changed": true
+    },
+    {
+      "index": 86,
+      "type": "basic",
+      "front": "商店",
+      "back": "**พินอิน:** <span class=\"cf-key\">shāngdiàn</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ร้านค้า</span>\n\n**ตัวอย่างประโยค:**\n她去<span class=\"cf-key\">商店</span>买东西了。\n<span class=\"cf-muted\">Tā qù shāngdiàn mǎi dōngxi le.</span>\n<span class=\"cf-muted\">(เธอไปซื้อของที่ร้านค้าแล้ว)</span>",
+      "changed": true
+    },
+    {
+      "index": 87,
+      "type": "basic",
+      "front": "上",
+      "back": "**พินอิน:** <span class=\"cf-key\">shàng</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ด้านบน</span>\n\n**ตัวอย่างประโยค:**\n水果在桌子<span class=\"cf-key\">上</span>。\n<span class=\"cf-muted\">Shuǐguǒ zài zhuōzi shàng.</span>\n<span class=\"cf-muted\">(ผลไม้อยู่บนโต๊ะ)</span>",
+      "changed": true
+    },
+    {
+      "index": 88,
+      "type": "basic",
+      "front": "上午",
+      "back": "**พินอิน:** <span class=\"cf-key\">shàngwǔ</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">ช่วงเช้า</span>\n\n**ตัวอย่างประโยค:**\n现在是<span class=\"cf-key\">上午</span>10点。\n<span class=\"cf-muted\">Xiànzài shì shàngwǔ shí diǎn.</span>\n<span class=\"cf-muted\">(ตอนนี้เป็นเวลาสิบโมงเช้า)</span>",
+      "changed": true
+    },
+    {
+      "index": 89,
+      "type": "basic",
+      "front": "少",
+      "back": "**พินอิน:** <span class=\"cf-key\">shǎo</span>\n\n**ชนิดของคำ:** คำคุณศัพท์\n**ความหมาย:** <span class=\"cf-success\">น้อย</span>\n\n**ตัวอย่างประโยค:**\n杯子里的水很<span class=\"cf-key\">少</span>。\n<span class=\"cf-muted\">Bēizi lǐ de shuǐ hěn shǎo.</span>\n<span class=\"cf-muted\">(น้ำในแก้วมีน้อยมาก)</span>",
+      "changed": true
+    }
+  ]
+}

@@ -19,7 +19,7 @@ function renderCardMarkdown (source, options = {}) {
 
   const tokens = []
   const openTags = []
-  const tokenized = safeText.replace(/<\/?mark\b[^>]*>|<\/?span\b[^>]*>/gi, tag => {
+  let tokenized = safeText.replace(/<\/?mark\b[^>]*>|<\/?span\b[^>]*>/gi, tag => {
     const name = tag.match(/^<\/?\s*(mark|span)\b/i)?.[1]?.toLowerCase()
     const closing = /^<\//.test(tag)
     if (closing) {
@@ -37,10 +37,41 @@ function renderCardMarkdown (source, options = {}) {
     const token = `\u0000CARDIFY_HTML_${tokens.length}\u0000`
     tokens.push(safeTag)
     return token
+  })
+
+  tokenized = tokenized.replace(/\{\{audio:([A-Za-z0-9_-]+)\}\}/g, (_match, slot) => {
+    const rendered = renderAudioTag(slot, target, options)
+    return rendered ? pushHtmlToken(tokens, rendered) : ''
   }).replace(/<[^>]+>/g, '')
 
   const html = renderBlocks(tokenized, tokens)
   return restoreTokens(html, tokens)
+}
+
+function renderAudioTag (slot, target, options = {}) {
+  const resolved = typeof options.resolveAudioTag === 'function'
+    ? options.resolveAudioTag(slot)
+    : null
+  if (!resolved) return ''
+
+  if (target === 'anki') {
+    const fileName = resolved.fileName || resolved.file || ''
+    return fileName ? `[sound:${pathBasename(fileName)}]` : ''
+  }
+
+  const src = resolved.fileUrl || resolved.src || ''
+  const filePath = resolved.filePath || ''
+  if (!src && !filePath) return ''
+  const label = resolved.label || `Play ${slot.replace(/_/g, ' ')} audio`
+  const sourceAttribute = src ? ` data-audio-src="${escapeAttributeValue(src)}"` : ''
+  const pathAttribute = filePath ? ` data-audio-path="${escapeAttributeValue(filePath)}"` : ''
+  return `<button type="button" class="audio-tag-button"${sourceAttribute}${pathAttribute} aria-label="${escapeAttributeValue(label)}" title="${escapeAttributeValue(label)}"><span class="audio-tag-icon" aria-hidden="true"></span></button>`
+}
+
+function pushHtmlToken (tokens, html) {
+  const token = `\u0000CARDIFY_HTML_${tokens.length}\u0000`
+  tokens.push(html)
+  return token
 }
 
 function sanitizeAllowedTag (tag, target) {
@@ -230,6 +261,18 @@ function escapeHtml (value) {
 
 function escapeAttribute (value) {
   return String(value).replace(/[^\w-]/g, '')
+}
+
+function escapeAttributeValue (value) {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+}
+
+function pathBasename (value) {
+  return String(value).split(/[\\/]/).pop()
 }
 
 export { renderCardMarkdown }

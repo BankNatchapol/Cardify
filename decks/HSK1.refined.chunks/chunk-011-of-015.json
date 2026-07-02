@@ -1,0 +1,88 @@
+{
+  "chunkNumber": 11,
+  "chunkCount": 15,
+  "cardIndexes": [
+    100,
+    101,
+    102,
+    103,
+    104,
+    105,
+    106,
+    107,
+    108,
+    109
+  ],
+  "cards": [
+    {
+      "index": 100,
+      "type": "basic",
+      "front": "说话",
+      "back": "**พินอิน:** <span class=\"cf-key\">shuōhuà</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">พูดคุย</span>\n\n**ตัวอย่างประโยค:**\n他们在<span class=\"cf-key\">说话</span>。\n<span class=\"cf-muted\">Tāmen zài shuōhuà.</span>\n<span class=\"cf-muted\">(พวกเขากำลังพูดคุยกันอยู่)</span>",
+      "changed": true
+    },
+    {
+      "index": 101,
+      "type": "basic",
+      "front": "四",
+      "back": "**พินอิน:** <span class=\"cf-key\">sì</span>\n\n**ชนิดของคำ:** ตัวเลข\n**ความหมาย:** <span class=\"cf-success\">สี่</span>\n\n**ตัวอย่างประโยค:**\n我们<span class=\"cf-key\">四</span>个人去看电影。\n<span class=\"cf-muted\">Wǒmen sì ge rén qù kàn diànyǐng.</span>\n<span class=\"cf-muted\">(พวกเราสี่คนไปดูหนัง)</span>",
+      "changed": true
+    },
+    {
+      "index": 102,
+      "type": "basic",
+      "front": "岁",
+      "back": "**พินอิน:** <span class=\"cf-key\">suì</span>\n\n**ชนิดของคำ:** ลักษณนาม\n**ความหมาย:** <span class=\"cf-success\">ปี (ใช้บอกอายุ)</span>\n\n**ตัวอย่างประโยค:**\n李医生今年40<span class=\"cf-key\">岁</span>。\n<span class=\"cf-muted\">Lǐ yīshēng jīnnián sìshí suì.</span>\n<span class=\"cf-muted\">(คุณหมอหลี่ปีนี้อายุ 40 ปี)</span>",
+      "changed": true
+    },
+    {
+      "index": 103,
+      "type": "basic",
+      "front": "他",
+      "back": "**พินอิน:** <span class=\"cf-key\">tā</span>\n\n**ชนิดของคำ:** คำสรรพนาม\n**ความหมาย:** <span class=\"cf-success\">เขา (ผู้ชาย)</span>\n\n**ตัวอย่างประโยค:**\n<span class=\"cf-key\">他</span>是我们的老师。\n<span class=\"cf-muted\">Tā shì wǒmen de lǎoshī.</span>\n<span class=\"cf-muted\">(เขาคือครูของพวกเรา)</span>",
+      "changed": true
+    },
+    {
+      "index": 104,
+      "type": "basic",
+      "front": "她",
+      "back": "**พินอิน:** <span class=\"cf-key\">tā</span>\n\n**ชนิดของคำ:** คำสรรพนาม\n**ความหมาย:** <span class=\"cf-success\">เขา (ผู้หญิง)</span>\n\n**ตัวอย่างประโยค:**\n我认识<span class=\"cf-key\">她</span>的妈妈。\n<span class=\"cf-muted\">Wǒ rènshi tā de māma.</span>\n<span class=\"cf-muted\">(ฉันรู้จักแม่ของเธอ)</span>\n\n<span class=\"cf-warning\">ข้อควรระวัง: 他 กับ 她 ออกเสียงเหมือนกันว่า tā แต่เขียนต่างกันตามเพศ</span>",
+      "changed": true
+    },
+    {
+      "index": 105,
+      "type": "basic",
+      "front": "太",
+      "back": "**พินอิน:** <span class=\"cf-key\">tài</span>\n\n**ชนิดของคำ:** คำวิเศษณ์\n**ความหมาย:** <span class=\"cf-success\">มากเกินไป</span>\n\n**ตัวอย่างประโยค:**\n这个学校<span class=\"cf-key\">太</span>大了。\n<span class=\"cf-muted\">Zhège xuéxiào tài dà le.</span>\n<span class=\"cf-muted\">(โรงเรียนนี้ใหญ่เกินไป)</span>",
+      "changed": true
+    },
+    {
+      "index": 106,
+      "type": "basic",
+      "front": "天气",
+      "back": "**พินอิน:** <span class=\"cf-key\">tiānqì</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">อากาศ</span>\n\n**ตัวอย่างประโยค:**\n今天的<span class=\"cf-key\">天气</span>非常好。\n<span class=\"cf-muted\">Jīntiān de tiānqì fēicháng hǎo.</span>\n<span class=\"cf-muted\">(อากาศวันนี้ดีมาก)</span>",
+      "changed": true
+    },
+    {
+      "index": 107,
+      "type": "basic",
+      "front": "听",
+      "back": "**พินอิน:** <span class=\"cf-key\">tīng</span>\n\n**ชนิดของคำ:** คำกริยา\n**ความหมาย:** <span class=\"cf-success\">ฟัง</span>\n\n**ตัวอย่างประโยค:**\n你<span class=\"cf-key\">听</span>，谁来了？\n<span class=\"cf-muted\">Nǐ tīng, shéi lái le?</span>\n<span class=\"cf-muted\">(คุณฟังสิ ใครมาแล้ว)</span>",
+      "changed": true
+    },
+    {
+      "index": 108,
+      "type": "basic",
+      "front": "同学",
+      "back": "**พินอิน:** <span class=\"cf-key\">tóngxué</span>\n\n**ชนิดของคำ:** คำนาม\n**ความหมาย:** <span class=\"cf-success\">เพื่อนนักเรียน</span>\n\n**ตัวอย่างประโยค:**\n<span class=\"cf-key\">同学</span>们，你们好！\n<span class=\"cf-muted\">Tóngxuémen, nǐmen hǎo!</span>\n<span class=\"cf-muted\">(สวัสดีนักเรียนทุกคน)</span>",
+      "changed": true
+    },
+    {
+      "index": 109,
+      "type": "basic",
+      "front": "喂",
+      "back": "**พินอิน:** <span class=\"cf-key\">wèi</span>\n\n**ชนิดของคำ:** คำอุทาน\n**ความหมาย:** <span class=\"cf-success\">ฮัลโหล</span>\n\n**ตัวอย่างประโยค:**\n<span class=\"cf-key\">喂</span>，李老师在吗？\n<span class=\"cf-muted\">Wèi, Lǐ lǎoshī zài ma?</span>\n<span class=\"cf-muted\">(ฮัลโหล คุณครูหลี่อยู่ไหม)</span>",
+      "changed": true
+    }
+  ]
+}
