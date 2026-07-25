@@ -283,11 +283,72 @@ export async function getStats (deckId: string) {
   const today = await db.getFirstAsync<any>('SELECT COUNT(*) AS count FROM review_logs WHERE deck_id = ? AND reviewed_at >= ?', [deckId, todayStart])
   const week = await db.getFirstAsync<any>('SELECT COUNT(*) AS count FROM review_logs WHERE deck_id = ? AND reviewed_at >= ?', [deckId, sevenDaysAgo])
   const stateCounts = await db.getAllAsync<any>('SELECT state, COUNT(*) AS count FROM cards WHERE deck_id = ? GROUP BY state', [deckId])
+  const ratingRows = await db.getAllAsync<{ rating: string; count: number }>('SELECT rating, COUNT(*) AS count FROM review_logs WHERE deck_id = ? GROUP BY rating', [deckId])
+  const ratingTotalsAllTime = { again: 0, hard: 0, good: 0, easy: 0 }
+  let reviewsAllTime = 0
+  for (const row of ratingRows) {
+    const count = Number(row.count || 0)
+    reviewsAllTime += count
+    if (row.rating in ratingTotalsAllTime) (ratingTotalsAllTime as any)[row.rating] = count
+  }
   return {
     reviewsToday: Number(today?.count || 0),
     reviewsLast7Days: Number(week?.count || 0),
+    reviewsAllTime,
+    ratingTotalsAllTime,
     stateCounts
   }
+}
+
+export type DailyRatingStats = {
+  date: string   // local YYYY-MM-DD
+  label: string  // e.g. 'Mon'
+  again: number
+  hard: number
+  good: number
+  easy: number
+}
+
+const WEEKDAY_LABELS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+
+function localDayKey (date: Date): string {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
+}
+
+// Buckets review_logs by LOCAL calendar day (not SQLite's date(), which
+// would bucket by the UTC date embedded in reviewed_at's ISO string) so a
+// day's bar actually matches the reviews the user made during their own
+// "today" rather than shifting at UTC midnight.
+export async function getDailyRatingStats (deckId: string, days = 7): Promise<DailyRatingStats[]> {
+  const db = await getDatabase()
+  const cutoff = new Date()
+  cutoff.setDate(cutoff.getDate() - (days - 1))
+  cutoff.setHours(0, 0, 0, 0)
+
+  const rows = await db.getAllAsync<{ reviewed_at: string; rating: string }>(
+    'SELECT reviewed_at, rating FROM review_logs WHERE deck_id = ? AND reviewed_at >= ? ORDER BY reviewed_at ASC',
+    [deckId, cutoff.toISOString()]
+  )
+
+  const buckets: DailyRatingStats[] = []
+  const byKey = new Map<string, DailyRatingStats>()
+  for (let i = days - 1; i >= 0; i--) {
+    const d = new Date()
+    d.setDate(d.getDate() - i)
+    const bucket: DailyRatingStats = { date: localDayKey(d), label: WEEKDAY_LABELS[d.getDay()], again: 0, hard: 0, good: 0, easy: 0 }
+    buckets.push(bucket)
+    byKey.set(bucket.date, bucket)
+  }
+
+  for (const row of rows) {
+    const bucket = byKey.get(localDayKey(new Date(row.reviewed_at)))
+    if (!bucket) continue
+    if (row.rating === 'again' || row.rating === 'hard' || row.rating === 'good' || row.rating === 'easy') {
+      bucket[row.rating] += 1
+    }
+  }
+
+  return buckets
 }
 
 export async function getDeckOptions (deckId: string) {
