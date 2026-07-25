@@ -9,6 +9,7 @@
     "ios": "npm run prepare-icon && expo run:ios",
     "prebuild:ios": "npm run prepare-icon && expo prebuild --platform ios",
     "run:ios": "npm run prepare-icon && expo run:ios",
+    "refresh:ios": "npm run prepare-icon && expo run:ios --configuration Release --device --no-bundler",
     "test": "echo \"mobile UI tests are not configured yet; shared scheduler tests run from the repo root\"",
     "android": "expo run:android"
   },
